@@ -1,1 +1,20 @@
-leer noch
+[
+  {
+    "question": "Was ist das primäre Ziel eines Reinforcement Learning Agenten?",
+    "options": [
+      "Die Dynamik der Umgebung perfekt zu verstehen.",
+      "Die kumulative Belohnung über die Zeit zu maximieren.",
+      "Möglichst viele Zustände zu explorieren.",
+      "Die Anzahl der ausgeführten Aktionen zu minimieren."
+    ],
+    "answer": 1,
+    "type": "multiple-choice"
+  },
+  {
+    "question": "Benötigen DP-Methoden zwingend ein perfektes Modell der Umgebung?",
+    "options": ["Ja", "Nein"],
+    "answer": 0,
+    "type": "yes-no"
+  }
+  // ... more questions
+]
