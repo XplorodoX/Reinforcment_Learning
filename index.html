@@ -59,8 +59,8 @@
             background-color: #caf0f8;
             border: 1px solid #90e0ef;
             border-radius: 0.5rem;
-            padding: 1.5rem; /* Increased padding */
-            margin-bottom: 1.5rem; /* Increased margin */
+            padding: 1.5rem; 
+            margin-bottom: 1.5rem; 
         }
         .flow-step {
             background-color: #ffffff;
@@ -104,7 +104,7 @@
             position: relative;
         }
         .explanation-point::before {
-            content: "🔹";
+            content: "�";
             position: absolute;
             left: -0.25rem;
             color: #007BFF;
@@ -123,6 +123,7 @@
         }
         .quiz-option {
             display: block;
+            width: 100%; /* Ensure options take full width */
             background-color: #f0f9ff;
             border: 1px solid #90e0ef;
             border-radius: 0.375rem;
@@ -130,15 +131,26 @@
             margin-bottom: 0.75rem;
             cursor: pointer;
             transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+            text-align: left; /* Align text to left for options */
         }
         .quiz-option:hover {
             background-color: #caf0f8;
             border-color: #007BFF;
         }
         .quiz-option.selected {
-            background-color: #007BFF;
-            color: white;
-            border-color: #0056B3;
+            background-color: #007BFF !important; /* Ensure override */
+            color: white !important;
+            border-color: #0056B3 !important;
+        }
+         .quiz-option.correct {
+            background-color: #d1fae5 !important;
+            color: #065f46 !important;
+            border-color: #6ee7b7 !important;
+        }
+        .quiz-option.incorrect {
+            background-color: #fee2e2 !important;
+            color: #991b1b !important;
+            border-color: #fca5a5 !important;
         }
         .quiz-feedback {
             margin-top: 1rem;
@@ -147,14 +159,14 @@
             font-weight: 500;
         }
         .feedback-correct {
-            background-color: #d1fae5; /* Tailwind green-100 */
-            color: #065f46; /* Tailwind green-800 */
-            border: 1px solid #6ee7b7; /* Tailwind green-300 */
+            background-color: #d1fae5; 
+            color: #065f46; 
+            border: 1px solid #6ee7b7; 
         }
         .feedback-incorrect {
-            background-color: #fee2e2; /* Tailwind red-100 */
-            color: #991b1b; /* Tailwind red-800 */
-            border: 1px solid #fca5a5; /* Tailwind red-300 */
+            background-color: #fee2e2; 
+            color: #991b1b; 
+            border: 1px solid #fca5a5; 
         }
         .quiz-navigation button {
             background-color: #007BFF;
@@ -168,295 +180,317 @@
             background-color: #0056B3;
         }
         .quiz-navigation button:disabled {
-            background-color: #a0aec0; /* Tailwind gray-400 */
+            background-color: #a0aec0; 
             cursor: not-allowed;
         }
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            text-sm font-medium;
+            transition: background-color 0.2s;
+        }
+        .lang-btn.active {
+            background-color: #0056B3; /* Darker blue for active language */
+            color: white;
+        }
+        .lang-btn:not(.active) {
+            background-color: #007BFF;
+            color: white;
+        }
+         .lang-btn:not(.active):hover {
+            background-color: #0069d9;
+        }
+
     </style>
 </head>
 <body class="text-gray-800">
+    <div class="fixed top-4 right-4 z-50 space-x-2">
+        <button id="lang-de-btn" data-lang="de" class="lang-btn">Deutsch</button>
+        <button id="lang-en-btn" data-lang="en" class="lang-btn">English</button>
+    </div>
 
     <header class="bg-blue-600 text-white p-6 shadow-lg">
         <div class="container mx-auto text-center">
-            <h1 class="text-4xl font-bold">Reinforcement Learning: Vertiefte Einblicke & Quiz</h1>
-            <p class="mt-2 text-lg">Detaillierte Konzepte, Algorithmen und interaktives Quiz</p>
+            <h1 class="text-4xl font-bold" data-i18n="headerTitle">Reinforcement Learning: Vertiefte Einblicke & Quiz</h1>
+            <p class="mt-2 text-lg" data-i18n="headerSubtitle">Detaillierte Konzepte, Algorithmen und interaktives Quiz</p>
         </div>
     </header>
 
     <main class="container mx-auto p-4 md:p-8 space-y-16">
 
         <section id="intro-rl-mdp" class="bg-white p-8 rounded-lg shadow-xl">
-            <h2 class="text-3xl font-semibold mb-8 text-center text-blue-700">1. Grundlagen: RL & Markov-Entscheidungsprozesse (MDPs)</h2>
-            <p class="text-lg mb-6 text-gray-700 leading-relaxed">
+            <h2 class="text-3xl font-semibold mb-8 text-center text-blue-700" data-i18n="section1Title">1. Grundlagen: RL & Markov-Entscheidungsprozesse (MDPs)</h2>
+            <p class="text-lg mb-6 text-gray-700 leading-relaxed" data-i18n="section1Intro">
                 Reinforcement Learning (RL) ist ein Paradigma des maschinellen Lernens, bei dem ein autonomer <strong>Agent</strong> lernt, optimale Sequenzen von Entscheidungen (Aktionen) in einer komplexen und oft unsicheren <strong>Umgebung</strong> zu treffen. Das primäre Ziel des Agenten ist es, die Summe der erhaltenen <strong>Belohnungen</strong> über die Zeit zu maximieren. Dieser Lernprozess ist fundamental iterativ und erfahrungsbasiert.
             </p>
 
             <div class="grid md:grid-cols-2 gap-8 mb-10 items-start">
                 <div class="concept-box bg-blue-50 border-blue-200 p-6">
-                    <h3 class="text-xl font-semibold mb-4 text-blue-600">Der Agent-Umgebung-Interaktionszyklus</h3>
+                    <h3 class="text-xl font-semibold mb-4 text-blue-600" data-i18n="agentEnvCycleTitle">Der Agent-Umgebung-Interaktionszyklus</h3>
                     <div class="space-y-3">
-                        <div class="flow-step">1. Agent beobachtet aktuellen Zustand $S_t$ der Umgebung.</div>
+                        <div class="flow-step" data-i18n="cycleStep1">1. Agent beobachtet aktuellen Zustand $S_t$ der Umgebung.</div>
                         <div class="flow-arrow">⬇️</div>
-                        <div class="flow-step">2. Agent wählt eine Aktion $A_t$ basierend auf seiner aktuellen Strategie (Policy $\pi$).</div>
+                        <div class="flow-step" data-i18n="cycleStep2">2. Agent wählt eine Aktion $A_t$ basierend auf seiner aktuellen Strategie (Policy $\pi$).</div>
                         <div class="flow-arrow">➡️</div>
-                        <div class="flow-step">3. Umgebung reagiert: Agent erhält eine Belohnung $R_{t+1}$ und beobachtet den neuen Zustand $S_{t+1}$.</div>
+                        <div class="flow-step" data-i18n="cycleStep3">3. Umgebung reagiert: Agent erhält eine Belohnung $R_{t+1}$ und beobachtet den neuen Zustand $S_{t+1}$.</div>
                         <div class="flow-arrow">🔄</div>
-                        <div class="flow-step">4. Agent aktualisiert seine Policy $\pi$ basierend auf der Erfahrung $(S_t, A_t, R_{t+1}, S_{t+1})$.</div>
+                        <div class="flow-step" data-i18n="cycleStep4">4. Agent aktualisiert seine Policy $\pi$ basierend auf der Erfahrung $(S_t, A_t, R_{t+1}, S_{t+1})$.</div>
                     </div>
-                    <p class="mt-5 text-sm text-gray-600">Dieser Zyklus wiederholt sich, wodurch der Agent schrittweise lernt, bessere Entscheidungen zu treffen.</p>
+                    <p class="mt-5 text-sm text-gray-600" data-i18n="cycleDesc">Dieser Zyklus wiederholt sich, wodurch der Agent schrittweise lernt, bessere Entscheidungen zu treffen.</p>
                 </div>
 
                 <div class="space-y-6">
                     <div class="stat-card p-6">
                         <div class="stat-value">🎯</div>
-                        <div class="stat-label mt-2">Maximierung des kumulativen Returns</div>
-                        <p class="text-sm text-gray-600 mt-3">Der Return $G_t = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \dots = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1}$ ist die Summe der diskontierten zukünftigen Belohnungen. Die <strong>Reward Hypothesis</strong> besagt, dass alle Ziele durch die Maximierung des erwarteten kumulativen Rewards formuliert werden können.</p>
+                        <div class="stat-label mt-2" data-i18n="goalTitle">Maximierung des kumulativen Returns</div>
+                        <p class="text-sm text-gray-600 mt-3" data-i18n="goalDesc">Der Return $G_t = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \dots = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1}$ ist die Summe der diskontierten zukünftigen Belohnungen. Die <strong data-i18n="rewardHypothesis">Reward Hypothesis</strong> besagt, dass alle Ziele durch die Maximierung des erwarteten kumulativen Rewards formuliert werden können.</p>
                     </div>
                      <div class="concept-box bg-blue-50 border-blue-200 p-4">
-                        <h4 class="text-lg font-semibold text-blue-600 mb-2">Der Diskontierungsfaktor $\gamma$</h4>
-                        <p class="text-sm text-gray-700 mb-1">Steuert die Wichtigkeit zukünftiger Belohnungen:</p>
+                        <h4 class="text-lg font-semibold text-blue-600 mb-2" data-i18n="gammaFactorTitle">Der Diskontierungsfaktor $\gamma$</h4>
+                        <p class="text-sm text-gray-700 mb-1" data-i18n="gammaDesc">Steuert die Wichtigkeit zukünftiger Belohnungen:</p>
                         <ul class="list-none space-y-1 text-sm">
-                            <li class="explanation-point">$\gamma \approx 0$: Agent ist "kurzsichtig", fokussiert auf unmittelbare Belohnungen.</li>
-                            <li class="explanation-point">$\gamma \approx 1$: Agent ist "weitsichtig", berücksichtigt zukünftige Belohnungen stark.</li>
+                            <li class="explanation-point" data-i18n="gammaShortSighted">$\gamma \approx 0$: Agent ist "kurzsichtig", fokussiert auf unmittelbare Belohnungen.</li>
+                            <li class="explanation-point" data-i18n="gammaLongSighted">$\gamma \approx 1$: Agent ist "weitsichtig", berücksichtigt zukünftige Belohnungen stark.</li>
                         </ul>
-                        <p class="text-xs text-gray-500 mt-2">Notwendig für kontinuierliche Aufgaben, um unendliche Returns zu vermeiden.</p>
+                        <p class="text-xs text-gray-500 mt-2" data-i18n="gammaContinuous">Notwendig für kontinuierliche Aufgaben, um unendliche Returns zu vermeiden.</p>
                     </div>
                 </div>
             </div>
 
-            <h3 class="text-2xl font-semibold mb-4 text-blue-600">Der Markov-Entscheidungsprozess (MDP)</h3>
-            <p class="mb-4 text-gray-700 leading-relaxed">Ein MDP ist der Standardformalismus für RL-Probleme, die die Markov-Eigenschaft erfüllen. Er wird durch ein Tupel $(S, A, P, R, \gamma)$ definiert:</p>
+            <h3 class="text-2xl font-semibold mb-4 text-blue-600" data-i18n="mdpTitle">Der Markov-Entscheidungsprozess (MDP)</h3>
+            <p class="mb-4 text-gray-700 leading-relaxed" data-i18n="mdpIntro">Ein MDP ist der Standardformalismus für RL-Probleme, die die Markov-Eigenschaft erfüllen. Er wird durch ein Tupel $(S, A, P, R, \gamma)$ definiert:</p>
             <div class="grid md:grid-cols-2 gap-x-8 gap-y-4 mb-6">
-                <div class="explanation-point"><strong>S (Zustandsraum):</strong> Eine Menge aller möglichen Zustände. Z.B. Positionen auf einem Schachbrett, Gelenkwinkel eines Roboters.</div>
-                <div class="explanation-point"><strong>A (Aktionsraum):</strong> Eine Menge aller möglichen Aktionen. Z.B. Züge im Schach, Motorkommandos für einen Roboter.</div>
-                <div class="explanation-point"><strong>P (Zustandsübergangsmodell):</strong> $P(s'|s, a) = Pr\{S_{t+1}=s' | S_t=s, A_t=a\}$. Definiert die Dynamik der Umgebung.</div>
-                <div class="explanation-point"><strong>R (Belohnungsfunktion):</strong> $R(s, a, s') = E[R_{t+1} | S_t=s, A_t=a, S_{t+1}=s']$. Definiert das Ziel des Agenten.</div>
+                <div class="explanation-point" data-i18n="mdpS"><strong>S (Zustandsraum):</strong> Eine Menge aller möglichen Zustände. Z.B. Positionen auf einem Schachbrett, Gelenkwinkel eines Roboters.</div>
+                <div class="explanation-point" data-i18n="mdpA"><strong>A (Aktionsraum):</strong> Eine Menge aller möglichen Aktionen. Z.B. Züge im Schach, Motorkommandos für einen Roboter.</div>
+                <div class="explanation-point" data-i18n="mdpP"><strong>P (Zustandsübergangsmodell):</strong> $P(s'|s, a) = Pr\{S_{t+1}=s' | S_t=s, A_t=a\}$. Definiert die Dynamik der Umgebung.</div>
+                <div class="explanation-point" data-i18n="mdpR"><strong>R (Belohnungsfunktion):</strong> $R(s, a, s') = E[R_{t+1} | S_t=s, A_t=a, S_{t+1}=s']$. Definiert das Ziel des Agenten.</div>
             </div>
             <div class="concept-box bg-indigo-50 border-indigo-200 p-5">
-                <h4 class="text-lg font-semibold text-indigo-700 mb-2">Die Markov-Eigenschaft</h4>
-                <p class="text-gray-700">"Die Zukunft ist unabhängig von der Vergangenheit, gegeben die Gegenwart."</p>
+                <h4 class="text-lg font-semibold text-indigo-700 mb-2" data-i18n="markovPropertyTitle">Die Markov-Eigenschaft</h4>
+                <p class="text-gray-700" data-i18n="markovPropertyQuote">"Die Zukunft ist unabhängig von der Vergangenheit, gegeben die Gegenwart."</p>
                 <p class="mt-2 text-sm equation-block text-indigo-800">$Pr\{S_{t+1}=s', R_{t+1}=r | S_t, A_t, S_{t-1}, A_{t-1}, \dots\} = Pr\{S_{t+1}=s', R_{t+1}=r | S_t, A_t\}$</p>
-                <p class="mt-2 text-sm text-gray-600">Der aktuelle Zustand $S_t$ enthält alle relevanten Informationen aus der Historie, um die nächste Zustands- und Belohnungswahrscheinlichkeit zu bestimmen. Dies ist eine starke Vereinfachung, die viele RL-Algorithmen ermöglicht.</p>
+                <p class="mt-2 text-sm text-gray-600" data-i18n="markovPropertyDesc">Der aktuelle Zustand $S_t$ enthält alle relevanten Informationen aus der Historie, um die nächste Zustands- und Belohnungswahrscheinlichkeit zu bestimmen. Dies ist eine starke Vereinfachung, die viele RL-Algorithmen ermöglicht.</p>
             </div>
 
             <div class="mt-8 p-6 bg-yellow-50 border border-yellow-300 rounded-lg">
-                <h4 class="text-xl font-semibold text-yellow-700 mb-3">Kernherausforderungen und Konzepte</h4>
+                <h4 class="text-xl font-semibold text-yellow-700 mb-3" data-i18n="coreChallengesTitle">Kernherausforderungen und Konzepte</h4>
                 <div class="grid md:grid-cols-2 gap-6">
                     <div>
-                        <h5 class="text-lg font-semibold text-yellow-600 mb-1">Credit Assignment</h5>
-                        <p class="text-sm text-gray-700">Wie können Belohnungen (oder Bestrafungen), die erst spät in einer Sequenz von Aktionen auftreten, korrekt den früheren Aktionen zugeordnet werden, die ursächlich dafür waren?</p>
+                        <h5 class="text-lg font-semibold text-yellow-600 mb-1" data-i18n="creditAssignmentTitle">Credit Assignment</h5>
+                        <p class="text-sm text-gray-700" data-i18n="creditAssignmentDesc">Wie können Belohnungen (oder Bestrafungen), die erst spät in einer Sequenz von Aktionen auftreten, korrekt den früheren Aktionen zugeordnet werden, die ursächlich dafür waren?</p>
                     </div>
                     <div>
-                        <h5 class="text-lg font-semibold text-yellow-600 mb-1">Exploration vs. Exploitation</h5>
-                        <p class="text-sm text-gray-700">Der Agent muss entscheiden, ob er neue Aktionen ausprobiert, um mehr über die Umgebung zu lernen (Exploration), oder ob er die aktuell besten bekannten Aktionen ausführt, um die Belohnung zu maximieren (Exploitation).</p>
+                        <h5 class="text-lg font-semibold text-yellow-600 mb-1" data-i18n="exploreExploitTitle">Exploration vs. Exploitation</h5>
+                        <p class="text-sm text-gray-700" data-i18n="exploreExploitDesc">Der Agent muss entscheiden, ob er neue Aktionen ausprobiert, um mehr über die Umgebung zu lernen (Exploration), oder ob er die aktuell besten bekannten Aktionen ausführt, um die Belohnung zu maximieren (Exploitation).</p>
                     </div>
                     <div>
-                        <h5 class="text-lg font-semibold text-yellow-600 mb-1">Policy ($\pi$): Die Strategie des Agenten</h5>
-                        <p class="text-sm text-gray-700">Eine Abbildung von Zuständen zu Aktionen. Deterministisch: $\pi(s) = a$. Stochastisch: $\pi(a|s) = Pr\{A_t=a | S_t=s\}$.</p>
+                        <h5 class="text-lg font-semibold text-yellow-600 mb-1" data-i18n="policyTitle">Policy ($\pi$): Die Strategie des Agenten</h5>
+                        <p class="text-sm text-gray-700" data-i18n="policyDesc">Eine Abbildung von Zuständen zu Aktionen. Deterministisch: $\pi(s) = a$. Stochastisch: $\pi(a|s) = Pr\{A_t=a | S_t=s\}$.</p>
                     </div>
                     <div>
-                        <h5 class="text-lg font-semibold text-yellow-600 mb-1">Wertfunktionen ($V^\pi, Q^\pi$): Wie gut ist ein Zustand/Aktion?</h5>
-                        <p class="text-sm text-gray-700">$V^\pi(s)$: Erwarteter Return, wenn man in Zustand $s$ startet und Policy $\pi$ folgt. $Q^\pi(s,a)$: Erwarteter Return, wenn man in Zustand $s$ Aktion $a$ ausführt und danach Policy $\pi$ folgt.</p>
+                        <h5 class="text-lg font-semibold text-yellow-600 mb-1" data-i18n="valueFunctionTitle">Wertfunktionen ($V^\pi, Q^\pi$): Wie gut ist ein Zustand/Aktion?</h5>
+                        <p class="text-sm text-gray-700" data-i18n="valueFunctionDesc">$V^\pi(s)$: Erwarteter Return, wenn man in Zustand $s$ startet und Policy $\pi$ folgt. $Q^\pi(s,a)$: Erwarteter Return, wenn man in Zustand $s$ Aktion $a$ ausführt und danach Policy $\pi$ folgt.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <section id="dp" class="bg-white p-8 rounded-lg shadow-xl">
-            <h2 class="text-3xl font-semibold mb-8 text-center text-blue-700">2. Dynamische Programmierung (DP): Planung mit perfektem Modell</h2>
-            <p class="text-lg mb-6 text-gray-700 leading-relaxed">
+            <h2 class="text-3xl font-semibold mb-8 text-center text-blue-700" data-i18n="section2Title">2. Dynamische Programmierung (DP): Planung mit perfektem Modell</h2>
+            <p class="text-lg mb-6 text-gray-700 leading-relaxed" data-i18n="section2Intro">
                 Dynamische Programmierung (DP) umfasst Algorithmen, die eine optimale Policy $\pi^*$ für einen gegebenen MDP berechnen können, vorausgesetzt, das Modell der Umgebung (Übergangswahrscheinlichkeiten $P$ und Belohnungen $R$) ist vollständig bekannt. DP-Methoden nutzen Wertfunktionen, um die Suche nach guten Policies zu strukturieren und basieren auf den Bellman-Gleichungen.
             </p>
             <div class="concept-box bg-blue-50 border-blue-200 p-6 mb-8">
-                <h3 class="text-xl font-semibold mb-3 text-blue-600">Bellman-Optimalitätsprinzip</h3>
-                <p class="text-gray-700 italic">"Eine optimale Policy hat die Eigenschaft, dass, was auch immer der Anfangszustand und die erste Entscheidung sind, die verbleibenden Entscheidungen eine optimale Policy bezüglich des aus der ersten Entscheidung resultierenden Zustands darstellen müssen." (Bellman, 1957)</p>
-                <p class="mt-3 text-sm text-gray-600">Einfach gesagt: Wenn der beste Pfad von A nach C über B führt, dann muss der Teilpfad von B nach C auch der beste Pfad von B nach C sein.</p>
+                <h3 class="text-xl font-semibold mb-3 text-blue-600" data-i18n="bellmanOptimalityPrincipleTitle">Bellman-Optimalitätsprinzip</h3>
+                <p class="text-gray-700 italic" data-i18n="bellmanOptimalityPrincipleQuote">"Eine optimale Policy hat die Eigenschaft, dass, was auch immer der Anfangszustand und die erste Entscheidung sind, die verbleibenden Entscheidungen eine optimale Policy bezüglich des aus der ersten Entscheidung resultierenden Zustands darstellen müssen." (Bellman, 1957)</p>
+                <p class="mt-3 text-sm text-gray-600" data-i18n="bellmanOptimalityPrincipleDesc">Einfach gesagt: Wenn der beste Pfad von A nach C über B führt, dann muss der Teilpfad von B nach C auch der beste Pfad von B nach C sein.</p>
             </div>
 
             <div class="grid md:grid-cols-2 gap-8 mb-8">
                 <div class="concept-box bg-green-50 border-green-200 p-6">
-                    <h3 class="text-xl font-semibold mb-4 text-green-700">Policy Iteration (Politikiteration)</h3>
-                    <p class="text-sm text-gray-700 mb-3">Ein iterativer Algorithmus, der zwischen zwei Schritten wechselt:</p>
+                    <h3 class="text-xl font-semibold mb-4 text-green-700" data-i18n="policyIterationTitle">Policy Iteration (Politikiteration)</h3>
+                    <p class="text-sm text-gray-700 mb-3" data-i18n="policyIterationDesc">Ein iterativer Algorithmus, der zwischen zwei Schritten wechselt:</p>
                     <div class="space-y-3">
-                        <div class="flow-step bg-green-100 border-green-500"><strong>1. Policy Evaluation (Bewertung):</strong> Berechne die Zustands-Wertfunktion $V^\pi(s)$ für die aktuelle Policy $\pi$. Dies geschieht durch iteratives Anwenden der Bellman-Erwartungsgleichung bis zur Konvergenz: <br> <span class="math-formula text-xs">$V_{k+1}^\pi(s) \leftarrow \sum_a \pi(a|s) \sum_{s',r} P(s',r|s,a) [r + \gamma V_k^\pi(s')]$</span></div>
+                        <div class="flow-step bg-green-100 border-green-500"><strong data-i18n="policyEvalTitle">1. Policy Evaluation (Bewertung):</strong> <span data-i18n="policyEvalDesc">Berechne die Zustands-Wertfunktion $V^\pi(s)$ für die aktuelle Policy $\pi$. Dies geschieht durch iteratives Anwenden der Bellman-Erwartungsgleichung bis zur Konvergenz:</span> <br> <span class="math-formula text-xs">$V_{k+1}^\pi(s) \leftarrow \sum_a \pi(a|s) \sum_{s',r} P(s',r|s,a) [r + \gamma V_k^\pi(s')]$</span></div>
                         <div class="flow-arrow text-green-600">⬇️</div>
-                        <div class="flow-step bg-green-100 border-green-500"><strong>2. Policy Improvement (Verbesserung):</strong> Verbessere die Policy, indem für jeden Zustand $s$ gierig die Aktion gewählt wird, die $Q^\pi(s,a)$ maximiert: <br> <span class="math-formula text-xs">$\pi'(s) \leftarrow \text{argmax}_a \sum_{s',r} P(s',r|s,a) [r + \gamma V^\pi(s')]$</span></div>
+                        <div class="flow-step bg-green-100 border-green-500"><strong data-i18n="policyImprovTitle">2. Policy Improvement (Verbesserung):</strong> <span data-i18n="policyImprovDesc">Verbessere die Policy, indem für jeden Zustand $s$ gierig die Aktion gewählt wird, die $Q^\pi(s,a)$ maximiert:</span> <br> <span class="math-formula text-xs">$\pi'(s) \leftarrow \text{argmax}_a \sum_{s',r} P(s',r|s,a) [r + \gamma V^\pi(s')]$</span></div>
                     </div>
-                    <p class="mt-4 text-sm text-gray-600">Dieser Prozess konvergiert garantiert zur optimalen Policy $\pi^*$. "Sweeps" beziehen sich auf vollständige Durchläufe über alle Zustände während der Evaluation oder Iteration.</p>
+                    <p class="mt-4 text-sm text-gray-600" data-i18n="policyIterationConvergence">Dieser Prozess konvergiert garantiert zur optimalen Policy $\pi^*$. "Sweeps" beziehen sich auf vollständige Durchläufe über alle Zustände während der Evaluation oder Iteration.</p>
                 </div>
                 <div class="concept-box bg-purple-50 border-purple-200 p-6">
-                    <h3 class="text-xl font-semibold mb-4 text-purple-700">Value Iteration (Wertiteration)</h3>
-                    <p class="text-sm text-gray-700 mb-3">Kombiniert im Wesentlichen einen Schritt der Policy Evaluation und einen Schritt der Policy Improvement in einer einzigen Update-Regel. Sie iteriert direkt über die Bellman-Optimalitätsgleichung für $V^*(s)$:</p>
+                    <h3 class="text-xl font-semibold mb-4 text-purple-700" data-i18n="valueIterationTitle">Value Iteration (Wertiteration)</h3>
+                    <p class="text-sm text-gray-700 mb-3" data-i18n="valueIterationDesc">Kombiniert im Wesentlichen einen Schritt der Policy Evaluation und einen Schritt der Policy Improvement in einer einzigen Update-Regel. Sie iteriert direkt über die Bellman-Optimalitätsgleichung für $V^*(s)$:</p>
                      <div class="flow-step bg-purple-100 border-purple-500 equation-block">
                         <span class="math-formula">$V_{k+1}(s) \leftarrow \max_a \sum_{s',r} P(s',r|s,a) [r + \gamma V_k(s')]$</span>
                      </div>
-                     <p class="mt-4 text-sm text-gray-600">Konvergiert ebenfalls zur optimalen Wertfunktion $V^*$, aus der die optimale Policy $\pi^*$ dann durch eine einmalige gierige Auswahl extrahiert werden kann.</p>
+                     <p class="mt-4 text-sm text-gray-600" data-i18n="valueIterationConvergence">Konvergiert ebenfalls zur optimalen Wertfunktion $V^*$, aus der die optimale Policy $\pi^*$ dann durch eine einmalige gierige Auswahl extrahiert werden kann.</p>
                 </div>
             </div>
             <div class="concept-box">
-                <h3 class="text-xl font-semibold mb-2 text-blue-600">Beziehung zwischen $V^\pi$ und $Q^\pi$</h3>
-                <p class="text-gray-700 mb-2">Die Zustands-Wertfunktion und die Aktions-Wertfunktion sind eng miteinander verbunden:</p>
+                <h3 class="text-xl font-semibold mb-2 text-blue-600" data-i18n="vQRelationTitle">Beziehung zwischen $V^\pi$ und $Q^\pi$</h3>
+                <p class="text-gray-700 mb-2" data-i18n="vQRelationDesc">Die Zustands-Wertfunktion und die Aktions-Wertfunktion sind eng miteinander verbunden:</p>
                 <div class="equation-block text-sm">
-                    <span class="math-formula">$V^\pi(s) = \sum_a \pi(a|s) Q^\pi(s,a)$</span> (wenn $\pi$ stochastisch ist)
+                    <span class="math-formula">$V^\pi(s) = \sum_a \pi(a|s) Q^\pi(s,a)$</span> <span data-i18n="vQStochastic">(wenn $\pi$ stochastisch ist)</span>
                     <br>
-                    <span class="math-formula">$V^\pi(s) = Q^\pi(s, \pi(s))$</span> (wenn $\pi$ deterministisch ist)
+                    <span class="math-formula">$V^\pi(s) = Q^\pi(s, \pi(s))$</span> <span data-i18n="vQDeterministic">(wenn $\pi$ deterministisch ist)</span>
                     <br>
                     <span class="math-formula">$Q^\pi(s,a) = \sum_{s',r} P(s',r|s,a) [r + \gamma V^\pi(s')]$</span>
                 </div>
             </div>
              <div class="mt-8 p-6 bg-red-50 border border-red-200 rounded-lg">
-                <h4 class="text-xl font-semibold text-red-700 mb-3">Wann ist DP anwendbar?</h4>
+                <h4 class="text-xl font-semibold text-red-700 mb-3" data-i18n="dpApplicabilityTitle">Wann ist DP anwendbar?</h4>
                 <ul class="list-disc list-inside text-gray-700 space-y-1">
-                    <li>Wenn ein vollständiges und genaues Modell der Umgebung ($P$ und $R$) verfügbar ist.</li>
-                    <li>Eher für Planungsprobleme als für direktes Lernen aus Interaktion.</li>
-                    <li>Obwohl rechenintensiv für sehr große Probleme, bilden DP-Konzepte die theoretische Grundlage für viele andere RL-Algorithmen.</li>
+                    <li data-i18n="dpCond1">Wenn ein vollständiges und genaues Modell der Umgebung ($P$ und $R$) verfügbar ist.</li>
+                    <li data-i18n="dpCond2">Eher für Planungsprobleme als für direktes Lernen aus Interaktion.</li>
+                    <li data-i18n="dpCond3">Obwohl rechenintensiv für sehr große Probleme, bilden DP-Konzepte die theoretische Grundlage für viele andere RL-Algorithmen.</li>
                 </ul>
             </div>
         </section>
 
         <section id="model-free-prediction" class="bg-white p-8 rounded-lg shadow-xl">
-            <h2 class="text-3xl font-semibold mb-8 text-center text-blue-700">3. Modellfreie Vorhersage: Lernen ohne Modell</h2>
-            <p class="text-lg mb-6 text-gray-700 leading-relaxed">
+            <h2 class="text-3xl font-semibold mb-8 text-center text-blue-700" data-i18n="section3Title">3. Modellfreie Vorhersage: Lernen ohne Modell</h2>
+            <p class="text-lg mb-6 text-gray-700 leading-relaxed" data-i18n="section3Intro">
                 In vielen realen Szenarien ist ein exaktes Modell der Umgebung nicht verfügbar. Modellfreie Vorhersagemethoden ermöglichen es, Wertfunktionen ($V^\pi$ oder $Q^\pi$) für eine gegebene Policy $\pi$ direkt aus Erfahrungsepisoden zu schätzen, die durch Interaktion mit der Umgebung generiert werden.
             </p>
             <div class="grid md:grid-cols-2 gap-8">
                 <div>
-                    <h3 class="text-2xl font-semibold mb-4 text-blue-600">a) Monte Carlo (MC) Methoden</h3>
-                    <p class="mb-4 text-gray-700 leading-relaxed">MC-Methoden lernen, indem sie den durchschnittlichen Return nach Besuchen eines Zustands über viele vollständige Episoden berechnen.
-                    <br><strong>First-Visit MC:</strong> Berücksichtigt nur den Return nach dem ersten Besuch eines Zustands $s$ in einer Episode.
-                    <br><strong>Every-Visit MC:</strong> Berücksichtigt den Return nach jedem Besuch eines Zustands $s$ in einer Episode.</p>
+                    <h3 class="text-2xl font-semibold mb-4 text-blue-600" data-i18n="mcMethodsTitle">a) Monte Carlo (MC) Methoden</h3>
+                    <p class="mb-4 text-gray-700 leading-relaxed" data-i18n="mcMethodsDesc">MC-Methoden lernen, indem sie den durchschnittlichen Return nach Besuchen eines Zustands über viele vollständige Episoden berechnen.
+                    <br><strong data-i18n="firstVisitMC">First-Visit MC:</strong> Berücksichtigt nur den Return nach dem ersten Besuch eines Zustands $s$ in einer Episode.
+                    <br><strong data-i18n="everyVisitMC">Every-Visit MC:</strong> Berücksichtigt den Return nach jedem Besuch eines Zustands $s$ in einer Episode.</p>
                     <div class="concept-box">
-                        <h4 class="text-lg font-semibold mb-1 text-blue-500">Update-Regel (inkrementell für $V(S_t)$):</h4>
+                        <h4 class="text-lg font-semibold mb-1 text-blue-500" data-i18n="mcUpdateRuleTitle">Update-Regel (inkrementell für $V(S_t)$):</h4>
                         <span class="math-formula">$V(S_t) \leftarrow V(S_t) + \alpha (G_t - V(S_t))$</span>
-                        <p class="text-xs text-gray-500 mt-1">Hier ist $G_t$ der tatsächlich beobachtete (vollständige) Return ab Zeitschritt $t$ bis zum Ende der Episode. $\alpha$ ist die Lernrate.</p>
+                        <p class="text-xs text-gray-500 mt-1" data-i18n="mcUpdateRuleDesc">Hier ist $G_t$ der tatsächlich beobachtete (vollständige) Return ab Zeitschritt $t$ bis zum Ende der Episode. $\alpha$ ist die Lernrate.</p>
                     </div>
                     <div class="mt-4">
-                        <h4 class="text-md font-semibold text-green-600">Vorteile:</h4>
-                        <ul class="list-disc list-inside text-sm text-gray-600"><li>Unverzerrt (kein Bootstrapping-Bias).</li><li>Einfach zu verstehen und zu implementieren.</li></ul>
-                        <h4 class="text-md font-semibold text-red-600 mt-2">Nachteile:</h4>
-                        <ul class="list-disc list-inside text-sm text-gray-600"><li>Hohe Varianz, da der Return von vielen zufälligen Aktionen und Übergängen abhängt.</li><li>Funktioniert nur für episodische (terminierende) Aufgaben.</li><li>Updates erfolgen erst am Ende einer Episode.</li></ul>
+                        <h4 class="text-md font-semibold text-green-600" data-i18n="mcAdvantages">Vorteile:</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-600"><li data-i18n="mcAdv1">Unverzerrt (kein Bootstrapping-Bias).</li><li data-i18n="mcAdv2">Einfach zu verstehen und zu implementieren.</li></ul>
+                        <h4 class="text-md font-semibold text-red-600 mt-2" data-i18n="mcDisadvantages">Nachteile:</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-600"><li data-i18n="mcDisadv1">Hohe Varianz, da der Return von vielen zufälligen Aktionen und Übergängen abhängt.</li><li data-i18n="mcDisadv2">Funktioniert nur für episodische (terminierende) Aufgaben.</li><li data-i18n="mcDisadv3">Updates erfolgen erst am Ende einer Episode.</li></ul>
                     </div>
                 </div>
                 <div>
-                    <h3 class="text-2xl font-semibold mb-4 text-blue-600">b) Temporal Difference (TD) Learning</h3>
-                    <p class="mb-4 text-gray-700 leading-relaxed">TD-Methoden lernen von jedem Schritt, indem sie ihre aktuelle Schätzung basierend auf der Schätzung des nächsten Zustands anpassen – ein Prozess, der als <strong>Bootstrapping</strong> bezeichnet wird. Sie benötigen keine vollständigen Episoden.</p>
+                    <h3 class="text-2xl font-semibold mb-4 text-blue-600" data-i18n="tdLearningTitle">b) Temporal Difference (TD) Learning</h3>
+                    <p class="mb-4 text-gray-700 leading-relaxed" data-i18n="tdLearningDesc">TD-Methoden lernen von jedem Schritt, indem sie ihre aktuelle Schätzung basierend auf der Schätzung des nächsten Zustands anpassen – ein Prozess, der als <strong data-i18n="bootstrapping">Bootstrapping</strong> bezeichnet wird. Sie benötigen keine vollständigen Episoden.</p>
                      <div class="concept-box">
-                        <h4 class="text-lg font-semibold mb-1 text-blue-500">TD(0) Update-Regel für $V(S_t)$:</h4>
+                        <h4 class="text-lg font-semibold mb-1 text-blue-500" data-i18n="tdUpdateRuleTitle">TD(0) Update-Regel für $V(S_t)$:</h4>
                         <span class="math-formula">$V(S_t) \leftarrow V(S_t) + \alpha [R_{t+1} + \gamma V(S_{t+1}) - V(S_t)]$</span>
-                        <p class="text-xs text-gray-500 mt-1">Der Term $R_{t+1} + \gamma V(S_{t+1})$ ist das <strong>TD-Target</strong> (eine Schätzung des Returns), und $[R_{t+1} + \gamma V(S_{t+1}) - V(S_t)]$ ist der <strong>TD-Fehler</strong>.</p>
+                        <p class="text-xs text-gray-500 mt-1" data-i18n="tdUpdateRuleDesc">Der Term $R_{t+1} + \gamma V(S_{t+1})$ ist das <strong data-i18n="tdTarget">TD-Target</strong> (eine Schätzung des Returns), und $[R_{t+1} + \gamma V(S_{t+1}) - V(S_t)]$ ist der <strong data-i18n="tdError">TD-Fehler</strong>.</p>
                     </div>
                     <div class="mt-4">
-                        <h4 class="text-md font-semibold text-green-600">Vorteile:</h4>
-                        <ul class="list-disc list-inside text-sm text-gray-600"><li>Geringere Varianz als MC.</li><li>Kann online lernen (nach jedem Schritt).</li><li>Funktioniert auch für kontinuierliche Aufgaben.</li></ul>
-                        <h4 class="text-md font-semibold text-red-600 mt-2">Nachteile:</h4>
-                        <ul class="list-disc list-inside text-sm text-gray-600"><li>Verzerrt, da die Schätzung auf einer anderen Schätzung ($V(S_{t+1})$) basiert.</li><li>Empfindlicher gegenüber der Initialisierung der Werte.</li></ul>
+                        <h4 class="text-md font-semibold text-green-600" data-i18n="tdAdvantages">Vorteile:</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-600"><li data-i18n="tdAdv1">Geringere Varianz als MC.</li><li data-i18n="tdAdv2">Kann online lernen (nach jedem Schritt).</li><li data-i18n="tdAdv3">Funktioniert auch für kontinuierliche Aufgaben.</li></ul>
+                        <h4 class="text-md font-semibold text-red-600 mt-2" data-i18n="tdDisadvantages">Nachteile:</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-600"><li data-i18n="tdDisadv1">Verzerrt, da die Schätzung auf einer anderen Schätzung ($V(S_{t+1})$) basiert.</li><li data-i18n="tdDisadv2">Empfindlicher gegenüber der Initialisierung der Werte.</li></ul>
                     </div>
                 </div>
             </div>
             <div class="mt-8 concept-box bg-teal-50 border-teal-200 p-6">
-                <h3 class="text-xl font-semibold text-teal-700 mb-3">N-Step TD Methoden</h3>
-                <p class="text-gray-700 mb-2">Diese Methoden schlagen eine Brücke zwischen MC und TD(0). Anstatt nur einen Schritt (TD(0)) oder die gesamte Episode (MC) für das Update zu betrachten, verwenden n-Step TD Methoden einen Return über $n$ Schritte:</p>
+                <h3 class="text-xl font-semibold text-teal-700 mb-3" data-i18n="nStepTDTitle">N-Step TD Methoden</h3>
+                <p class="text-gray-700 mb-2" data-i18n="nStepTDDesc1">Diese Methoden schlagen eine Brücke zwischen MC und TD(0). Anstatt nur einen Schritt (TD(0)) oder die gesamte Episode (MC) für das Update zu betrachten, verwenden n-Step TD Methoden einen Return über $n$ Schritte:</p>
                 <div class="equation-block text-sm">
                     <span class="math-formula">$G_{t:t+n} = R_{t+1} + \gamma R_{t+2} + \dots + \gamma^{n-1} R_{t+n} + \gamma^n V(S_{t+n})$</span>
                 </div>
-                <p class="text-gray-700 mt-2">Die Update-Regel lautet dann:</p>
+                <p class="text-gray-700 mt-2" data-i18n="nStepTDDesc2">Die Update-Regel lautet dann:</p>
                  <div class="equation-block text-sm">
                     <span class="math-formula">$V(S_t) \leftarrow V(S_t) + \alpha [G_{t:t+n} - V(S_t)]$</span>
                 </div>
-                <p class="text-sm text-gray-600 mt-2">Der Parameter $n$ erlaubt einen Trade-off zwischen dem Bias von TD(0) und der Varianz von MC.</p>
+                <p class="text-sm text-gray-600 mt-2" data-i18n="nStepTDDesc3">Der Parameter $n$ erlaubt einen Trade-off zwischen dem Bias von TD(0) und der Varianz von MC.</p>
             </div>
              <div class="mt-10 text-center">
-                <h3 class="text-2xl font-semibold mb-4 text-blue-600">Visueller Vergleich: MC vs. TD Update</h3>
+                <h3 class="text-2xl font-semibold mb-4 text-blue-600" data-i18n="mcTdChartTitle">Visueller Vergleich: MC vs. TD Update</h3>
                  <div class="chart-container h-72 md:h-96">
                     <canvas id="mcVsTdChart"></canvas>
                 </div>
-                <p class="text-md text-gray-600 mt-4">Das Diagramm illustriert die unterschiedlichen Stärken und Schwächen von MC- und TD-Lernansätzen bezüglich Bias, Varianz und Update-Frequenz.</p>
+                <p class="text-md text-gray-600 mt-4" data-i18n="mcTdChartDesc">Das Diagramm illustriert die unterschiedlichen Stärken und Schwächen von MC- und TD-Lernansätzen bezüglich Bias, Varianz und Update-Frequenz.</p>
             </div>
         </section>
 
         <section id="model-free-control" class="bg-white p-8 rounded-lg shadow-xl">
-            <h2 class="text-3xl font-semibold mb-8 text-center text-blue-700">4. Modellfreie Steuerung: Optimale Policies ohne Modell finden</h2>
-            <p class="text-lg mb-6 text-gray-700 leading-relaxed">
+            <h2 class="text-3xl font-semibold mb-8 text-center text-blue-700" data-i18n="section4Title">4. Modellfreie Steuerung: Optimale Policies ohne Modell finden</h2>
+            <p class="text-lg mb-6 text-gray-700 leading-relaxed" data-i18n="section4Intro">
                 Modellfreie Steuerungsmethoden erweitern die Ideen der modellfreien Vorhersage, um nicht nur Wertfunktionen zu schätzen, sondern auch aktiv eine (nahezu) optimale Policy $\pi^*$ zu finden. Da kein Umgebungsmodell vorhanden ist, lernen diese Methoden typischerweise die Aktions-Wertfunktion $Q(s,a)$, da diese direkt angibt, wie gut es ist, eine bestimmte Aktion $a$ in einem Zustand $s$ auszuführen. Die Policy wird dann oft $\epsilon$-gierig auf Basis dieser $Q$-Werte abgeleitet.
             </p>
             <div class="concept-box bg-yellow-50 border-yellow-200 p-6 mb-10">
-                <h3 class="text-xl font-semibold mb-4 text-yellow-700 text-center">Generalisierte Policy Iteration (GPI) für Modellfreie Steuerung</h3>
+                <h3 class="text-xl font-semibold mb-4 text-yellow-700 text-center" data-i18n="gpiTitle">Generalisierte Policy Iteration (GPI) für Modellfreie Steuerung</h3>
                 <div class="flex flex-col md:flex-row justify-around items-center space-y-4 md:space-y-0 md:space-x-6">
                     <div class="flow-step bg-yellow-100 border-yellow-500 p-5 text-center">
-                        <h4 class="font-semibold mb-1">1. Policy Evaluation (Schätzung)</h4>
-                        Schätze $Q^\pi(s,a)$ für die aktuelle Policy $\pi$ (z.B. mittels MC oder TD Updates auf $Q$-Werte).
+                        <h4 class="font-semibold mb-1" data-i18n="gpiEvalTitle">1. Policy Evaluation (Schätzung)</h4>
+                        <span data-i18n="gpiEvalDesc">Schätze $Q^\pi(s,a)$ für die aktuelle Policy $\pi$ (z.B. mittels MC oder TD Updates auf $Q$-Werte).</span>
                     </div>
                     <div class="text-3xl font-bold text-yellow-600 self-center">🔄</div>
                     <div class="flow-step bg-yellow-100 border-yellow-500 p-5 text-center">
-                        <h4 class="font-semibold mb-1">2. Policy Improvement (Verbesserung)</h4>
-                        Aktualisiere $\pi$, indem $\epsilon$-gierig bezüglich der aktuellen $Q$-Werte agiert wird: <br> $\pi(s) \leftarrow \text{argmax}_a Q(s,a)$ (mit $\epsilon$ W'keit zufällig).
+                        <h4 class="font-semibold mb-1" data-i18n="gpiImprovTitle">2. Policy Improvement (Verbesserung)</h4>
+                        <span data-i18n="gpiImprovDesc">Aktualisiere $\pi$, indem $\epsilon$-gierig bezüglich der aktuellen $Q$-Werte agiert wird:</span> <br> $\pi(s) \leftarrow \text{argmax}_a Q(s,a)$ <span data-i18n="gpiEpsilon">(mit $\epsilon$ W'keit zufällig).</span>
                     </div>
                 </div>
-                <p class="mt-5 text-sm text-gray-600 text-center">Dieser iterative Prozess konvergiert typischerweise gegen die optimale Aktions-Wertfunktion $Q^*$ und die optimale Policy $\pi^*$. Die Notwendigkeit von $Q(s,a)$ ergibt sich daraus, dass ohne Modell $P(s'|s,a)$ die $V(s)$-Funktion allein nicht ausreicht, um eine gierige Aktion zu bestimmen.</p>
+                <p class="mt-5 text-sm text-gray-600 text-center" data-i18n="gpiConvergence">Dieser iterative Prozess konvergiert typischerweise gegen die optimale Aktions-Wertfunktion $Q^*$ und die optimale Policy $\pi^*$. Die Notwendigkeit von $Q(s,a)$ ergibt sich daraus, dass ohne Modell $P(s'|s,a)$ die $V(s)$-Funktion allein nicht ausreicht, um eine gierige Aktion zu bestimmen.</p>
             </div>
 
             <div class="grid md:grid-cols-2 gap-10">
                 <div class="concept-box bg-sky-50 border-sky-200 p-6">
-                    <h3 class="text-2xl font-semibold mb-4 text-sky-700">SARSA (On-Policy TD Control)</h3>
-                    <p class="mb-3 text-gray-700 leading-relaxed">SARSA ist ein On-Policy TD-Algorithmus. "On-Policy" bedeutet, dass die $Q$-Werte für die Policy geschätzt und verbessert werden, die der Agent tatsächlich ausführt (inklusive explorativer Aktionen).</p>
+                    <h3 class="text-2xl font-semibold mb-4 text-sky-700" data-i18n="sarsaTitle">SARSA (On-Policy TD Control)</h3>
+                    <p class="mb-3 text-gray-700 leading-relaxed" data-i18n="sarsaDesc">SARSA ist ein On-Policy TD-Algorithmus. "On-Policy" bedeutet, dass die $Q$-Werte für die Policy geschätzt und verbessert werden, die der Agent tatsächlich ausführt (inklusive explorativer Aktionen).</p>
                     <div class="equation-block">
-                        <h4 class="text-lg font-semibold mb-1 text-sky-600">Update-Regel für $Q(S_t, A_t)$:</h4>
+                        <h4 class="text-lg font-semibold mb-1 text-sky-600" data-i18n="sarsaUpdateRuleTitle">Update-Regel für $Q(S_t, A_t)$:</h4>
                         <span class="math-formula block">$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha [R_{t+1} + \gamma Q(S_{t+1}, A_{t+1}) - Q(S_t, A_t)]$</span>
                     </div>
-                    <p class="mt-3 text-sm text-gray-600">
+                    <p class="mt-3 text-sm text-gray-600" data-i18n="sarsaNameOrigin">
                         Der Name SARSA kommt von der Sequenz der Ereignisse im Update: $(S_t, A_t, R_{t+1}, S_{t+1}, A_{t+1})$. $A_{t+1}$ wird gemäß der aktuellen (oft $\epsilon$-greedy) Policy gewählt.
                     </p>
                 </div>
                 <div class="concept-box bg-lime-50 border-lime-200 p-6">
-                    <h3 class="text-2xl font-semibold mb-4 text-lime-700">Q-Learning (Off-Policy TD Control)</h3>
-                    <p class="mb-3 text-gray-700 leading-relaxed">Q-Learning ist ein Off-Policy TD-Algorithmus. "Off-Policy" bedeutet, dass es die optimale Aktions-Wertfunktion $Q^*(s,a)$ lernt, unabhängig von der Policy, die der Agent zur Exploration verwendet (Verhaltenspolicy), solange diese alle Zustands-Aktions-Paare ausreichend oft besucht.</p>
+                    <h3 class="text-2xl font-semibold mb-4 text-lime-700" data-i18n="qLearningTitle">Q-Learning (Off-Policy TD Control)</h3>
+                    <p class="mb-3 text-gray-700 leading-relaxed" data-i18n="qLearningDesc">Q-Learning ist ein Off-Policy TD-Algorithmus. "Off-Policy" bedeutet, dass es die optimale Aktions-Wertfunktion $Q^*(s,a)$ lernt, unabhängig von der Policy, die der Agent zur Exploration verwendet (Verhaltenspolicy), solange diese alle Zustands-Aktions-Paare ausreichend oft besucht.</p>
                      <div class="equation-block">
-                        <h4 class="text-lg font-semibold mb-1 text-lime-600">Update-Regel für $Q(S_t, A_t)$:</h4>
+                        <h4 class="text-lg font-semibold mb-1 text-lime-600" data-i18n="qLearningUpdateRuleTitle">Update-Regel für $Q(S_t, A_t)$:</h4>
                         <span class="math-formula block">$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha [R_{t+1} + \gamma \max_{a'} Q(S_{t+1}, a') - Q(S_t, A_t)]$</span>
                     </div>
-                    <p class="mt-3 text-sm text-gray-600">
+                    <p class="mt-3 text-sm text-gray-600" data-i18n="qLearningKeyDiff">
                         Der entscheidende Unterschied ist der Term $\max_{a'} Q(S_{t+1}, a')$, der den maximalen $Q$-Wert im Folgezustand verwendet, was der Aktion entspricht, die eine gierige Policy wählen würde (Zielpolicy).
                     </p>
                 </div>
             </div>
             <div class="mt-10 p-6 bg-indigo-50 border border-indigo-200 rounded-lg">
-                <h3 class="text-xl font-semibold text-indigo-700 mb-3">Vergleich der Update-Pfade: SARSA vs. Q-Learning</h3>
+                <h3 class="text-xl font-semibold text-indigo-700 mb-3" data-i18n="onOffPolicyCompareTitle">Vergleich der Update-Pfade: SARSA vs. Q-Learning</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
                     <div class="p-4 bg-white rounded shadow">
-                        <h4 class="font-bold text-indigo-600 mb-2">SARSA (On-Policy)</h4>
+                        <h4 class="font-bold text-indigo-600 mb-2" data-i18n="sarsaPathTitle">SARSA (On-Policy)</h4>
                         <p>$S_t \xrightarrow{A_t (\text{aus } \pi)} R_{t+1}, S_{t+1} \xrightarrow{A_{t+1} (\text{aus } \pi)} \dots$</p>
-                        <p class="mt-1">Update für $Q(S_t, A_t)$ verwendet $Q(S_{t+1}, A_{t+1})$. Lernt den Wert der tatsächlich ausgeführten Policy.</p>
+                        <p class="mt-1" data-i18n="sarsaPathDesc">Update für $Q(S_t, A_t)$ verwendet $Q(S_{t+1}, A_{t+1})$. Lernt den Wert der tatsächlich ausgeführten Policy.</p>
                     </div>
                     <div class="p-4 bg-white rounded shadow">
-                        <h4 class="font-bold text-indigo-600 mb-2">Q-Learning (Off-Policy)</h4>
+                        <h4 class="font-bold text-indigo-600 mb-2" data-i18n="qLearningPathTitle">Q-Learning (Off-Policy)</h4>
                         <p>$S_t \xrightarrow{A_t (\text{aus Verhaltens-}\pi)} R_{t+1}, S_{t+1} \quad (\text{Zielaktion ist } \text{argmax}_{a'} Q(S_{t+1}, a'))$</p>
-                        <p class="mt-1">Update für $Q(S_t, A_t)$ verwendet $\max_{a'} Q(S_{t+1}, a')$. Lernt den Wert der optimalen (gierigen) Policy, auch wenn die Aktionen anders gewählt wurden.</p>
+                        <p class="mt-1" data-i18n="qLearningPathDesc">Update für $Q(S_t, A_t)$ verwendet $\max_{a'} Q(S_{t+1}, a')$. Lernt den Wert der optimalen (gierigen) Policy, auch wenn die Aktionen anders gewählt wurden.</p>
                     </div>
                 </div>
-                 <p class="mt-5 text-md font-semibold text-indigo-600">Bedeutung von $\epsilon$-greedy Exploration:</p>
-                <p class="text-sm text-gray-700 leading-relaxed">
+                 <p class="mt-5 text-md font-semibold text-indigo-600" data-i18n="epsilonGreedyTitle">Bedeutung von $\epsilon$-greedy Exploration:</p>
+                <p class="text-sm text-gray-700 leading-relaxed" data-i18n="epsilonGreedyDesc">
                     Um sicherzustellen, dass der Agent alle relevanten Zustands-Aktions-Paare erkundet und nicht in lokalen Optima stecken bleibt, wird oft eine $\epsilon$-greedy Strategie verwendet. Mit einer kleinen Wahrscheinlichkeit $\epsilon$ wählt der Agent eine zufällige Aktion, anstatt der aktuell als optimal erachteten (gierigen) Aktion. Der Wert von $\epsilon$ wird oft im Laufe des Trainings reduziert (Annealing), um von Exploration zu Exploitation überzugehen.
                 </p>
             </div>
         </section>
 
         <section id="quiz" class="bg-white p-8 rounded-lg shadow-xl">
-            <h2 class="text-3xl font-semibold mb-8 text-center text-blue-700">Wissens-Quiz zur Zwischenprüfung</h2>
+            <h2 class="text-3xl font-semibold mb-8 text-center text-blue-700" data-i18n="quizSectionTitle">Wissens-Quiz zur Zwischenprüfung</h2>
             <div id="quiz-area" class="quiz-container max-w-2xl mx-auto">
                 <div id="quiz-question-container">
-                    <p class="quiz-question" id="question-text">Frage wird geladen...</p>
+                    <p class="quiz-question" id="question-text" data-i18n="quizLoading">Frage wird geladen...</p>
                     <div id="options-container">
                         </div>
                 </div>
                 <div id="quiz-feedback-area" class="quiz-feedback" style="display: none;"></div>
-                <div class="quiz-navigation mt-6 flex justify-between items-center">
+                <div id="quiz-navigation" class="quiz-navigation mt-6 flex justify-between items-center">
                     <span id="question-counter" class="text-sm text-gray-600"></span>
-                    <button id="next-question-btn" class="opacity-50 cursor-not-allowed" disabled>Nächste Frage</button>
+                    <button id="next-question-btn" class="opacity-50 cursor-not-allowed" disabled data-i18n="quiz_nextButton">Nächste Frage</button>
                 </div>
                 <div id="quiz-results-area" class="mt-6" style="display: none;">
-                    <h3 class="text-2xl font-semibold text-center text-blue-600">Quiz beendet!</h3>
-                    <p class="text-lg text-center mt-2">Dein Ergebnis: <span id="score-text" class="font-bold"></span></p>
+                    <h3 class="text-2xl font-semibold text-center text-blue-600" data-i18n="quiz_finishedTitle">Quiz beendet!</h3>
+                    <p class="text-lg text-center mt-2"><span data-i18n="quiz_scorePrefix">Dein Ergebnis:</span> <span id="score-text" class="font-bold"></span></p>
                     <div class="text-center mt-4">
-                        <button id="restart-quiz-btn" class="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-md font-semibold">Quiz neu starten</button>
+                        <button id="restart-quiz-btn" class="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-md font-semibold" data-i18n="quiz_restartButton">Quiz neu starten</button>
                     </div>
                 </div>
             </div>
@@ -466,17 +500,553 @@
     </main>
 
     <footer class="bg-blue-700 text-white text-center p-8 mt-16">
-        <p class="text-lg">&copy; 2025 Vertiefte Reinforcement Learning Infografik.</p>
-        <p class="text-sm">Basierend auf Vorlesungsmaterialien und Standard-RL-Konzepten.</p>
+        <p class="text-lg" data-i18n="footerText1">&copy; 2025 Vertiefte Reinforcement Learning Infografik.</p>
+        <p class="text-sm" data-i18n="footerText2">Basierend auf Vorlesungsmaterialien und Standard-RL-Konzepten.</p>
     </footer>
 
     <script>
-        function wrapLabels(label, maxWidth) {
-            if (typeof label !== 'string') { 
-                if (Array.isArray(label)) return label;
-                return [String(label)]; 
+        // --- I18N Data ---
+        const translations = {
+            de: {
+                pageTitle: "Reinforcement Learning Infografik - Vertieft mit Quiz",
+                headerTitle: "Reinforcement Learning: Vertiefte Einblicke & Quiz",
+                headerSubtitle: "Detaillierte Konzepte, Algorithmen und interaktives Quiz",
+                section1Title: "1. Grundlagen: RL & Markov-Entscheidungsprozesse (MDPs)",
+                section1Intro: "Reinforcement Learning (RL) ist ein Paradigma des maschinellen Lernens, bei dem ein autonomer <strong>Agent</strong> lernt, optimale Sequenzen von Entscheidungen (Aktionen) in einer komplexen und oft unsicheren <strong>Umgebung</strong> zu treffen. Das primäre Ziel des Agenten ist es, die Summe der erhaltenen <strong>Belohnungen</strong> über die Zeit zu maximieren. Dieser Lernprozess ist fundamental iterativ und erfahrungsbasiert.",
+                agentEnvCycleTitle: "Der Agent-Umgebung-Interaktionszyklus",
+                cycleStep1: "1. Agent beobachtet aktuellen Zustand $S_t$ der Umgebung.",
+                cycleStep2: "2. Agent wählt eine Aktion $A_t$ basierend auf seiner aktuellen Strategie (Policy $\\pi$).",
+                cycleStep3: "3. Umgebung reagiert: Agent erhält eine Belohnung $R_{t+1}$ und beobachtet den neuen Zustand $S_{t+1}$.",
+                cycleStep4: "4. Agent aktualisiert seine Policy $\\pi$ basierend auf der Erfahrung $(S_t, A_t, R_{t+1}, S_{t+1})$.",
+                cycleDesc: "Dieser Zyklus wiederholt sich, wodurch der Agent schrittweise lernt, bessere Entscheidungen zu treffen.",
+                goalTitle: "Maximierung des kumulativen Returns",
+                goalDesc: "Der Return $G_t = R_{t+1} + \\gamma R_{t+2} + \\gamma^2 R_{t+3} + \\dots = \\sum_{k=0}^{\\infty} \\gamma^k R_{t+k+1}$ ist die Summe der diskontierten zukünftigen Belohnungen. Die <strong>Reward Hypothesis</strong> besagt, dass alle Ziele durch die Maximierung des erwarteten kumulativen Rewards formuliert werden können.",
+                rewardHypothesis: "Reward Hypothesis",
+                gammaFactorTitle: "Der Diskontierungsfaktor $\\gamma$",
+                gammaDesc: "Steuert die Wichtigkeit zukünftiger Belohnungen:",
+                gammaShortSighted: "$\\gamma \\approx 0$: Agent ist \"kurzsichtig\", fokussiert auf unmittelbare Belohnungen.",
+                gammaLongSighted: "$\\gamma \\approx 1$: Agent ist \"weitsichtig\", berücksichtigt zukünftige Belohnungen stark.",
+                gammaContinuous: "Notwendig für kontinuierliche Aufgaben, um unendliche Returns zu vermeiden.",
+                mdpTitle: "Der Markov-Entscheidungsprozess (MDP)",
+                mdpIntro: "Ein MDP ist der Standardformalismus für RL-Probleme, die die Markov-Eigenschaft erfüllen. Er wird durch ein Tupel $(S, A, P, R, \\gamma)$ definiert:",
+                mdpS: "<strong>S (Zustandsraum):</strong> Eine Menge aller möglichen Zustände. Z.B. Positionen auf einem Schachbrett, Gelenkwinkel eines Roboters.",
+                mdpA: "<strong>A (Aktionsraum):</strong> Eine Menge aller möglichen Aktionen. Z.B. Züge im Schach, Motorkommandos für einen Roboter.",
+                mdpP: "<strong>P (Zustandsübergangsmodell):</strong> $P(s'|s, a) = Pr\\{S_{t+1}=s' | S_t=s, A_t=a\\}$. Definiert die Dynamik der Umgebung.",
+                mdpR: "<strong>R (Belohnungsfunktion):</strong> $R(s, a, s') = E[R_{t+1} | S_t=s, A_t=a, S_{t+1}=s']$. Definiert das Ziel des Agenten.",
+                markovPropertyTitle: "Die Markov-Eigenschaft",
+                markovPropertyQuote: "\"Die Zukunft ist unabhängig von der Vergangenheit, gegeben die Gegenwart.\"",
+                markovPropertyDesc: "Der aktuelle Zustand $S_t$ enthält alle relevanten Informationen aus der Historie, um die nächste Zustands- und Belohnungswahrscheinlichkeit zu bestimmen. Dies ist eine starke Vereinfachung, die viele RL-Algorithmen ermöglicht.",
+                coreChallengesTitle: "Kernherausforderungen und Konzepte",
+                creditAssignmentTitle: "Credit Assignment",
+                creditAssignmentDesc: "Wie können Belohnungen (oder Bestrafungen), die erst spät in einer Sequenz von Aktionen auftreten, korrekt den früheren Aktionen zugeordnet werden, die ursächlich dafür waren?",
+                exploreExploitTitle: "Exploration vs. Exploitation",
+                exploreExploitDesc: "Der Agent muss entscheiden, ob er neue Aktionen ausprobiert, um mehr über die Umgebung zu lernen (Exploration), oder ob er die aktuell besten bekannten Aktionen ausführt, um die Belohnung zu maximieren (Exploitation).",
+                policyTitle: "Policy ($\\pi$): Die Strategie des Agenten",
+                policyDesc: "Eine Abbildung von Zuständen zu Aktionen. Deterministisch: $\\pi(s) = a$. Stochastisch: $\\pi(a|s) = Pr\\{A_t=a | S_t=s\\}$.",
+                valueFunctionTitle: "Wertfunktionen ($V^\\pi, Q^\\pi$): Wie gut ist ein Zustand/Aktion?",
+                valueFunctionDesc: "$V^\\pi(s)$: Erwarteter Return, wenn man in Zustand $s$ startet und Policy $\\pi$ folgt. $Q^\\pi(s,a)$: Erwarteter Return, wenn man in Zustand $s$ Aktion $a$ ausführt und danach Policy $\\pi$ folgt.",
+                section2Title: "2. Dynamische Programmierung (DP): Planung mit perfektem Modell",
+                section2Intro: "Dynamische Programmierung (DP) umfasst Algorithmen, die eine optimale Policy $\\pi^*$ für einen gegebenen MDP berechnen können, vorausgesetzt, das Modell der Umgebung (Übergangswahrscheinlichkeiten $P$ und Belohnungen $R$) ist vollständig bekannt. DP-Methoden nutzen Wertfunktionen, um die Suche nach guten Policies zu strukturieren und basieren auf den Bellman-Gleichungen.",
+                bellmanOptimalityPrincipleTitle: "Bellman-Optimalitätsprinzip",
+                bellmanOptimalityPrincipleQuote: "\"Eine optimale Policy hat die Eigenschaft, dass, was auch immer der Anfangszustand und die erste Entscheidung sind, die verbleibenden Entscheidungen eine optimale Policy bezüglich des aus der ersten Entscheidung resultierenden Zustands darstellen müssen.\" (Bellman, 1957)",
+                bellmanOptimalityPrincipleDesc: "Einfach gesagt: Wenn der beste Pfad von A nach C über B führt, dann muss der Teilpfad von B nach C auch der beste Pfad von B nach C sein.",
+                policyIterationTitle: "Policy Iteration (Politikiteration)",
+                policyIterationDesc: "Ein iterativer Algorithmus, der zwischen zwei Schritten wechselt:",
+                policyEvalTitle: "1. Policy Evaluation (Bewertung):",
+                policyEvalDesc: "Berechne die Zustands-Wertfunktion $V^\\pi(s)$ für die aktuelle Policy $\\pi$. Dies geschieht durch iteratives Anwenden der Bellman-Erwartungsgleichung bis zur Konvergenz:",
+                policyImprovTitle: "2. Policy Improvement (Verbesserung):",
+                policyImprovDesc: "Verbessere die Policy, indem für jeden Zustand $s$ gierig die Aktion gewählt wird, die $Q^\\pi(s,a)$ maximiert:",
+                policyIterationConvergence: "Dieser Prozess konvergiert garantiert zur optimalen Policy $\\pi^*$. \"Sweeps\" beziehen sich auf vollständige Durchläufe über alle Zustände während der Evaluation oder Iteration.",
+                valueIterationTitle: "Value Iteration (Wertiteration)",
+                valueIterationDesc: "Kombiniert im Wesentlichen einen Schritt der Policy Evaluation und einen Schritt der Policy Improvement in einer einzigen Update-Regel. Sie iteriert direkt über die Bellman-Optimalitätsgleichung für $V^*(s)$:",
+                valueIterationConvergence: "Konvergiert ebenfalls zur optimalen Wertfunktion $V^*$, aus der die optimale Policy $\\pi^*$ dann durch eine einmalige gierige Auswahl extrahiert werden kann.",
+                vQRelationTitle: "Beziehung zwischen $V^\\pi$ und $Q^\\pi$",
+                vQRelationDesc: "Die Zustands-Wertfunktion und die Aktions-Wertfunktion sind eng miteinander verbunden:",
+                vQStochastic: "(wenn $\\pi$ stochastisch ist)",
+                vQDeterministic: "(wenn $\\pi$ deterministisch ist)",
+                dpApplicabilityTitle: "Wann ist DP anwendbar?",
+                dpCond1: "Wenn ein vollständiges und genaues Modell der Umgebung ($P$ und $R$) verfügbar ist.",
+                dpCond2: "Eher für Planungsprobleme als für direktes Lernen aus Interaktion.",
+                dpCond3: "Obwohl rechenintensiv für sehr große Probleme, bilden DP-Konzepte die theoretische Grundlage für viele andere RL-Algorithmen.",
+                section3Title: "3. Modellfreie Vorhersage: Lernen ohne Modell",
+                section3Intro: "In vielen realen Szenarien ist ein exaktes Modell der Umgebung nicht verfügbar. Modellfreie Vorhersagemethoden ermöglichen es, Wertfunktionen ($V^\\pi$ oder $Q^\\pi$) für eine gegebene Policy $\\pi$ direkt aus Erfahrungsepisoden zu schätzen, die durch Interaktion mit der Umgebung generiert werden.",
+                mcMethodsTitle: "a) Monte Carlo (MC) Methoden",
+                mcMethodsDesc: "MC-Methoden lernen, indem sie den durchschnittlichen Return nach Besuchen eines Zustands über viele vollständige Episoden berechnen.<br><strong>First-Visit MC:</strong> Berücksichtigt nur den Return nach dem ersten Besuch eines Zustands $s$ in einer Episode.<br><strong>Every-Visit MC:</strong> Berücksichtigt den Return nach jedem Besuch eines Zustands $s$ in einer Episode.",
+                firstVisitMC: "First-Visit MC:",
+                everyVisitMC: "Every-Visit MC:",
+                mcUpdateRuleTitle: "Update-Regel (inkrementell für $V(S_t)$):",
+                mcUpdateRuleDesc: "Hier ist $G_t$ der tatsächlich beobachtete (vollständige) Return ab Zeitschritt $t$ bis zum Ende der Episode. $\\alpha$ ist die Lernrate.",
+                mcAdvantages: "Vorteile:",
+                mcAdv1: "Unverzerrt (kein Bootstrapping-Bias).",
+                mcAdv2: "Einfach zu verstehen und zu implementieren.",
+                mcDisadvantages: "Nachteile:",
+                mcDisadv1: "Hohe Varianz, da der Return von vielen zufälligen Aktionen und Übergängen abhängt.",
+                mcDisadv2: "Funktioniert nur für episodische (terminierende) Aufgaben.",
+                mcDisadv3: "Updates erfolgen erst am Ende einer Episode.",
+                tdLearningTitle: "b) Temporal Difference (TD) Learning",
+                tdLearningDesc: "TD-Methoden lernen von jedem Schritt, indem sie ihre aktuelle Schätzung basierend auf der Schätzung des nächsten Zustands anpassen – ein Prozess, der als <strong data-i18n=\"bootstrapping\">Bootstrapping</strong> bezeichnet wird. Sie benötigen keine vollständigen Episoden.",
+                bootstrapping: "Bootstrapping",
+                tdUpdateRuleTitle: "TD(0) Update-Regel für $V(S_t)$:",
+                tdUpdateRuleDesc: "Der Term $R_{t+1} + \\gamma V(S_{t+1})$ ist das <strong data-i18n=\"tdTarget\">TD-Target</strong> (eine Schätzung des Returns), und $[R_{t+1} + \\gamma V(S_{t+1}) - V(S_t)]$ ist der <strong data-i18n=\"tdError\">TD-Fehler</strong>.",
+                tdTarget: "TD-Target",
+                tdError: "TD-Fehler",
+                tdAdvantages: "Vorteile:",
+                tdAdv1: "Geringere Varianz als MC.",
+                tdAdv2: "Kann online lernen (nach jedem Schritt).",
+                tdAdv3: "Funktioniert auch für kontinuierliche Aufgaben.",
+                tdDisadvantages: "Nachteile:",
+                tdDisadv1: "Verzerrt, da die Schätzung auf einer anderen Schätzung ($V(S_{t+1})$) basiert.",
+                tdDisadv2: "Empfindlicher gegenüber der Initialisierung der Werte.",
+                nStepTDTitle: "N-Step TD Methoden",
+                nStepTDDesc1: "Diese Methoden schlagen eine Brücke zwischen MC und TD(0). Anstatt nur einen Schritt (TD(0)) oder die gesamte Episode (MC) für das Update zu betrachten, verwenden n-Step TD Methoden einen Return über $n$ Schritte:",
+                nStepTDDesc2: "Die Update-Regel lautet dann:",
+                nStepTDDesc3: "Der Parameter $n$ erlaubt einen Trade-off zwischen dem Bias von TD(0) und der Varianz von MC.",
+                mcTdChartTitle: "Visueller Vergleich: MC vs. TD Update",
+                mcTdChartDesc: "Das Diagramm illustriert die unterschiedlichen Stärken und Schwächen von MC- und TD-Lernansätzen bezüglich Bias, Varianz und Update-Frequenz.",
+                section4Title: "4. Modellfreie Steuerung: Optimale Policies ohne Modell finden",
+                section4Intro: "Modellfreie Steuerungsmethoden erweitern die Ideen der modellfreien Vorhersage, um nicht nur Wertfunktionen zu schätzen, sondern auch aktiv eine (nahezu) optimale Policy $\\pi^*$ zu finden. Da kein Umgebungsmodell vorhanden ist, lernen diese Methoden typischerweise die Aktions-Wertfunktion $Q(s,a)$, da diese direkt angibt, wie gut es ist, eine bestimmte Aktion $a$ in einem Zustand $s$ auszuführen. Die Policy wird dann oft $\\epsilon$-gierig auf Basis dieser $Q$-Werte abgeleitet.",
+                gpiTitle: "Generalisierte Policy Iteration (GPI) für Modellfreie Steuerung",
+                gpiEvalTitle: "1. Policy Evaluation (Schätzung)",
+                gpiEvalDesc: "Schätze $Q^\\pi(s,a)$ für die aktuelle Policy $\\pi$ (z.B. mittels MC oder TD Updates auf $Q$-Werte).",
+                gpiImprovTitle: "2. Policy Improvement (Verbesserung)",
+                gpiImprovDesc: "Aktualisiere $\\pi$, indem $\\epsilon$-gierig bezüglich der aktuellen $Q$-Werte agiert wird:",
+                gpiEpsilon: "(mit $\\epsilon$ W'keit zufällig).",
+                gpiConvergence: "Dieser iterative Prozess konvergiert typischerweise gegen die optimale Aktions-Wertfunktion $Q^*$ und die optimale Policy $\\pi^*$. Die Notwendigkeit von $Q(s,a)$ ergibt sich daraus, dass ohne Modell $P(s'|s,a)$ die $V(s)$-Funktion allein nicht ausreicht, um eine gierige Aktion zu bestimmen.",
+                sarsaTitle: "SARSA (On-Policy TD Control)",
+                sarsaDesc: "SARSA ist ein On-Policy TD-Algorithmus. \"On-Policy\" bedeutet, dass die $Q$-Werte für die Policy geschätzt und verbessert werden, die der Agent tatsächlich ausführt (inklusive explorativer Aktionen).",
+                sarsaUpdateRuleTitle: "Update-Regel für $Q(S_t, A_t)$:",
+                sarsaNameOrigin: "Der Name SARSA kommt von der Sequenz der Ereignisse im Update: $(S_t, A_t, R_{t+1}, S_{t+1}, A_{t+1})$. $A_{t+1}$ wird gemäß der aktuellen (oft $\\epsilon$-greedy) Policy gewählt.",
+                qLearningTitle: "Q-Learning (Off-Policy TD Control)",
+                qLearningDesc: "Q-Learning ist ein Off-Policy TD-Algorithmus. \"Off-Policy\" bedeutet, dass es die optimale Aktions-Wertfunktion $Q^*(s,a)$ lernt, unabhängig von der Policy, die der Agent zur Exploration verwendet (Verhaltenspolicy), solange diese alle Zustands-Aktions-Paare ausreichend oft besucht.",
+                qLearningUpdateRuleTitle: "Update-Regel für $Q(S_t, A_t)$:",
+                qLearningKeyDiff: "Der entscheidende Unterschied ist der Term $\\max_{a'} Q(S_{t+1}, a')$, der den maximalen $Q$-Wert im Folgezustand verwendet, was der Aktion entspricht, die eine gierige Policy wählen würde (Zielpolicy).",
+                onOffPolicyCompareTitle: "Vergleich der Update-Pfade: SARSA vs. Q-Learning",
+                sarsaPathTitle: "SARSA (On-Policy)",
+                sarsaPathDesc: "Update für $Q(S_t, A_t)$ verwendet $Q(S_{t+1}, A_{t+1})$. Lernt den Wert der tatsächlich ausgeführten Policy.",
+                qLearningPathTitle: "Q-Learning (Off-Policy)",
+                qLearningPathDesc: "Update für $Q(S_t, A_t)$ verwendet $\\max_{a'} Q(S_{t+1}, a')$. Lernt den Wert der optimalen (gierigen) Policy, auch wenn die Aktionen anders gewählt wurden.",
+                epsilonGreedyTitle: "Bedeutung von $\\epsilon$-greedy Exploration:",
+                epsilonGreedyDesc: "Um sicherzustellen, dass der Agent alle relevanten Zustands-Aktions-Paare erkundet und nicht in lokalen Optima stecken bleibt, wird oft eine $\\epsilon$-greedy Strategie verwendet. Mit einer kleinen Wahrscheinlichkeit $\\epsilon$ wählt der Agent eine zufällige Aktion, anstatt der aktuell als optimal erachteten (gierigen) Aktion. Der Wert von $\\epsilon$ wird oft im Laufe des Trainings reduziert (Annealing), um von Exploration zu Exploitation überzugehen.",
+                quizSectionTitle: "Wissens-Quiz zur Zwischenprüfung",
+                quizLoading: "Frage wird geladen...",
+                quiz_nextButton: "Nächste Frage",
+                quiz_resultsButton: "Ergebnisse anzeigen",
+                quiz_finishedTitle: "Quiz beendet!",
+                quiz_scorePrefix: "Dein Ergebnis: ",
+                quiz_scoreSuffix_singular: "Punkt",
+                quiz_scoreSuffix_plural: "Punkte",
+                quiz_scoreOutOf: "von",
+                quiz_restartButton: "Quiz neu starten",
+                quiz_feedbackCorrect: "Richtig!",
+                quiz_feedbackIncorrectPrefix: "Falsch. Die richtige Antwort war: ",
+                quiz_questionCounterPrefix: "Frage ",
+                quiz_questionCounterOf: "von",
+                footerText1: "&copy; 2025 Vertiefte Reinforcement Learning Infografik.",
+                footerText2: "Basierend auf Vorlesungsmaterialien und Standard-RL-Konzepten.",
+                chart_mcVsTd_title: "Vergleich: MC vs. TD Eigenschaften (Skala 1=Niedrig/Nein, 5=Hoch/Ja)",
+                chart_mcVsTd_dataset_mc: "Monte Carlo (MC)",
+                chart_mcVsTd_dataset_td: "Temporal Difference (TD)",
+                chart_mcVsTd_label_bias: "Bias",
+                chart_mcVsTd_label_variance: "Varianz",
+                chart_mcVsTd_label_updateFreq: "Update Häufigkeit",
+                chart_mcVsTd_label_incompleteEp: "Nutzung unvollst. Episoden",
+                chart_mcVsTd_label_initSens: "Sensitivität Initialisierung",
+                chart_mcVsTd_yAxis_lowNo: "1 (Niedrig/Nein)",
+                chart_mcVsTd_yAxis_medium: "3 (Mittel)",
+                chart_mcVsTd_yAxis_highYes: "5 (Hoch/Ja)",
+                tooltip_bias_low_mc: "Niedrig (Unverzerrt)",
+                tooltip_bias_medium_td: "Mittel (Verzerrt)",
+                tooltip_variance_high_mc: "Hoch",
+                tooltip_variance_low_td: "Niedrig",
+                tooltip_update_episode_mc: "Am Episodenende",
+                tooltip_update_step_td: "Nach jedem Schritt",
+                tooltip_incomplete_no_mc: "Nein",
+                tooltip_incomplete_yes_td: "Ja (Bootstrapping)",
+                tooltip_init_insensitive_mc: "Unempfindlich",
+                tooltip_init_sensitive_td: "Empfindlich",
+            },
+            en: {
+                pageTitle: "Reinforcement Learning Infographic - In-Depth with Quiz",
+                headerTitle: "Reinforcement Learning: In-Depth Insights & Quiz",
+                headerSubtitle: "Detailed Concepts, Algorithms, and Interactive Quiz",
+                section1Title: "1. Basics: RL & Markov Decision Processes (MDPs)",
+                section1Intro: "Reinforcement Learning (RL) is a paradigm of machine learning where an autonomous <strong>agent</strong> learns to make optimal sequences of decisions (actions) in a complex and often uncertain <strong>environment</strong>. The primary goal of the agent is to maximize the sum of received <strong>rewards</strong> over time. This learning process is fundamentally iterative and experience-based.",
+                agentEnvCycleTitle: "The Agent-Environment Interaction Cycle",
+                cycleStep1: "1. Agent observes current state $S_t$ of the environment.",
+                cycleStep2: "2. Agent selects an action $A_t$ based on its current strategy (policy $\\pi$).",
+                cycleStep3: "3. Environment reacts: Agent receives a reward $R_{t+1}$ and observes the new state $S_{t+1}$.",
+                cycleStep4: "4. Agent updates its policy $\\pi$ based on the experience $(S_t, A_t, R_{t+1}, S_{t+1})$.",
+                cycleDesc: "This cycle repeats, allowing the agent to gradually learn to make better decisions.",
+                goalTitle: "Maximizing Cumulative Return",
+                goalDesc: "The return $G_t = R_{t+1} + \\gamma R_{t+2} + \\gamma^2 R_{t+3} + \\dots = \\sum_{k=0}^{\\infty} \\gamma^k R_{t+k+1}$ is the sum of discounted future rewards. The <strong>Reward Hypothesis</strong> states that all goals can be formulated as maximizing the expected cumulative reward.",
+                rewardHypothesis: "Reward Hypothesis",
+                gammaFactorTitle: "The Discount Factor $\\gamma$",
+                gammaDesc: "Controls the importance of future rewards:",
+                gammaShortSighted: "$\\gamma \\approx 0$: Agent is \"myopic\", focusing on immediate rewards.",
+                gammaLongSighted: "$\\gamma \\approx 1$: Agent is \"far-sighted\", strongly considering future rewards.",
+                gammaContinuous: "Necessary for continuous tasks to avoid infinite returns.",
+                mdpTitle: "The Markov Decision Process (MDP)",
+                mdpIntro: "An MDP is the standard formalism for RL problems that satisfy the Markov property. It is defined by a tuple $(S, A, P, R, \\gamma)$:",
+                mdpS: "<strong>S (State Space):</strong> A set of all possible states. E.g., positions on a chessboard, joint angles of a robot.",
+                mdpA: "<strong>A (Action Space):</strong> A set of all possible actions. E.g., moves in chess, motor commands for a robot.",
+                mdpP: "<strong>P (State Transition Model):</strong> $P(s'|s, a) = Pr\\{S_{t+1}=s' | S_t=s, A_t=a\\}$. Defines the dynamics of the environment.",
+                mdpR: "<strong>R (Reward Function):</strong> $R(s, a, s') = E[R_{t+1} | S_t=s, A_t=a, S_{t+1}=s']$. Defines the agent's goal.",
+                markovPropertyTitle: "The Markov Property",
+                markovPropertyQuote: "\"The future is independent of the past, given the present.\"",
+                markovPropertyDesc: "The current state $S_t$ contains all relevant information from the history to determine the next state and reward probabilities. This is a strong simplification that enables many RL algorithms.",
+                coreChallengesTitle: "Core Challenges and Concepts",
+                creditAssignmentTitle: "Credit Assignment",
+                creditAssignmentDesc: "How can rewards (or punishments) that occur late in a sequence of actions be correctly attributed to the earlier actions that caused them?",
+                exploreExploitTitle: "Exploration vs. Exploitation",
+                exploreExploitDesc: "The agent must decide whether to try new actions to learn more about the environment (exploration) or to execute the currently known best actions to maximize reward (exploitation).",
+                policyTitle: "Policy ($\\pi$): The Agent's Strategy",
+                policyDesc: "A mapping from states to actions. Deterministic: $\\pi(s) = a$. Stochastic: $\\pi(a|s) = Pr\\{A_t=a | S_t=s\\}$.",
+                valueFunctionTitle: "Value Functions ($V^\\pi, Q^\\pi$): How good is a state/action?",
+                valueFunctionDesc: "$V^\\pi(s)$: Expected return starting in state $s$ and following policy $\\pi$. $Q^\\pi(s,a)$: Expected return starting in state $s$, taking action $a$, and thereafter following policy $\\pi$.",
+                section2Title: "2. Dynamic Programming (DP): Planning with a Perfect Model",
+                section2Intro: "Dynamic Programming (DP) comprises algorithms that can compute an optimal policy $\\pi^*$ for a given MDP, provided that the model of the environment (transition probabilities $P$ and rewards $R$) is fully known. DP methods use value functions to structure the search for good policies and are based on Bellman equations.",
+                bellmanOptimalityPrincipleTitle: "Bellman's Principle of Optimality",
+                bellmanOptimalityPrincipleQuote: "\"An optimal policy has the property that whatever the initial state and initial decision are, the remaining decisions must constitute an optimal policy with regard to the state resulting from the first decision.\" (Bellman, 1957)",
+                bellmanOptimalityPrincipleDesc: "Simply put: If the best path from A to C goes through B, then the subpath from B to C must also be the best path from B to C.",
+                policyIterationTitle: "Policy Iteration",
+                policyIterationDesc: "An iterative algorithm that alternates between two steps:",
+                policyEvalTitle: "1. Policy Evaluation:",
+                policyEvalDesc: "Compute the state-value function $V^\\pi(s)$ for the current policy $\\pi$. This is done by iteratively applying the Bellman expectation equation until convergence:",
+                policyImprovTitle: "2. Policy Improvement:",
+                policyImprovDesc: "Improve the policy by choosing greedily for each state $s$ the action that maximizes $Q^\\pi(s,a)$:",
+                policyIterationConvergence: "This process is guaranteed to converge to the optimal policy $\\pi^*$. \"Sweeps\" refer to complete passes through all states during evaluation or iteration.",
+                valueIterationTitle: "Value Iteration",
+                valueIterationDesc: "Essentially combines one step of policy evaluation and one step of policy improvement into a single update rule. It directly iterates on the Bellman optimality equation for $V^*(s)$:",
+                valueIterationConvergence: "Also converges to the optimal value function $V^*$, from which the optimal policy $\\pi^*$ can then be extracted by a single greedy selection.",
+                vQRelationTitle: "Relationship between $V^\\pi$ and $Q^\\pi$",
+                vQRelationDesc: "The state-value function and action-value function are closely related:",
+                vQStochastic: "(if $\\pi$ is stochastic)",
+                vQDeterministic: "(if $\\pi$ is deterministic)",
+                dpApplicabilityTitle: "When is DP Applicable?",
+                dpCond1: "When a complete and accurate model of the environment ($P$ and $R$) is available.",
+                dpCond2: "More for planning problems than for direct learning from interaction.",
+                dpCond3: "Although computationally intensive for very large problems, DP concepts form the theoretical basis for many other RL algorithms.",
+                section3Title: "3. Model-Free Prediction: Learning without a Model",
+                section3Intro: "In many real-world scenarios, an exact model of the environment is not available. Model-free prediction methods allow estimating value functions ($V^\\pi$ or $Q^\\pi$) for a given policy $\\pi$ directly from experience episodes generated through interaction with the environment.",
+                mcMethodsTitle: "a) Monte Carlo (MC) Methods",
+                mcMethodsDesc: "MC methods learn by averaging returns observed after visits to a state over many complete episodes.<br><strong>First-Visit MC:</strong> Considers only the return after the first visit to state $s$ in an episode.<br><strong>Every-Visit MC:</strong> Considers the return after every visit to state $s$ in an episode.",
+                firstVisitMC: "First-Visit MC:",
+                everyVisitMC: "Every-Visit MC:",
+                mcUpdateRuleTitle: "Update Rule (incremental for $V(S_t)$):",
+                mcUpdateRuleDesc: "Here, $G_t$ is the actual observed (full) return from time step $t$ to the end of the episode. $\\alpha$ is the learning rate.",
+                mcAdvantages: "Advantages:",
+                mcAdv1: "Unbiased (no bootstrapping bias).",
+                mcAdv2: "Easy to understand and implement.",
+                mcDisadvantages: "Disadvantages:",
+                mcDisadv1: "High variance, as the return depends on many random actions and transitions.",
+                mcDisadv2: "Only works for episodic (terminating) tasks.",
+                mcDisadv3: "Updates are made only at the end of an episode.",
+                tdLearningTitle: "b) Temporal Difference (TD) Learning",
+                tdLearningDesc: "TD methods learn from each step, updating their current estimate based on the estimate of the next state—a process called <strong data-i18n=\"bootstrapping\">bootstrapping</strong>. They do not require complete episodes.",
+                bootstrapping: "bootstrapping",
+                tdUpdateRuleTitle: "TD(0) Update Rule for $V(S_t)$:",
+                tdUpdateRuleDesc: "The term $R_{t+1} + \\gamma V(S_{t+1})$ is the <strong data-i18n=\"tdTarget\">TD target</strong> (an estimate of the return), and $[R_{t+1} + \\gamma V(S_{t+1}) - V(S_t)]$ is the <strong data-i18n=\"tdError\">TD error</strong>.",
+                tdTarget: "TD target",
+                tdError: "TD error",
+                tdAdvantages: "Advantages:",
+                tdAdv1: "Lower variance than MC.",
+                tdAdv2: "Can learn online (after each step).",
+                tdAdv3: "Also works for continuous tasks.",
+                tdDisadvantages: "Disadvantages:",
+                tdDisadv1: "Biased, as the estimate is based on another estimate ($V(S_{t+1})$).",
+                tdDisadv2: "More sensitive to the initialization of values.",
+                nStepTDTitle: "N-Step TD Methods",
+                nStepTDDesc1: "These methods bridge the gap between MC and TD(0). Instead of looking only one step ahead (TD(0)) or at the entire episode (MC), n-step TD methods use a return over $n$ steps:",
+                nStepTDDesc2: "The update rule is then:",
+                nStepTDDesc3: "The parameter $n$ allows a trade-off between the bias of TD(0) and the variance of MC.",
+                mcTdChartTitle: "Visual Comparison: MC vs. TD Update",
+                mcTdChartDesc: "The diagram illustrates the different strengths and weaknesses of MC and TD learning approaches regarding bias, variance, and update frequency.",
+                section4Title: "4. Model-Free Control: Finding Optimal Policies without a Model",
+                section4Intro: "Model-free control methods extend the ideas of model-free prediction to not only estimate value functions but also to actively find a (near) optimal policy $\\pi^*$. Since no environment model is available, these methods typically learn the action-value function $Q(s,a)$, as it directly indicates how good it is to take a specific action $a$ in a state $s$. The policy is then often derived $\\epsilon$-greedily based on these $Q$-values.",
+                gpiTitle: "Generalized Policy Iteration (GPI) for Model-Free Control",
+                gpiEvalTitle: "1. Policy Evaluation (Estimation)",
+                gpiEvalDesc: "Estimate $Q^\\pi(s,a)$ for the current policy $\\pi$ (e.g., using MC or TD updates on $Q$-values).",
+                gpiImprovTitle: "2. Policy Improvement",
+                gpiImprovDesc: "Update $\\pi$ by acting $\\epsilon$-greedily with respect to the current $Q$-values:",
+                gpiEpsilon: "(with $\\epsilon$ probability random).",
+                gpiConvergence: "This iterative process typically converges towards the optimal action-value function $Q^*$ and the optimal policy $\\pi^*$. The need for $Q(s,a)$ arises because, without a model $P(s'|s,a)$, the $V(s)$ function alone is insufficient to determine a greedy action.",
+                sarsaTitle: "SARSA (On-Policy TD Control)",
+                sarsaDesc: "SARSA is an on-policy TD algorithm. \"On-policy\" means that the $Q$-values are estimated and improved for the policy the agent is actually executing (including exploratory actions).",
+                sarsaUpdateRuleTitle: "Update Rule for $Q(S_t, A_t)$:",
+                sarsaNameOrigin: "The name SARSA comes from the sequence of events in the update: $(S_t, A_t, R_{t+1}, S_{t+1}, A_{t+1})$. $A_{t+1}$ is chosen according to the current (often $\\epsilon$-greedy) policy.",
+                qLearningTitle: "Q-Learning (Off-Policy TD Control)",
+                qLearningDesc: "Q-Learning is an off-policy TD algorithm. \"Off-policy\" means it learns the optimal action-value function $Q^*(s,a)$ independently of the policy used by the agent for exploration (behavior policy), as long as it visits all state-action pairs sufficiently often.",
+                qLearningUpdateRuleTitle: "Update Rule for $Q(S_t, A_t)$:",
+                qLearningKeyDiff: "The key difference is the term $\\max_{a'} Q(S_{t+1}, a')$, which uses the maximum $Q$-value in the next state, corresponding to the action a greedy policy would choose (target policy).",
+                onOffPolicyCompareTitle: "Comparison of Update Paths: SARSA vs. Q-Learning",
+                sarsaPathTitle: "SARSA (On-Policy)",
+                sarsaPathDesc: "Update for $Q(S_t, A_t)$ uses $Q(S_{t+1}, A_{t+1})$. Learns the value of the policy actually being executed.",
+                qLearningPathTitle: "Q-Learning (Off-Policy)",
+                qLearningPathDesc: "Update for $Q(S_t, A_t)$ uses $\\max_{a'} Q(S_{t+1}, a')$. Learns the value of the optimal (greedy) policy, even if actions were chosen differently.",
+                epsilonGreedyTitle: "Importance of $\\epsilon$-greedy Exploration:",
+                epsilonGreedyDesc: "To ensure the agent explores all relevant state-action pairs and doesn't get stuck in local optima, an $\\epsilon$-greedy strategy is often used. With a small probability $\\epsilon$, the agent chooses a random action instead of the one currently considered optimal (greedy). The value of $\\epsilon$ is often reduced over time (annealing) to shift from exploration to exploitation.",
+                quizSectionTitle: "Knowledge Quiz for Midterm",
+                quizLoading: "Loading question...",
+                quiz_nextButton: "Next Question",
+                quiz_resultsButton: "Show Results",
+                quiz_finishedTitle: "Quiz Finished!",
+                quiz_scorePrefix: "Your score: ",
+                quiz_scoreSuffix_singular: "point",
+                quiz_scoreSuffix_plural: "points",
+                quiz_scoreOutOf: "out of",
+                quiz_restartButton: "Restart Quiz",
+                quiz_feedbackCorrect: "Correct!",
+                quiz_feedbackIncorrectPrefix: "Incorrect. The correct answer was: ",
+                quiz_questionCounterPrefix: "Question ",
+                quiz_questionCounterOf: "of",
+                footerText1: "&copy; 2025 In-Depth Reinforcement Learning Infographic.",
+                footerText2: "Based on lecture materials and standard RL concepts.",
+                chart_mcVsTd_title: "Comparison: MC vs. TD Properties (Scale 1=Low/No, 5=High/Yes)",
+                chart_mcVsTd_dataset_mc: "Monte Carlo (MC)",
+                chart_mcVsTd_dataset_td: "Temporal Difference (TD)",
+                chart_mcVsTd_label_bias: "Bias",
+                chart_mcVsTd_label_variance: "Variance",
+                chart_mcVsTd_label_updateFreq: "Update Frequency",
+                chart_mcVsTd_label_incompleteEp: "Uses Incomplete Episodes",
+                chart_mcVsTd_label_initSens: "Initialization Sensitivity",
+                chart_mcVsTd_yAxis_lowNo: "1 (Low/No)",
+                chart_mcVsTd_yAxis_medium: "3 (Medium)",
+                chart_mcVsTd_yAxis_highYes: "5 (High/Yes)",
+                tooltip_bias_low_mc: "Low (Unbiased)",
+                tooltip_bias_medium_td: "Medium (Biased)",
+                tooltip_variance_high_mc: "High",
+                tooltip_variance_low_td: "Low",
+                tooltip_update_episode_mc: "At episode end",
+                tooltip_update_step_td: "After each step",
+                tooltip_incomplete_no_mc: "No",
+                tooltip_incomplete_yes_td: "Yes (Bootstrapping)",
+                tooltip_init_insensitive_mc: "Insensitive",
+                tooltip_init_sensitive_td: "Sensitive",
             }
-            const words = label.split(' ');
+        };
+
+        const quizDataStore = {
+            de: [
+                {
+                    question: "Was ist das primäre Ziel eines Reinforcement Learning Agenten?",
+                    options: [
+                        "Die Dynamik der Umgebung perfekt zu verstehen.",
+                        "Die kumulative Belohnung über die Zeit zu maximieren.",
+                        "Möglichst viele Zustände zu explorieren.",
+                        "Die Anzahl der ausgeführten Aktionen zu minimieren."
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "Welche der folgenden Komponenten gehört NICHT zu einem Markov Decision Process (MDP)?",
+                    options: [
+                        "Zustandsraum (S)",
+                        "Aktionsraum (A)",
+                        "Belohnungsfunktion (R)",
+                        "Die interne Speichergröße des Agenten."
+                    ],
+                    answer: 3
+                },
+                {
+                    question: "Dynamische Programmierung (DP) Methoden benötigen zwingend:",
+                    options: [
+                        "Kein Modell der Umgebung.",
+                        "Ein perfektes Modell der Umgebung (P und R).",
+                        "Nur Beispiel-Episoden aus Erfahrung.",
+                        "Eine vordefinierte optimale Policy."
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "Value Iteration berechnet direkt die...",
+                    options: [
+                        "Optimale Policy $\\pi^*$.",
+                        "Optimale Zustands-Wertfunktion $V^*$.",
+                        "Übergangswahrscheinlichkeiten P.",
+                        "Belohnungsfunktion R."
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "Welche Methode lernt aus vollständigen Episoden, ist unverzerrt, kann aber hohe Varianz aufweisen?",
+                    options: [
+                        "Temporal Difference (TD) Learning.",
+                        "Monte Carlo (MC) Methoden.",
+                        "Dynamische Programmierung.",
+                        "Q-Learning."
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "TD(0) Learning aktualisiert seine Wertschätzung basierend auf:",
+                    options: [
+                        "Dem finalen Ergebnis der gesamten Episode.",
+                        "Der beobachteten Belohnung und der geschätzten Wertfunktion des *nächsten* Zustands (Bootstrapping).",
+                        "Einem perfekten Modell der Zustandsübergänge.",
+                        "Nur der unmittelbaren Belohnung, ignoriert zukünftige Zustände."
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "Was bedeutet \"On-Policy\" im Kontext von Algorithmen wie SARSA?",
+                    options: [
+                        "Es lernt den Wert der optimalen Policy, unabhängig von den Aktionen des Agenten.",
+                        "Es lernt den Wert der Policy, die der Agent aktuell verfolgt.",
+                        "Es benötigt keine Policy, um zu lernen.",
+                        "Es kann nur verwendet werden, wenn die Policy deterministisch ist."
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "Q-Learning ist ein \"Off-Policy\" Algorithmus, weil:",
+                    options: [
+                        "Es immer zufällige Aktionen wählt.",
+                        "Seine Updates die tatsächlich im nächsten Schritt ausgeführte Aktion verwenden.",
+                        "Es seine Q-Werte in Richtung des maximal möglichen Q-Wertes des nächsten Zustands aktualisiert, unabhängig davon, welche Aktion zur Exploration tatsächlich ausgeführt wurde.",
+                        "Es eine separate Policy für die Evaluation und eine andere für die Steuerung benötigt."
+                    ],
+                    answer: 2
+                }
+            ],
+            en: [
+                 {
+                    question: "What is the primary goal of a Reinforcement Learning agent?",
+                    options: [
+                        "To perfectly understand the dynamics of the environment.",
+                        "To maximize the cumulative reward over time.",
+                        "To explore as many states as possible.",
+                        "To minimize the number of actions taken."
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "Which of the following components is NOT part of a Markov Decision Process (MDP)?",
+                    options: [
+                        "State Space (S)",
+                        "Action Space (A)",
+                        "Reward Function (R)",
+                        "The agent's internal memory size."
+                    ],
+                    answer: 3
+                },
+                {
+                    question: "Dynamic Programming (DP) methods necessarily require:",
+                    options: [
+                        "No model of the environment.",
+                        "A perfect model of the environment (P and R).",
+                        "Only sample episodes from experience.",
+                        "A predefined optimal policy."
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "Value Iteration directly computes the...",
+                    options: [
+                        "Optimal policy $\\pi^*$.",
+                        "Optimal state-value function $V^*$.",
+                        "Transition probabilities P.",
+                        "Reward function R."
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "Which method learns from complete episodes, is unbiased, but can have high variance?",
+                    options: [
+                        "Temporal Difference (TD) Learning.",
+                        "Monte Carlo (MC) Methods.",
+                        "Dynamic Programming.",
+                        "Q-Learning."
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "TD(0) Learning updates its value estimate based on:",
+                    options: [
+                        "The final outcome of the entire episode.",
+                        "The observed reward and the estimated value function of the *next* state (bootstrapping).",
+                        "A perfect model of state transitions.",
+                        "Only the immediate reward, ignoring future states."
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "What does \"On-Policy\" mean in the context of algorithms like SARSA?",
+                    options: [
+                        "It learns the value of the optimal policy, regardless of the agent's actions.",
+                        "It learns the value of the policy the agent is currently following.",
+                        "It does not require a policy to learn.",
+                        "It can only be used if the policy is deterministic."
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "Q-Learning is an \"Off-Policy\" algorithm because:",
+                    options: [
+                        "It always chooses random actions.",
+                        "Its updates use the action actually taken in the next step.",
+                        "It updates its Q-values towards the maximum possible Q-value of the next state, regardless of which action was actually taken for exploration.",
+                        "It requires a separate policy for evaluation and another for control."
+                    ],
+                    answer: 2
+                }
+            ]
+        };
+
+        let currentLanguage = 'de'; // Default language
+        let currentQuizData = quizDataStore[currentLanguage];
+        let chartInstance = null;
+
+
+        // --- I18N Functions ---
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            currentQuizData = quizDataStore[lang];
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+            
+            document.title = translations[lang].pageTitle || "Reinforcement Learning Infographic";
+
+            // Update active button style
+            document.getElementById('lang-de-btn').classList.toggle('active', lang === 'de');
+            document.getElementById('lang-en-btn').classList.toggle('active', lang === 'en');
+
+            updateChartLanguage();
+            if (document.getElementById('quiz-area').style.display !== 'none' && !quizResultsAreaEl.style.display !== 'none') { // Only reload if quiz is active
+                 if (currentQuestionIndex < currentQuizData.length) { // check if quiz was already finished
+                    loadQuestion(); // Reload current question with new language
+                 } else { // if quiz was finished, update results text
+                    showResults();
+                 }
+            } else if (quizResultsAreaEl.style.display !== 'none') { // if quiz was finished and results are shown
+                 showResults(); // to update "Your score" etc.
+            }
+
+
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise();
+            }
+        }
+
+        document.getElementById('lang-de-btn').addEventListener('click', () => setLanguage('de'));
+        document.getElementById('lang-en-btn').addEventListener('click', () => setLanguage('en'));
+
+
+        // --- Chart Logic ---
+        function wrapLabels(label, maxWidth) {
+            const lang = currentLanguage || 'de'; // Fallback to 'de' if not set
+            const originalLabel = (typeof label === 'object' && label !== null && label[lang]) ? label[lang] : String(label);
+
+            if (typeof originalLabel !== 'string') {
+                if (Array.isArray(originalLabel)) return originalLabel;
+                return [String(originalLabel)];
+            }
+            const words = originalLabel.split(' ');
             let lines = [];
             let currentLine = '';
             for (const word of words) {
@@ -494,26 +1064,39 @@
         const tooltipTitleCallback = (tooltipItems) => {
             const item = tooltipItems[0];
             let label = item.chart.data.labels[item.dataIndex];
-            if (Array.isArray(label)) {
+            if (Array.isArray(label)) { // Already wrapped
                 return label.join(' ');
             }
-            return label;
+            // If not an array, it means it's a key for translation or already translated
+            const currentTrans = translations[currentLanguage];
+            if (typeof label === 'string' && currentTrans[label]) { // Check if it's a key
+                 return currentTrans[label];
+            }
+            return label; // Fallback
         };
+        
+        function getChartConfig() {
+            const currentTrans = translations[currentLanguage];
+            const chartLabels = [
+                currentTrans.chart_mcVsTd_label_bias,
+                currentTrans.chart_mcVsTd_label_variance,
+                wrapLabels(currentTrans.chart_mcVsTd_label_updateFreq, 16),
+                wrapLabels(currentTrans.chart_mcVsTd_label_incompleteEp, 16),
+                wrapLabels(currentTrans.chart_mcVsTd_label_initSens, 16)
+            ];
 
-        const mcVsTdCtx = document.getElementById('mcVsTdChart').getContext('2d');
-        if (mcVsTdCtx) {
-            new Chart(mcVsTdCtx, {
+            return {
                 type: 'bar',
                 data: {
-                    labels: ['Bias', 'Varianz', wrapLabels('Update Häufigkeit', 16), wrapLabels('Nutzung unvollst. Episoden', 16), wrapLabels('Sensitivität Initialisierung', 16)],
+                    labels: chartLabels,
                     datasets: [{
-                        label: 'Monte Carlo (MC)',
+                        label: currentTrans.chart_mcVsTd_dataset_mc,
                         data: [1, 5, 1, 1, 1],
                         backgroundColor: 'rgba(0, 123, 255, 0.7)',
                         borderColor: 'rgba(0, 123, 255, 1)',
                         borderWidth: 1
                     }, {
-                        label: 'Temporal Difference (TD)',
+                        label: currentTrans.chart_mcVsTd_dataset_td,
                         data: [3, 2, 5, 5, 4],
                         backgroundColor: 'rgba(255, 193, 7, 0.7)',
                         borderColor: 'rgba(255, 193, 7, 1)',
@@ -526,7 +1109,7 @@
                     plugins: {
                         title: {
                             display: true,
-                            text: 'Vergleich: MC vs. TD Eigenschaften (Skala 1=Niedrig/Nein, 5=Hoch/Ja)',
+                            text: currentTrans.chart_mcVsTd_title,
                             font: { size: 18, weight: 'bold' },
                             padding: { top: 10, bottom: 20 },
                             color: '#0056B3'
@@ -534,27 +1117,28 @@
                         tooltip: {
                             callbacks: {
                                title: tooltipTitleCallback,
-                                label: function(context) {
+                               label: function(context) {
                                     let label = context.dataset.label || '';
                                     if (label) {
                                         label += ': ';
                                     }
-                                    const a_value = context.raw;
-                                    let characteristic = context.label;
-                                    if (Array.isArray(characteristic)) characteristic = characteristic.join(' ');
+                                    const characteristicIndex = context.dataIndex;
+                                    const datasetLabel = context.dataset.label;
 
-                                    if (characteristic.includes('Bias')) {
-                                       label += (a_value === 1 ? 'Niedrig (Unverzerrt)' : 'Mittel (Verzerrt)');
-                                    } else if (characteristic.includes('Varianz')) {
-                                       label += (a_value === 5 ? 'Hoch' : 'Niedrig');
-                                    } else if (characteristic.includes('Update')) {
-                                       label += (a_value === 1 ? 'Am Episodenende' : 'Nach jedem Schritt');
-                                    } else if (characteristic.includes('Episoden')) {
-                                       label += (a_value === 1 ? 'Nein' : 'Ja (Bootstrapping)');
-                                    } else if (characteristic.includes('Initialisierung')) {
-                                       label += (a_value === 1 ? 'Unempfindlich' : 'Empfindlich');
+                                    if (datasetLabel === currentTrans.chart_mcVsTd_dataset_mc) { // MC
+                                        if (characteristicIndex === 0) label += currentTrans.tooltip_bias_low_mc;
+                                        else if (characteristicIndex === 1) label += currentTrans.tooltip_variance_high_mc;
+                                        else if (characteristicIndex === 2) label += currentTrans.tooltip_update_episode_mc;
+                                        else if (characteristicIndex === 3) label += currentTrans.tooltip_incomplete_no_mc;
+                                        else if (characteristicIndex === 4) label += currentTrans.tooltip_init_insensitive_mc;
+                                    } else if (datasetLabel === currentTrans.chart_mcVsTd_dataset_td) { // TD
+                                        if (characteristicIndex === 0) label += currentTrans.tooltip_bias_medium_td;
+                                        else if (characteristicIndex === 1) label += currentTrans.tooltip_variance_low_td;
+                                        else if (characteristicIndex === 2) label += currentTrans.tooltip_update_step_td;
+                                        else if (characteristicIndex === 3) label += currentTrans.tooltip_incomplete_yes_td;
+                                        else if (characteristicIndex === 4) label += currentTrans.tooltip_init_sensitive_td;
                                     } else {
-                                       label += a_value;
+                                        label += context.raw; 
                                     }
                                     return label;
                                 }
@@ -568,13 +1152,12 @@
                             ticks: {
                                 stepSize: 1,
                                 callback: function(value) {
+                                    const currentTrans = translations[currentLanguage];
                                     switch(value) {
-                                        case 1: return '1 (Niedrig/Nein)';
-                                        case 2: return '2';
-                                        case 3: return '3 (Mittel)';
-                                        case 4: return '4';
-                                        case 5: return '5 (Hoch/Ja)';
-                                        default: return '';
+                                        case 1: return currentTrans.chart_mcVsTd_yAxis_lowNo;
+                                        case 3: return currentTrans.chart_mcVsTd_yAxis_medium;
+                                        case 5: return currentTrans.chart_mcVsTd_yAxis_highYes;
+                                        default: return value === 0 || value === 2 || value === 4 ? String(value) : '';
                                     }
                                 },
                                color: '#0056B3',
@@ -594,93 +1177,28 @@
                         easing: 'easeInOutQuart'
                     }
                 }
-            });
+            }
+        };
+        
+        function updateChartLanguage() {
+            if (chartInstance) {
+                const config = getChartConfig();
+                chartInstance.data.labels = config.data.labels;
+                chartInstance.data.datasets[0].label = config.data.datasets[0].label;
+                chartInstance.data.datasets[1].label = config.data.datasets[1].label;
+                chartInstance.options.plugins.title.text = config.options.plugins.title.text;
+                // Y-axis ticks are handled by callback which uses currentLanguage
+                chartInstance.update();
+            }
         }
 
-        // Quiz Logic
-        const quizData = [
-            {
-                question: "Was ist das primäre Ziel eines Reinforcement Learning Agenten?",
-                options: [
-                    "Die Dynamik der Umgebung perfekt zu verstehen.",
-                    "Die kumulative Belohnung über die Zeit zu maximieren.",
-                    "Möglichst viele Zustände zu explorieren.",
-                    "Die Anzahl der ausgeführten Aktionen zu minimieren."
-                ],
-                answer: 1 // Index der korrekten Antwort
-            },
-            {
-                question: "Welche der folgenden Komponenten gehört NICHT zu einem Markov Decision Process (MDP)?",
-                options: [
-                    "Zustandsraum (S)",
-                    "Aktionsraum (A)",
-                    "Belohnungsfunktion (R)",
-                    "Die interne Speichergröße des Agenten."
-                ],
-                answer: 3
-            },
-            {
-                question: "Dynamische Programmierung (DP) Methoden benötigen zwingend:",
-                options: [
-                    "Kein Modell der Umgebung.",
-                    "Ein perfektes Modell der Umgebung (P und R).",
-                    "Nur Beispiel-Episoden aus Erfahrung.",
-                    "Eine vordefinierte optimale Policy."
-                ],
-                answer: 1
-            },
-            {
-                question: "Value Iteration berechnet direkt die...",
-                options: [
-                    "Optimale Policy $\\pi^*$.",
-                    "Optimale Zustands-Wertfunktion $V^*$.",
-                    "Übergangswahrscheinlichkeiten P.",
-                    "Belohnungsfunktion R."
-                ],
-                answer: 1
-            },
-            {
-                question: "Welche Methode lernt aus vollständigen Episoden, ist unverzerrt, kann aber hohe Varianz aufweisen?",
-                options: [
-                    "Temporal Difference (TD) Learning.",
-                    "Monte Carlo (MC) Methoden.",
-                    "Dynamische Programmierung.",
-                    "Q-Learning."
-                ],
-                answer: 1
-            },
-            {
-                question: "TD(0) Learning aktualisiert seine Wertschätzung basierend auf:",
-                options: [
-                    "Dem finalen Ergebnis der gesamten Episode.",
-                    "Der beobachteten Belohnung und der geschätzten Wertfunktion des *nächsten* Zustands (Bootstrapping).",
-                    "Einem perfekten Modell der Zustandsübergänge.",
-                    "Nur der unmittelbaren Belohnung, ignoriert zukünftige Zustände."
-                ],
-                answer: 1
-            },
-            {
-                question: "Was bedeutet \"On-Policy\" im Kontext von Algorithmen wie SARSA?",
-                options: [
-                    "Es lernt den Wert der optimalen Policy, unabhängig von den Aktionen des Agenten.",
-                    "Es lernt den Wert der Policy, die der Agent aktuell verfolgt.",
-                    "Es benötigt keine Policy, um zu lernen.",
-                    "Es kann nur verwendet werden, wenn die Policy deterministisch ist."
-                ],
-                answer: 1
-            },
-            {
-                question: "Q-Learning ist ein \"Off-Policy\" Algorithmus, weil:",
-                options: [
-                    "Es immer zufällige Aktionen wählt.",
-                    "Seine Updates die tatsächlich im nächsten Schritt ausgeführte Aktion verwenden.",
-                    "Es seine Q-Werte in Richtung des maximal möglichen Q-Wertes des nächsten Zustands aktualisiert, unabhängig davon, welche Aktion zur Exploration tatsächlich ausgeführt wurde.",
-                    "Es eine separate Policy für die Evaluation und eine andere für die Steuerung benötigt."
-                ],
-                answer: 2
-            }
-        ];
+        const mcVsTdCtx = document.getElementById('mcVsTdChart');
+        if (mcVsTdCtx) {
+            chartInstance = new Chart(mcVsTdCtx.getContext('2d'), getChartConfig());
+        }
 
+
+        // --- Quiz Logic ---
         const questionTextEl = document.getElementById('question-text');
         const optionsContainerEl = document.getElementById('options-container');
         const feedbackAreaEl = document.getElementById('quiz-feedback-area');
@@ -691,7 +1209,6 @@
         const questionCounterEl = document.getElementById('question-counter');
         const quizQuestionContainerEl = document.getElementById('quiz-question-container');
 
-
         let currentQuestionIndex = 0;
         let score = 0;
         let selectedOptionElement = null;
@@ -700,14 +1217,14 @@
         function loadQuestion() {
             answerSubmitted = false;
             selectedOptionElement = null;
-            const currentQuestion = quizData[currentQuestionIndex];
-            questionTextEl.innerHTML = currentQuestion.question; // Use innerHTML for MathJax
+            const currentQuestion = currentQuizData[currentQuestionIndex];
+            questionTextEl.innerHTML = currentQuestion.question; 
             
             optionsContainerEl.innerHTML = '';
             currentQuestion.options.forEach((option, index) => {
                 const optionEl = document.createElement('button');
                 optionEl.classList.add('quiz-option');
-                optionEl.innerHTML = option; // Use innerHTML for MathJax
+                optionEl.innerHTML = option; 
                 optionEl.dataset.index = index;
                 optionEl.addEventListener('click', selectOption);
                 optionsContainerEl.appendChild(optionEl);
@@ -717,8 +1234,11 @@
             nextQuestionBtn.disabled = true;
             nextQuestionBtn.classList.add('opacity-50', 'cursor-not-allowed');
             nextQuestionBtn.classList.remove('opacity-100');
-            questionCounterEl.textContent = `Frage ${currentQuestionIndex + 1} von ${quizData.length}`;
-            if (window.MathJax && window.MathJax.typeset) {
+            questionCounterEl.textContent = `${translations[currentLanguage].quiz_questionCounterPrefix} ${currentQuestionIndex + 1} ${translations[currentLanguage].quiz_questionCounterOf} ${currentQuizData.length}`;
+            nextQuestionBtn.textContent = translations[currentLanguage].quiz_nextButton;
+
+
+            if (window.MathJax && window.MathJax.typesetPromise) {
                 window.MathJax.typesetPromise([questionTextEl, optionsContainerEl]).catch(function (err) { console.error('MathJax typesetting error:', err); });
             }
         }
@@ -726,13 +1246,16 @@
         function selectOption(event) {
             if (answerSubmitted) return;
 
-            if (selectedOptionElement) {
-                selectedOptionElement.classList.remove('selected');
+            // Remove 'selected' from previously selected option if any
+            const currentlySelected = optionsContainerEl.querySelector('.quiz-option.selected');
+            if (currentlySelected) {
+                currentlySelected.classList.remove('selected');
             }
+
             selectedOptionElement = event.target.closest('.quiz-option');
             selectedOptionElement.classList.add('selected');
             
-            submitAnswer(); // Automatically submit after selection or require a submit button
+            submitAnswer(); 
         }
 
         function submitAnswer() {
@@ -740,25 +1263,27 @@
             answerSubmitted = true;
 
             const selectedAnswerIndex = parseInt(selectedOptionElement.dataset.index);
-            const correctAnswerIndex = quizData[currentQuestionIndex].answer;
+            const correctAnswerIndex = currentQuizData[currentQuestionIndex].answer;
 
-            optionsContainerEl.childNodes.forEach(child => child.disabled = true);
+            optionsContainerEl.childNodes.forEach(child => {
+                child.disabled = true; // Disable all options
+                child.classList.remove('selected'); // Remove general selected style
+            });
 
 
             if (selectedAnswerIndex === correctAnswerIndex) {
                 score++;
-                feedbackAreaEl.textContent = 'Richtig!';
+                feedbackAreaEl.textContent = translations[currentLanguage].quiz_feedbackCorrect;
                 feedbackAreaEl.className = 'quiz-feedback feedback-correct';
-                selectedOptionElement.classList.add('!bg-green-500', '!border-green-700', 'text-white');
+                selectedOptionElement.classList.add('correct');
             } else {
-                feedbackAreaEl.textContent = `Falsch. Die richtige Antwort war: ${quizData[currentQuestionIndex].options[correctAnswerIndex]}`;
+                feedbackAreaEl.innerHTML = `${translations[currentLanguage].quiz_feedbackIncorrectPrefix} "${currentQuizData[currentQuestionIndex].options[correctAnswerIndex]}"`;
                 feedbackAreaEl.className = 'quiz-feedback feedback-incorrect';
-                selectedOptionElement.classList.add('!bg-red-500', '!border-red-700', 'text-white');
-                // Highlight correct answer
-                optionsContainerEl.childNodes[correctAnswerIndex].classList.add('!bg-green-300', '!border-green-500', '!text-black');
+                selectedOptionElement.classList.add('incorrect');
+                optionsContainerEl.childNodes[correctAnswerIndex].classList.add('correct');
             }
             feedbackAreaEl.style.display = 'block';
-            if (window.MathJax && window.MathJax.typeset) { // Retypeset if feedback contains math
+            if (window.MathJax && window.MathJax.typesetPromise) { 
                  window.MathJax.typesetPromise([feedbackAreaEl]).catch(function (err) { console.error('MathJax typesetting error:', err); });
             }
 
@@ -766,15 +1291,15 @@
             nextQuestionBtn.classList.remove('opacity-50', 'cursor-not-allowed');
             nextQuestionBtn.classList.add('opacity-100');
 
-            if (currentQuestionIndex === quizData.length - 1) {
-                nextQuestionBtn.textContent = 'Ergebnisse anzeigen';
+            if (currentQuestionIndex === currentQuizData.length - 1) {
+                nextQuestionBtn.textContent = translations[currentLanguage].quiz_resultsButton;
             }
         }
 
 
         nextQuestionBtn.addEventListener('click', () => {
             currentQuestionIndex++;
-            if (currentQuestionIndex < quizData.length) {
+            if (currentQuestionIndex < currentQuizData.length) {
                 loadQuestion();
             } else {
                 showResults();
@@ -786,25 +1311,28 @@
             score = 0;
             quizResultsAreaEl.style.display = 'none';
             quizQuestionContainerEl.style.display = 'block';
-            optionsContainerEl.style.display = 'block';
-            document.getElementById('quiz-navigation').style.display = 'flex';
-            nextQuestionBtn.textContent = 'Nächste Frage';
+            document.getElementById('quiz-navigation').style.display = 'flex'; // Show navigation
+            nextQuestionBtn.textContent = translations[currentLanguage].quiz_nextButton;
             loadQuestion();
         });
 
         function showResults() {
             quizQuestionContainerEl.style.display = 'none';
-            optionsContainerEl.style.display = 'none';
             feedbackAreaEl.style.display = 'none';
-            document.getElementById('quiz-navigation').style.display = 'none';
+            document.getElementById('quiz-navigation').style.display = 'none'; // Hide navigation
             quizResultsAreaEl.style.display = 'block';
-            scoreTextEl.textContent = `${score} von ${quizData.length} (${((score / quizData.length) * 100).toFixed(0)}%)`;
+            
+            const scoreSuffix = score === 1 ? translations[currentLanguage].quiz_scoreSuffix_singular : translations[currentLanguage].quiz_scoreSuffix_plural;
+            scoreTextEl.textContent = `${score} ${translations[currentLanguage].quiz_scoreOutOf} ${currentQuizData.length} (${((score / currentQuizData.length) * 100).toFixed(0)}%)`;
         }
 
-        // Initial load
-        if (document.getElementById('quiz-area')) {
-             loadQuestion();
-        }
+        // Initial page load
+        document.addEventListener('DOMContentLoaded', () => {
+            setLanguage(currentLanguage); // Set initial language (default 'de')
+            if (document.getElementById('quiz-area')) {
+                 loadQuestion();
+            }
+        });
 
     </script>
 
