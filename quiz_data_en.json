@@ -1,0 +1,153 @@
+[
+  {
+    "id": "q1_rl_goal",
+    "type": "multiple-choice",
+    "question": "What is the primary goal of a Reinforcement Learning agent?",
+    "options": [
+      "To perfectly understand the dynamics of the environment.",
+      "To maximize the cumulative reward over time.",
+      "To explore as many states as possible.",
+      "To minimize the number of actions taken."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "q2_mdp_components",
+    "type": "multiple-choice",
+    "question": "Which of the following components is NOT part of a Markov Decision Process (MDP)?",
+    "options": [
+      "State Space (S)",
+      "Action Space (A)",
+      "Reward Function (R)",
+      "The agent's internal memory size."
+    ],
+    "answer": 3
+  },
+  {
+    "id": "q3_dp_requirement",
+    "type": "multiple-choice",
+    "question": "Dynamic Programming (DP) methods necessarily require:",
+    "options": [
+      "No model of the environment.",
+      "A perfect model of the environment (P and R).",
+      "Only sample episodes from experience.",
+      "A predefined optimal policy."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "q4_value_iteration_calculates",
+    "type": "multiple-choice",
+    "question": "Value Iteration directly computes the...",
+    "options": [
+      "Optimal policy $\\pi^*$.",
+      "Optimal state-value function $V^*$.",
+      "Transition probabilities P.",
+      "Reward function R."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "q5_mc_properties",
+    "type": "multiple-choice",
+    "question": "Which method learns from complete episodes, is unbiased, but can have high variance?",
+    "options": [
+      "Temporal Difference (TD) Learning.",
+      "Monte Carlo (MC) Methods.",
+      "Dynamic Programming.",
+      "Q-Learning."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "q6_td0_update",
+    "type": "multiple-choice",
+    "question": "TD(0) Learning updates its value estimate based on:",
+    "options": [
+      "The final outcome of the entire episode.",
+      "The observed reward and the estimated value function of the *next* state (bootstrapping).",
+      "A perfect model of state transitions.",
+      "Only the immediate reward, ignoring future states."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "q7_on_policy_sarsa",
+    "type": "multiple-choice",
+    "question": "What does \"On-Policy\" mean in the context of algorithms like SARSA?",
+    "options": [
+      "It learns the value of the optimal policy, regardless of the agent's actions.",
+      "It learns the value of the policy the agent is currently following.",
+      "It does not require a policy to learn.",
+      "It can only be used if the policy is deterministic."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "q8_off_policy_qlearning",
+    "type": "multiple-choice",
+    "question": "Q-Learning is an \"Off-Policy\" algorithm because:",
+    "options": [
+      "It always chooses random actions.",
+      "Its updates use the action actually taken in the next step.",
+      "It updates its Q-values towards the maximum possible Q-value of the next state, regardless of which action was actually taken for exploration.",
+      "It requires a separate policy for evaluation and another for control."
+    ],
+    "answer": 2
+  },
+  {
+    "id": "q9_double_q_purpose",
+    "type": "multiple-choice",
+    "question": "What is the main purpose of Double Q-Learning?",
+    "options": [
+      "To double the learning rate.",
+      "To reduce maximization bias (overestimation of Q-values).",
+      "To model two environments simultaneously.",
+      "To speed up exploration."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "q10_vfa_usage",
+    "type": "multiple-choice",
+    "question": "Value Function Approximation (VFA) is typically used when...",
+    "options": [
+      "The environment model is perfectly known.",
+      "The state and/or action space is very large or continuous.",
+      "There is very little training data.",
+      "One wants to increase the variance of the estimates."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "q11_maximization_bias",
+    "type": "multiple-choice",
+    "question": "What is meant by maximization bias in the context of Q-Learning?",
+    "options": [
+      "A tendency to maximize rewards even if it's suboptimal.",
+      "A systematic overestimation of action values due to the use of the maximum operator in the update.",
+      "A tendency to maximize the number of actions in an episode.",
+      "An error that occurs when the learning rate is too high."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "q12_expected_sarsa_advantage",
+    "type": "multiple-choice",
+    "question": "What is an advantage of Expected SARSA over standard SARSA?",
+    "options": [
+      "It always converges faster.",
+      "It typically has lower variance in its updates.",
+      "It does not require an $\\epsilon$-greedy policy for exploration.",
+      "It is an off-policy algorithm."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "q13_yes_no_markov",
+    "type": "yes-no",
+    "question": "Is the Markov property fundamental for most standard RL algorithms?",
+    "options": ["Yes", "No"],
+    "answer": 0
+  }
+]
