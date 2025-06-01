@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reinforcement Learning Infografik - Vertieft</title>
+    <title>Reinforcement Learning Infografik - Vertieft mit Quiz</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -80,14 +80,14 @@
         h1, h2, h3, h4 {
             color: #0056B3;
         }
-        .math-formula { /* For inline MathJax, if needed, though $...$ should suffice */
+        .math-formula {
             font-family: 'Inter', sans-serif;
-            font-size: 1.05em; /* Slightly larger for readability */
+            font-size: 1.05em;
             background-color: #f0f9ff;
             padding: 0.2em 0.4em;
             border-radius: 0.25rem;
             color: #022c43;
-            display: inline-block; /* Ensures padding and background work well */
+            display: inline-block;
         }
         .equation-block {
             background-color: #f8f9fa;
@@ -109,14 +109,76 @@
             left: -0.25rem;
             color: #007BFF;
         }
+        .quiz-container {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+        }
+        .quiz-question {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #0056B3;
+        }
+        .quiz-option {
+            display: block;
+            background-color: #f0f9ff;
+            border: 1px solid #90e0ef;
+            border-radius: 0.375rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+        }
+        .quiz-option:hover {
+            background-color: #caf0f8;
+            border-color: #007BFF;
+        }
+        .quiz-option.selected {
+            background-color: #007BFF;
+            color: white;
+            border-color: #0056B3;
+        }
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+        }
+        .feedback-correct {
+            background-color: #d1fae5; /* Tailwind green-100 */
+            color: #065f46; /* Tailwind green-800 */
+            border: 1px solid #6ee7b7; /* Tailwind green-300 */
+        }
+        .feedback-incorrect {
+            background-color: #fee2e2; /* Tailwind red-100 */
+            color: #991b1b; /* Tailwind red-800 */
+            border: 1px solid #fca5a5; /* Tailwind red-300 */
+        }
+        .quiz-navigation button {
+            background-color: #007BFF;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        .quiz-navigation button:hover {
+            background-color: #0056B3;
+        }
+        .quiz-navigation button:disabled {
+            background-color: #a0aec0; /* Tailwind gray-400 */
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body class="text-gray-800">
 
     <header class="bg-blue-600 text-white p-6 shadow-lg">
         <div class="container mx-auto text-center">
-            <h1 class="text-4xl font-bold">Reinforcement Learning: Vertiefte Einblicke</h1>
-            <p class="mt-2 text-lg">Detaillierte Konzepte und Algorithmen visualisiert</p>
+            <h1 class="text-4xl font-bold">Reinforcement Learning: Vertiefte Einblicke & Quiz</h1>
+            <p class="mt-2 text-lg">Detaillierte Konzepte, Algorithmen und interaktives Quiz</p>
         </div>
     </header>
 
@@ -377,6 +439,30 @@
             </div>
         </section>
 
+        <section id="quiz" class="bg-white p-8 rounded-lg shadow-xl">
+            <h2 class="text-3xl font-semibold mb-8 text-center text-blue-700">Wissens-Quiz zur Zwischenprüfung</h2>
+            <div id="quiz-area" class="quiz-container max-w-2xl mx-auto">
+                <div id="quiz-question-container">
+                    <p class="quiz-question" id="question-text">Frage wird geladen...</p>
+                    <div id="options-container">
+                        </div>
+                </div>
+                <div id="quiz-feedback-area" class="quiz-feedback" style="display: none;"></div>
+                <div class="quiz-navigation mt-6 flex justify-between items-center">
+                    <span id="question-counter" class="text-sm text-gray-600"></span>
+                    <button id="next-question-btn" class="opacity-50 cursor-not-allowed" disabled>Nächste Frage</button>
+                </div>
+                <div id="quiz-results-area" class="mt-6" style="display: none;">
+                    <h3 class="text-2xl font-semibold text-center text-blue-600">Quiz beendet!</h3>
+                    <p class="text-lg text-center mt-2">Dein Ergebnis: <span id="score-text" class="font-bold"></span></p>
+                    <div class="text-center mt-4">
+                        <button id="restart-quiz-btn" class="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-md font-semibold">Quiz neu starten</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
     </main>
 
     <footer class="bg-blue-700 text-white text-center p-8 mt-16">
@@ -386,9 +472,9 @@
 
     <script>
         function wrapLabels(label, maxWidth) {
-            if (typeof label !== 'string') { // Handle cases where label might already be an array
+            if (typeof label !== 'string') { 
                 if (Array.isArray(label)) return label;
-                return [String(label)]; // Convert to string if not already
+                return [String(label)]; 
             }
             const words = label.split(' ');
             let lines = [];
@@ -415,99 +501,311 @@
         };
 
         const mcVsTdCtx = document.getElementById('mcVsTdChart').getContext('2d');
-        new Chart(mcVsTdCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Bias', 'Varianz', wrapLabels('Update Häufigkeit', 16), wrapLabels('Nutzung unvollst. Episoden', 16), wrapLabels('Sensitivität Initialisierung', 16)],
-                datasets: [{
-                    label: 'Monte Carlo (MC)',
-                    data: [1, 5, 1, 1, 1],
-                    backgroundColor: 'rgba(0, 123, 255, 0.7)',
-                    borderColor: 'rgba(0, 123, 255, 1)',
-                    borderWidth: 1
-                }, {
-                    label: 'Temporal Difference (TD)',
-                    data: [3, 2, 5, 5, 4],
-                    backgroundColor: 'rgba(255, 193, 7, 0.7)',
-                    borderColor: 'rgba(255, 193, 7, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Vergleich: MC vs. TD Eigenschaften (Skala 1=Niedrig/Nein, 5=Hoch/Ja)',
-                        font: { size: 18, weight: 'bold' },
-                        padding: { top: 10, bottom: 20 },
-                        color: '#0056B3'
-                    },
-                    tooltip: {
-                        callbacks: {
-                           title: tooltipTitleCallback,
-                            label: function(context) {
-                                let label = context.dataset.label || '';
-                                if (label) {
-                                    label += ': ';
-                                }
-                                const a_value = context.raw;
-                                let characteristic = context.label;
-                                if (Array.isArray(characteristic)) characteristic = characteristic.join(' ');
+        if (mcVsTdCtx) {
+            new Chart(mcVsTdCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Bias', 'Varianz', wrapLabels('Update Häufigkeit', 16), wrapLabels('Nutzung unvollst. Episoden', 16), wrapLabels('Sensitivität Initialisierung', 16)],
+                    datasets: [{
+                        label: 'Monte Carlo (MC)',
+                        data: [1, 5, 1, 1, 1],
+                        backgroundColor: 'rgba(0, 123, 255, 0.7)',
+                        borderColor: 'rgba(0, 123, 255, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Temporal Difference (TD)',
+                        data: [3, 2, 5, 5, 4],
+                        backgroundColor: 'rgba(255, 193, 7, 0.7)',
+                        borderColor: 'rgba(255, 193, 7, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Vergleich: MC vs. TD Eigenschaften (Skala 1=Niedrig/Nein, 5=Hoch/Ja)',
+                            font: { size: 18, weight: 'bold' },
+                            padding: { top: 10, bottom: 20 },
+                            color: '#0056B3'
+                        },
+                        tooltip: {
+                            callbacks: {
+                               title: tooltipTitleCallback,
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    const a_value = context.raw;
+                                    let characteristic = context.label;
+                                    if (Array.isArray(characteristic)) characteristic = characteristic.join(' ');
 
-                                if (characteristic.includes('Bias')) {
-                                   label += (a_value === 1 ? 'Niedrig (Unverzerrt)' : 'Mittel (Verzerrt)');
-                                } else if (characteristic.includes('Varianz')) {
-                                   label += (a_value === 5 ? 'Hoch' : 'Niedrig');
-                                } else if (characteristic.includes('Update')) {
-                                   label += (a_value === 1 ? 'Am Episodenende' : 'Nach jedem Schritt');
-                                } else if (characteristic.includes('Episoden')) {
-                                   label += (a_value === 1 ? 'Nein' : 'Ja (Bootstrapping)');
-                                } else if (characteristic.includes('Initialisierung')) {
-                                   label += (a_value === 1 ? 'Unempfindlich' : 'Empfindlich');
-                                } else {
-                                   label += a_value;
+                                    if (characteristic.includes('Bias')) {
+                                       label += (a_value === 1 ? 'Niedrig (Unverzerrt)' : 'Mittel (Verzerrt)');
+                                    } else if (characteristic.includes('Varianz')) {
+                                       label += (a_value === 5 ? 'Hoch' : 'Niedrig');
+                                    } else if (characteristic.includes('Update')) {
+                                       label += (a_value === 1 ? 'Am Episodenende' : 'Nach jedem Schritt');
+                                    } else if (characteristic.includes('Episoden')) {
+                                       label += (a_value === 1 ? 'Nein' : 'Ja (Bootstrapping)');
+                                    } else if (characteristic.includes('Initialisierung')) {
+                                       label += (a_value === 1 ? 'Unempfindlich' : 'Empfindlich');
+                                    } else {
+                                       label += a_value;
+                                    }
+                                    return label;
                                 }
-                                return label;
                             }
                         }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 5.5,
-                        ticks: {
-                            stepSize: 1,
-                            callback: function(value) {
-                                switch(value) {
-                                    case 1: return '1 (Niedrig/Nein)';
-                                    case 2: return '2';
-                                    case 3: return '3 (Mittel)';
-                                    case 4: return '4';
-                                    case 5: return '5 (Hoch/Ja)';
-                                    default: return '';
-                                }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 5.5,
+                            ticks: {
+                                stepSize: 1,
+                                callback: function(value) {
+                                    switch(value) {
+                                        case 1: return '1 (Niedrig/Nein)';
+                                        case 2: return '2';
+                                        case 3: return '3 (Mittel)';
+                                        case 4: return '4';
+                                        case 5: return '5 (Hoch/Ja)';
+                                        default: return '';
+                                    }
+                                },
+                               color: '#0056B3',
+                               font: { weight: '600'}
                             },
-                           color: '#0056B3',
-                           font: { weight: '600'}
+                            grid: {
+                                color: 'rgba(0, 86, 179, 0.15)'
+                            }
                         },
-                        grid: {
-                            color: 'rgba(0, 86, 179, 0.15)'
+                        x: {
+                             ticks: { color: '#0056B3', font: { weight: '600'}},
+                             grid: { display: false }
                         }
                     },
-                    x: {
-                         ticks: { color: '#0056B3', font: { weight: '600'}},
-                         grid: { display: false }
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeInOutQuart'
                     }
-                },
-                animation: {
-                    duration: 1000,
-                    easing: 'easeInOutQuart'
                 }
+            });
+        }
+
+        // Quiz Logic
+        const quizData = [
+            {
+                question: "Was ist das primäre Ziel eines Reinforcement Learning Agenten?",
+                options: [
+                    "Die Dynamik der Umgebung perfekt zu verstehen.",
+                    "Die kumulative Belohnung über die Zeit zu maximieren.",
+                    "Möglichst viele Zustände zu explorieren.",
+                    "Die Anzahl der ausgeführten Aktionen zu minimieren."
+                ],
+                answer: 1 // Index der korrekten Antwort
+            },
+            {
+                question: "Welche der folgenden Komponenten gehört NICHT zu einem Markov Decision Process (MDP)?",
+                options: [
+                    "Zustandsraum (S)",
+                    "Aktionsraum (A)",
+                    "Belohnungsfunktion (R)",
+                    "Die interne Speichergröße des Agenten."
+                ],
+                answer: 3
+            },
+            {
+                question: "Dynamische Programmierung (DP) Methoden benötigen zwingend:",
+                options: [
+                    "Kein Modell der Umgebung.",
+                    "Ein perfektes Modell der Umgebung (P und R).",
+                    "Nur Beispiel-Episoden aus Erfahrung.",
+                    "Eine vordefinierte optimale Policy."
+                ],
+                answer: 1
+            },
+            {
+                question: "Value Iteration berechnet direkt die...",
+                options: [
+                    "Optimale Policy $\\pi^*$.",
+                    "Optimale Zustands-Wertfunktion $V^*$.",
+                    "Übergangswahrscheinlichkeiten P.",
+                    "Belohnungsfunktion R."
+                ],
+                answer: 1
+            },
+            {
+                question: "Welche Methode lernt aus vollständigen Episoden, ist unverzerrt, kann aber hohe Varianz aufweisen?",
+                options: [
+                    "Temporal Difference (TD) Learning.",
+                    "Monte Carlo (MC) Methoden.",
+                    "Dynamische Programmierung.",
+                    "Q-Learning."
+                ],
+                answer: 1
+            },
+            {
+                question: "TD(0) Learning aktualisiert seine Wertschätzung basierend auf:",
+                options: [
+                    "Dem finalen Ergebnis der gesamten Episode.",
+                    "Der beobachteten Belohnung und der geschätzten Wertfunktion des *nächsten* Zustands (Bootstrapping).",
+                    "Einem perfekten Modell der Zustandsübergänge.",
+                    "Nur der unmittelbaren Belohnung, ignoriert zukünftige Zustände."
+                ],
+                answer: 1
+            },
+            {
+                question: "Was bedeutet \"On-Policy\" im Kontext von Algorithmen wie SARSA?",
+                options: [
+                    "Es lernt den Wert der optimalen Policy, unabhängig von den Aktionen des Agenten.",
+                    "Es lernt den Wert der Policy, die der Agent aktuell verfolgt.",
+                    "Es benötigt keine Policy, um zu lernen.",
+                    "Es kann nur verwendet werden, wenn die Policy deterministisch ist."
+                ],
+                answer: 1
+            },
+            {
+                question: "Q-Learning ist ein \"Off-Policy\" Algorithmus, weil:",
+                options: [
+                    "Es immer zufällige Aktionen wählt.",
+                    "Seine Updates die tatsächlich im nächsten Schritt ausgeführte Aktion verwenden.",
+                    "Es seine Q-Werte in Richtung des maximal möglichen Q-Wertes des nächsten Zustands aktualisiert, unabhängig davon, welche Aktion zur Exploration tatsächlich ausgeführt wurde.",
+                    "Es eine separate Policy für die Evaluation und eine andere für die Steuerung benötigt."
+                ],
+                answer: 2
+            }
+        ];
+
+        const questionTextEl = document.getElementById('question-text');
+        const optionsContainerEl = document.getElementById('options-container');
+        const feedbackAreaEl = document.getElementById('quiz-feedback-area');
+        const nextQuestionBtn = document.getElementById('next-question-btn');
+        const quizResultsAreaEl = document.getElementById('quiz-results-area');
+        const scoreTextEl = document.getElementById('score-text');
+        const restartQuizBtn = document.getElementById('restart-quiz-btn');
+        const questionCounterEl = document.getElementById('question-counter');
+        const quizQuestionContainerEl = document.getElementById('quiz-question-container');
+
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedOptionElement = null;
+        let answerSubmitted = false;
+
+        function loadQuestion() {
+            answerSubmitted = false;
+            selectedOptionElement = null;
+            const currentQuestion = quizData[currentQuestionIndex];
+            questionTextEl.innerHTML = currentQuestion.question; // Use innerHTML for MathJax
+            
+            optionsContainerEl.innerHTML = '';
+            currentQuestion.options.forEach((option, index) => {
+                const optionEl = document.createElement('button');
+                optionEl.classList.add('quiz-option');
+                optionEl.innerHTML = option; // Use innerHTML for MathJax
+                optionEl.dataset.index = index;
+                optionEl.addEventListener('click', selectOption);
+                optionsContainerEl.appendChild(optionEl);
+            });
+
+            feedbackAreaEl.style.display = 'none';
+            nextQuestionBtn.disabled = true;
+            nextQuestionBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            nextQuestionBtn.classList.remove('opacity-100');
+            questionCounterEl.textContent = `Frage ${currentQuestionIndex + 1} von ${quizData.length}`;
+            if (window.MathJax && window.MathJax.typeset) {
+                window.MathJax.typesetPromise([questionTextEl, optionsContainerEl]).catch(function (err) { console.error('MathJax typesetting error:', err); });
+            }
+        }
+
+        function selectOption(event) {
+            if (answerSubmitted) return;
+
+            if (selectedOptionElement) {
+                selectedOptionElement.classList.remove('selected');
+            }
+            selectedOptionElement = event.target.closest('.quiz-option');
+            selectedOptionElement.classList.add('selected');
+            
+            submitAnswer(); // Automatically submit after selection or require a submit button
+        }
+
+        function submitAnswer() {
+            if (!selectedOptionElement || answerSubmitted) return;
+            answerSubmitted = true;
+
+            const selectedAnswerIndex = parseInt(selectedOptionElement.dataset.index);
+            const correctAnswerIndex = quizData[currentQuestionIndex].answer;
+
+            optionsContainerEl.childNodes.forEach(child => child.disabled = true);
+
+
+            if (selectedAnswerIndex === correctAnswerIndex) {
+                score++;
+                feedbackAreaEl.textContent = 'Richtig!';
+                feedbackAreaEl.className = 'quiz-feedback feedback-correct';
+                selectedOptionElement.classList.add('!bg-green-500', '!border-green-700', 'text-white');
+            } else {
+                feedbackAreaEl.textContent = `Falsch. Die richtige Antwort war: ${quizData[currentQuestionIndex].options[correctAnswerIndex]}`;
+                feedbackAreaEl.className = 'quiz-feedback feedback-incorrect';
+                selectedOptionElement.classList.add('!bg-red-500', '!border-red-700', 'text-white');
+                // Highlight correct answer
+                optionsContainerEl.childNodes[correctAnswerIndex].classList.add('!bg-green-300', '!border-green-500', '!text-black');
+            }
+            feedbackAreaEl.style.display = 'block';
+            if (window.MathJax && window.MathJax.typeset) { // Retypeset if feedback contains math
+                 window.MathJax.typesetPromise([feedbackAreaEl]).catch(function (err) { console.error('MathJax typesetting error:', err); });
+            }
+
+            nextQuestionBtn.disabled = false;
+            nextQuestionBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            nextQuestionBtn.classList.add('opacity-100');
+
+            if (currentQuestionIndex === quizData.length - 1) {
+                nextQuestionBtn.textContent = 'Ergebnisse anzeigen';
+            }
+        }
+
+
+        nextQuestionBtn.addEventListener('click', () => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
             }
         });
+
+        restartQuizBtn.addEventListener('click', () => {
+            currentQuestionIndex = 0;
+            score = 0;
+            quizResultsAreaEl.style.display = 'none';
+            quizQuestionContainerEl.style.display = 'block';
+            optionsContainerEl.style.display = 'block';
+            document.getElementById('quiz-navigation').style.display = 'flex';
+            nextQuestionBtn.textContent = 'Nächste Frage';
+            loadQuestion();
+        });
+
+        function showResults() {
+            quizQuestionContainerEl.style.display = 'none';
+            optionsContainerEl.style.display = 'none';
+            feedbackAreaEl.style.display = 'none';
+            document.getElementById('quiz-navigation').style.display = 'none';
+            quizResultsAreaEl.style.display = 'block';
+            scoreTextEl.textContent = `${score} von ${quizData.length} (${((score / quizData.length) * 100).toFixed(0)}%)`;
+        }
+
+        // Initial load
+        if (document.getElementById('quiz-area')) {
+             loadQuestion();
+        }
+
     </script>
 
 </body>
