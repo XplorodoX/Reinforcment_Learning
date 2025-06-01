@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reinforcement Learning Infografik - Vertieft mit Quiz</title>
+    <title>Reinforcement Learning Infografik - Detailliert mit Quiz</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -104,7 +104,7 @@
             position: relative;
         }
         .explanation-point::before {
-            content: "�";
+            content: "🔹";
             position: absolute;
             left: -0.25rem;
             color: #007BFF;
@@ -123,7 +123,7 @@
         }
         .quiz-option {
             display: block;
-            width: 100%; /* Ensure options take full width */
+            width: 100%; 
             background-color: #f0f9ff;
             border: 1px solid #90e0ef;
             border-radius: 0.375rem;
@@ -131,14 +131,14 @@
             margin-bottom: 0.75rem;
             cursor: pointer;
             transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
-            text-align: left; /* Align text to left for options */
+            text-align: left; 
         }
         .quiz-option:hover {
             background-color: #caf0f8;
             border-color: #007BFF;
         }
         .quiz-option.selected {
-            background-color: #007BFF !important; /* Ensure override */
+            background-color: #007BFF !important; 
             color: white !important;
             border-color: #0056B3 !important;
         }
@@ -190,7 +190,7 @@
             transition: background-color 0.2s;
         }
         .lang-btn.active {
-            background-color: #0056B3; /* Darker blue for active language */
+            background-color: #0056B3; 
             color: white;
         }
         .lang-btn:not(.active) {
@@ -199,6 +199,13 @@
         }
          .lang-btn:not(.active):hover {
             background-color: #0069d9;
+        }
+        .sub-concept-box {
+            background-color: #e6f7ff; /* Slightly different light blue */
+            border: 1px solid #ade8f4; /* Lighter border */
+            border-radius: 0.375rem;
+            padding: 1rem;
+            margin-top: 1rem;
         }
 
     </style>
@@ -211,8 +218,8 @@
 
     <header class="bg-blue-600 text-white p-6 shadow-lg">
         <div class="container mx-auto text-center">
-            <h1 class="text-4xl font-bold" data-i18n="headerTitle">Reinforcement Learning: Vertiefte Einblicke & Quiz</h1>
-            <p class="mt-2 text-lg" data-i18n="headerSubtitle">Detaillierte Konzepte, Algorithmen und interaktives Quiz</p>
+            <h1 class="text-4xl font-bold" data-i18n="headerTitle">Reinforcement Learning: Detaillierte Einblicke & Quiz</h1>
+            <p class="mt-2 text-lg" data-i18n="headerSubtitle">Vertiefte Konzepte, Algorithmen und interaktives Quiz</p>
         </div>
     </header>
 
@@ -439,6 +446,11 @@
                     <p class="mt-3 text-sm text-gray-600" data-i18n="sarsaNameOrigin">
                         Der Name SARSA kommt von der Sequenz der Ereignisse im Update: $(S_t, A_t, R_{t+1}, S_{t+1}, A_{t+1})$. $A_{t+1}$ wird gemäß der aktuellen (oft $\epsilon$-greedy) Policy gewählt.
                     </p>
+                     <div class="sub-concept-box mt-4">
+                        <h4 class="text-lg font-semibold text-sky-600 mb-2" data-i18n="expectedSarsaTitle">Expected SARSA</h4>
+                        <p class="text-sm text-gray-700" data-i18n="expectedSarsaDesc">Eine Variante, die den Erwartungswert über alle möglichen Aktionen $A_{t+1}$ gemäß der aktuellen Policy $\pi$ nimmt, anstatt die spezifisch gewählte Aktion $A_{t+1}$ zu verwenden. Dies kann die Varianz reduzieren.</p>
+                        <span class="math-formula block mt-2 text-xs">$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha [R_{t+1} + \gamma \sum_{a'} \pi(a'|S_{t+1}) Q(S_{t+1}, a') - Q(S_t, A_t)]$</span>
+                    </div>
                 </div>
                 <div class="concept-box bg-lime-50 border-lime-200 p-6">
                     <h3 class="text-2xl font-semibold mb-4 text-lime-700" data-i18n="qLearningTitle">Q-Learning (Off-Policy TD Control)</h3>
@@ -450,6 +462,11 @@
                     <p class="mt-3 text-sm text-gray-600" data-i18n="qLearningKeyDiff">
                         Der entscheidende Unterschied ist der Term $\max_{a'} Q(S_{t+1}, a')$, der den maximalen $Q$-Wert im Folgezustand verwendet, was der Aktion entspricht, die eine gierige Policy wählen würde (Zielpolicy).
                     </p>
+                    <div class="sub-concept-box mt-4">
+                        <h4 class="text-lg font-semibold text-lime-600 mb-2" data-i18n="doubleQLearningTitle">Double Q-Learning</h4>
+                        <p class="text-sm text-gray-700" data-i18n="doubleQLearningDesc">Standard Q-Learning kann unter bestimmten Umständen zu einer Überschätzung der Q-Werte führen (Maximierungs-Bias). Double Q-Learning adressiert dies, indem es zwei separate Q-Wert-Schätzungen ($Q_A$ und $Q_B$) pflegt. Eine wird zur Auswahl der besten Aktion im nächsten Zustand verwendet, die andere zur Bewertung dieser Aktion.</p>
+                        <p class="text-sm text-gray-700 mt-1" data-i18n="doubleQLearningUpdate">Z.B. Update für $Q_A$: $Q_A(S_t,A_t) \leftarrow Q_A(S_t,A_t) + \alpha [R_{t+1} + \gamma Q_B(S_{t+1}, \text{argmax}_{a'} Q_A(S_{t+1},a')) - Q_A(S_t,A_t)]$ (und umgekehrt für $Q_B$).</p>
+                    </div>
                 </div>
             </div>
             <div class="mt-10 p-6 bg-indigo-50 border border-indigo-200 rounded-lg">
@@ -470,6 +487,13 @@
                 <p class="text-sm text-gray-700 leading-relaxed" data-i18n="epsilonGreedyDesc">
                     Um sicherzustellen, dass der Agent alle relevanten Zustands-Aktions-Paare erkundet und nicht in lokalen Optima stecken bleibt, wird oft eine $\epsilon$-greedy Strategie verwendet. Mit einer kleinen Wahrscheinlichkeit $\epsilon$ wählt der Agent eine zufällige Aktion, anstatt der aktuell als optimal erachteten (gierigen) Aktion. Der Wert von $\epsilon$ wird oft im Laufe des Trainings reduziert (Annealing), um von Exploration zu Exploitation überzugehen.
                 </p>
+            </div>
+             <div class="mt-10 p-6 bg-purple-50 border border-purple-200 rounded-lg">
+                <h3 class="text-xl font-semibold text-purple-700 mb-3" data-i18n="vfaTitle">Ausblick: Wertfunktionsapproximation (VFA)</h3>
+                <p class="text-gray-700 leading-relaxed" data-i18n="vfaDesc">
+                    Für Probleme mit sehr großen oder kontinuierlichen Zustandsräumen sind tabellarische Darstellungen von $Q(s,a)$ (eine Tabelle für jedes Zustands-Aktions-Paar) nicht mehr praktikabel. Hier kommt die Wertfunktionsapproximation ins Spiel: Anstatt die Q-Werte exakt zu speichern, werden sie durch eine parametrisierte Funktion approximiert, z.B. eine lineare Funktion oder ein neuronales Netz: $Q(s,a; \mathbf{w}) \approx Q^*(s,a)$. Die Parameter $\mathbf{w}$ werden dann gelernt.
+                </p>
+                <p class="mt-2 text-sm text-gray-600" data-i18n="vfaExample">Ein bekanntes Beispiel ist das Deep Q-Network (DQN), das ein tiefes neuronales Netz zur Approximation der Q-Funktion verwendet und bemerkenswerte Erfolge in komplexen Umgebungen wie Atari-Spielen erzielt hat.</p>
             </div>
         </section>
 
@@ -500,7 +524,7 @@
     </main>
 
     <footer class="bg-blue-700 text-white text-center p-8 mt-16">
-        <p class="text-lg" data-i18n="footerText1">&copy; 2025 Vertiefte Reinforcement Learning Infografik.</p>
+        <p class="text-lg" data-i18n="footerText1">&copy; 2025 Detaillierte Reinforcement Learning Infografik.</p>
         <p class="text-sm" data-i18n="footerText2">Basierend auf Vorlesungsmaterialien und Standard-RL-Konzepten.</p>
     </footer>
 
@@ -508,9 +532,9 @@
         // --- I18N Data ---
         const translations = {
             de: {
-                pageTitle: "Reinforcement Learning Infografik - Vertieft mit Quiz",
-                headerTitle: "Reinforcement Learning: Vertiefte Einblicke & Quiz",
-                headerSubtitle: "Detaillierte Konzepte, Algorithmen und interaktives Quiz",
+                pageTitle: "Reinforcement Learning Infografik - Detailliert mit Quiz",
+                headerTitle: "Reinforcement Learning: Detaillierte Einblicke & Quiz",
+                headerSubtitle: "Vertiefte Konzepte, Algorithmen und interaktives Quiz",
                 section1Title: "1. Grundlagen: RL & Markov-Entscheidungsprozesse (MDPs)",
                 section1Intro: "Reinforcement Learning (RL) ist ein Paradigma des maschinellen Lernens, bei dem ein autonomer <strong>Agent</strong> lernt, optimale Sequenzen von Entscheidungen (Aktionen) in einer komplexen und oft unsicheren <strong>Umgebung</strong> zu treffen. Das primäre Ziel des Agenten ist es, die Summe der erhaltenen <strong>Belohnungen</strong> über die Zeit zu maximieren. Dieser Lernprozess ist fundamental iterativ und erfahrungsbasiert.",
                 agentEnvCycleTitle: "Der Agent-Umgebung-Interaktionszyklus",
@@ -616,10 +640,15 @@
                 sarsaDesc: "SARSA ist ein On-Policy TD-Algorithmus. \"On-Policy\" bedeutet, dass die $Q$-Werte für die Policy geschätzt und verbessert werden, die der Agent tatsächlich ausführt (inklusive explorativer Aktionen).",
                 sarsaUpdateRuleTitle: "Update-Regel für $Q(S_t, A_t)$:",
                 sarsaNameOrigin: "Der Name SARSA kommt von der Sequenz der Ereignisse im Update: $(S_t, A_t, R_{t+1}, S_{t+1}, A_{t+1})$. $A_{t+1}$ wird gemäß der aktuellen (oft $\\epsilon$-greedy) Policy gewählt.",
+                expectedSarsaTitle: "Expected SARSA",
+                expectedSarsaDesc: "Eine Variante, die den Erwartungswert über alle möglichen Aktionen $A_{t+1}$ gemäß der aktuellen Policy $\\pi$ nimmt, anstatt die spezifisch gewählte Aktion $A_{t+1}$ zu verwenden. Dies kann die Varianz reduzieren.",
                 qLearningTitle: "Q-Learning (Off-Policy TD Control)",
                 qLearningDesc: "Q-Learning ist ein Off-Policy TD-Algorithmus. \"Off-Policy\" bedeutet, dass es die optimale Aktions-Wertfunktion $Q^*(s,a)$ lernt, unabhängig von der Policy, die der Agent zur Exploration verwendet (Verhaltenspolicy), solange diese alle Zustands-Aktions-Paare ausreichend oft besucht.",
                 qLearningUpdateRuleTitle: "Update-Regel für $Q(S_t, A_t)$:",
                 qLearningKeyDiff: "Der entscheidende Unterschied ist der Term $\\max_{a'} Q(S_{t+1}, a')$, der den maximalen $Q$-Wert im Folgezustand verwendet, was der Aktion entspricht, die eine gierige Policy wählen würde (Zielpolicy).",
+                doubleQLearningTitle: "Double Q-Learning",
+                doubleQLearningDesc: "Standard Q-Learning kann unter bestimmten Umständen zu einer Überschätzung der Q-Werte führen (Maximierungs-Bias). Double Q-Learning adressiert dies, indem es zwei separate Q-Wert-Schätzungen ($Q_A$ und $Q_B$) pflegt. Eine wird zur Auswahl der besten Aktion im nächsten Zustand verwendet, die andere zur Bewertung dieser Aktion.",
+                doubleQLearningUpdate: "Z.B. Update für $Q_A$: $Q_A(S_t,A_t) \\leftarrow Q_A(S_t,A_t) + \\alpha [R_{t+1} + \\gamma Q_B(S_{t+1}, \\text{argmax}_{a'} Q_A(S_{t+1},a')) - Q_A(S_t,A_t)]$ (und umgekehrt für $Q_B$).",
                 onOffPolicyCompareTitle: "Vergleich der Update-Pfade: SARSA vs. Q-Learning",
                 sarsaPathTitle: "SARSA (On-Policy)",
                 sarsaPathDesc: "Update für $Q(S_t, A_t)$ verwendet $Q(S_{t+1}, A_{t+1})$. Lernt den Wert der tatsächlich ausgeführten Policy.",
@@ -627,6 +656,9 @@
                 qLearningPathDesc: "Update für $Q(S_t, A_t)$ verwendet $\\max_{a'} Q(S_{t+1}, a')$. Lernt den Wert der optimalen (gierigen) Policy, auch wenn die Aktionen anders gewählt wurden.",
                 epsilonGreedyTitle: "Bedeutung von $\\epsilon$-greedy Exploration:",
                 epsilonGreedyDesc: "Um sicherzustellen, dass der Agent alle relevanten Zustands-Aktions-Paare erkundet und nicht in lokalen Optima stecken bleibt, wird oft eine $\\epsilon$-greedy Strategie verwendet. Mit einer kleinen Wahrscheinlichkeit $\\epsilon$ wählt der Agent eine zufällige Aktion, anstatt der aktuell als optimal erachteten (gierigen) Aktion. Der Wert von $\\epsilon$ wird oft im Laufe des Trainings reduziert (Annealing), um von Exploration zu Exploitation überzugehen.",
+                vfaTitle: "Ausblick: Wertfunktionsapproximation (VFA)",
+                vfaDesc: "Für Probleme mit sehr großen oder kontinuierlichen Zustandsräumen sind tabellarische Darstellungen von $Q(s,a)$ (eine Tabelle für jedes Zustands-Aktions-Paar) nicht mehr praktikabel. Hier kommt die Wertfunktionsapproximation ins Spiel: Anstatt die Q-Werte exakt zu speichern, werden sie durch eine parametrisierte Funktion approximiert, z.B. eine lineare Funktion oder ein neuronales Netz: $Q(s,a; \\mathbf{w}) \\approx Q^*(s,a)$. Die Parameter $\\mathbf{w}$ werden dann gelernt.",
+                vfaExample: "Ein bekanntes Beispiel ist das Deep Q-Network (DQN), das ein tiefes neuronales Netz zur Approximation der Q-Funktion verwendet und bemerkenswerte Erfolge in komplexen Umgebungen wie Atari-Spielen erzielt hat.",
                 quizSectionTitle: "Wissens-Quiz zur Zwischenprüfung",
                 quizLoading: "Frage wird geladen...",
                 quiz_nextButton: "Nächste Frage",
@@ -641,7 +673,7 @@
                 quiz_feedbackIncorrectPrefix: "Falsch. Die richtige Antwort war: ",
                 quiz_questionCounterPrefix: "Frage ",
                 quiz_questionCounterOf: "von",
-                footerText1: "&copy; 2025 Vertiefte Reinforcement Learning Infografik.",
+                footerText1: "&copy; 2025 Detaillierte Reinforcement Learning Infografik.",
                 footerText2: "Basierend auf Vorlesungsmaterialien und Standard-RL-Konzepten.",
                 chart_mcVsTd_title: "Vergleich: MC vs. TD Eigenschaften (Skala 1=Niedrig/Nein, 5=Hoch/Ja)",
                 chart_mcVsTd_dataset_mc: "Monte Carlo (MC)",
@@ -666,9 +698,9 @@
                 tooltip_init_sensitive_td: "Empfindlich",
             },
             en: {
-                pageTitle: "Reinforcement Learning Infographic - In-Depth with Quiz",
-                headerTitle: "Reinforcement Learning: In-Depth Insights & Quiz",
-                headerSubtitle: "Detailed Concepts, Algorithms, and Interactive Quiz",
+                pageTitle: "Reinforcement Learning Infographic - Detailed with Quiz",
+                headerTitle: "Reinforcement Learning: Detailed Insights & Quiz",
+                headerSubtitle: "In-depth Concepts, Algorithms, and Interactive Quiz",
                 section1Title: "1. Basics: RL & Markov Decision Processes (MDPs)",
                 section1Intro: "Reinforcement Learning (RL) is a paradigm of machine learning where an autonomous <strong>agent</strong> learns to make optimal sequences of decisions (actions) in a complex and often uncertain <strong>environment</strong>. The primary goal of the agent is to maximize the sum of received <strong>rewards</strong> over time. This learning process is fundamentally iterative and experience-based.",
                 agentEnvCycleTitle: "The Agent-Environment Interaction Cycle",
@@ -774,10 +806,15 @@
                 sarsaDesc: "SARSA is an on-policy TD algorithm. \"On-policy\" means that the $Q$-values are estimated and improved for the policy the agent is actually executing (including exploratory actions).",
                 sarsaUpdateRuleTitle: "Update Rule for $Q(S_t, A_t)$:",
                 sarsaNameOrigin: "The name SARSA comes from the sequence of events in the update: $(S_t, A_t, R_{t+1}, S_{t+1}, A_{t+1})$. $A_{t+1}$ is chosen according to the current (often $\\epsilon$-greedy) policy.",
+                expectedSarsaTitle: "Expected SARSA",
+                expectedSarsaDesc: "A variant that takes the expectation over all possible actions $A_{t+1}$ according to the current policy $\\pi$, instead of using the specifically chosen action $A_{t+1}$. This can reduce variance.",
                 qLearningTitle: "Q-Learning (Off-Policy TD Control)",
                 qLearningDesc: "Q-Learning is an off-policy TD algorithm. \"Off-policy\" means it learns the optimal action-value function $Q^*(s,a)$ independently of the policy used by the agent for exploration (behavior policy), as long as it visits all state-action pairs sufficiently often.",
                 qLearningUpdateRuleTitle: "Update Rule for $Q(S_t, A_t)$:",
                 qLearningKeyDiff: "The key difference is the term $\\max_{a'} Q(S_{t+1}, a')$, which uses the maximum $Q$-value in the next state, corresponding to the action a greedy policy would choose (target policy).",
+                doubleQLearningTitle: "Double Q-Learning",
+                doubleQLearningDesc: "Standard Q-Learning can, under certain circumstances, lead to an overestimation of Q-values (maximization bias). Double Q-Learning addresses this by maintaining two separate Q-value estimates ($Q_A$ and $Q_B$). One is used to select the best action in the next state, and the other is used to evaluate that action.",
+                doubleQLearningUpdate: "E.g., Update for $Q_A$: $Q_A(S_t,A_t) \\leftarrow Q_A(S_t,A_t) + \\alpha [R_{t+1} + \\gamma Q_B(S_{t+1}, \\text{argmax}_{a'} Q_A(S_{t+1},a')) - Q_A(S_t,A_t)]$ (and vice versa for $Q_B$).",
                 onOffPolicyCompareTitle: "Comparison of Update Paths: SARSA vs. Q-Learning",
                 sarsaPathTitle: "SARSA (On-Policy)",
                 sarsaPathDesc: "Update for $Q(S_t, A_t)$ uses $Q(S_{t+1}, A_{t+1})$. Learns the value of the policy actually being executed.",
@@ -785,6 +822,9 @@
                 qLearningPathDesc: "Update for $Q(S_t, A_t)$ uses $\\max_{a'} Q(S_{t+1}, a')$. Learns the value of the optimal (greedy) policy, even if actions were chosen differently.",
                 epsilonGreedyTitle: "Importance of $\\epsilon$-greedy Exploration:",
                 epsilonGreedyDesc: "To ensure the agent explores all relevant state-action pairs and doesn't get stuck in local optima, an $\\epsilon$-greedy strategy is often used. With a small probability $\\epsilon$, the agent chooses a random action instead of the one currently considered optimal (greedy). The value of $\\epsilon$ is often reduced over time (annealing) to shift from exploration to exploitation.",
+                vfaTitle: "Outlook: Value Function Approximation (VFA)",
+                vfaDesc: "For problems with very large or continuous state spaces, tabular representations of $Q(s,a)$ (a table for each state-action pair) are no longer practical. This is where value function approximation comes into play: Instead of storing Q-values exactly, they are approximated by a parameterized function, e.g., a linear function or a neural network: $Q(s,a; \\mathbf{w}) \\approx Q^*(s,a)$. The parameters $\\mathbf{w}$ are then learned.",
+                vfaExample: "A well-known example is the Deep Q-Network (DQN), which uses a deep neural network to approximate the Q-function and has achieved remarkable success in complex environments like Atari games.",
                 quizSectionTitle: "Knowledge Quiz for Midterm",
                 quizLoading: "Loading question...",
                 quiz_nextButton: "Next Question",
@@ -799,7 +839,7 @@
                 quiz_feedbackIncorrectPrefix: "Incorrect. The correct answer was: ",
                 quiz_questionCounterPrefix: "Question ",
                 quiz_questionCounterOf: "of",
-                footerText1: "&copy; 2025 In-Depth Reinforcement Learning Infographic.",
+                footerText1: "&copy; 2025 Detailed Reinforcement Learning Infographic.",
                 footerText2: "Based on lecture materials and standard RL concepts.",
                 chart_mcVsTd_title: "Comparison: MC vs. TD Properties (Scale 1=Low/No, 5=High/Yes)",
                 chart_mcVsTd_dataset_mc: "Monte Carlo (MC)",
@@ -906,6 +946,26 @@
                         "Es eine separate Policy für die Evaluation und eine andere für die Steuerung benötigt."
                     ],
                     answer: 2
+                },
+                {
+                    question: "Was ist der Hauptzweck von Double Q-Learning?",
+                    options: [
+                        "Die Lernrate zu verdoppeln.",
+                        "Den Maximierungs-Bias (Überschätzung von Q-Werten) zu reduzieren.",
+                        "Zwei Umgebungen gleichzeitig zu modellieren.",
+                        "Die Exploration zu beschleunigen."
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "Wertfunktionsapproximation (VFA) wird typischerweise eingesetzt, wenn...",
+                    options: [
+                        "Das Umgebungsmodell perfekt bekannt ist.",
+                        "Der Zustands- und/oder Aktionsraum sehr groß oder kontinuierlich ist.",
+                        "Man nur sehr wenige Trainingsdaten hat.",
+                        "Man die Varianz der Schätzungen erhöhen möchte."
+                    ],
+                    answer: 1
                 }
             ],
             en: [
@@ -988,6 +1048,26 @@
                         "It requires a separate policy for evaluation and another for control."
                     ],
                     answer: 2
+                },
+                {
+                    question: "What is the main purpose of Double Q-Learning?",
+                    options: [
+                        "To double the learning rate.",
+                        "To reduce maximization bias (overestimation of Q-values).",
+                        "To model two environments simultaneously.",
+                        "To speed up exploration."
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "Value Function Approximation (VFA) is typically used when...",
+                    options: [
+                        "The environment model is perfectly known.",
+                        "The state and/or action space is very large or continuous.",
+                        "There is very little training data.",
+                        "One wants to increase the variance of the estimates."
+                    ],
+                    answer: 1
                 }
             ]
         };
@@ -1012,19 +1092,18 @@
             
             document.title = translations[lang].pageTitle || "Reinforcement Learning Infographic";
 
-            // Update active button style
             document.getElementById('lang-de-btn').classList.toggle('active', lang === 'de');
             document.getElementById('lang-en-btn').classList.toggle('active', lang === 'en');
 
             updateChartLanguage();
-            if (document.getElementById('quiz-area').style.display !== 'none' && !quizResultsAreaEl.style.display !== 'none') { // Only reload if quiz is active
-                 if (currentQuestionIndex < currentQuizData.length) { // check if quiz was already finished
-                    loadQuestion(); // Reload current question with new language
-                 } else { // if quiz was finished, update results text
+            if (document.getElementById('quiz-area').style.display !== 'none' && !quizResultsAreaEl.style.display !== 'none') { 
+                 if (currentQuestionIndex < currentQuizData.length) { 
+                    loadQuestion(); 
+                 } else { 
                     showResults();
                  }
-            } else if (quizResultsAreaEl.style.display !== 'none') { // if quiz was finished and results are shown
-                 showResults(); // to update "Your score" etc.
+            } else if (quizResultsAreaEl.style.display !== 'none') { 
+                 showResults(); 
             }
 
 
@@ -1039,7 +1118,7 @@
 
         // --- Chart Logic ---
         function wrapLabels(label, maxWidth) {
-            const lang = currentLanguage || 'de'; // Fallback to 'de' if not set
+            const lang = currentLanguage || 'de'; 
             const originalLabel = (typeof label === 'object' && label !== null && label[lang]) ? label[lang] : String(label);
 
             if (typeof originalLabel !== 'string') {
@@ -1064,15 +1143,14 @@
         const tooltipTitleCallback = (tooltipItems) => {
             const item = tooltipItems[0];
             let label = item.chart.data.labels[item.dataIndex];
-            if (Array.isArray(label)) { // Already wrapped
+            if (Array.isArray(label)) { 
                 return label.join(' ');
             }
-            // If not an array, it means it's a key for translation or already translated
             const currentTrans = translations[currentLanguage];
-            if (typeof label === 'string' && currentTrans[label]) { // Check if it's a key
+            if (typeof label === 'string' && currentTrans[label]) { 
                  return currentTrans[label];
             }
-            return label; // Fallback
+            return label; 
         };
         
         function getChartConfig() {
@@ -1187,7 +1265,6 @@
                 chartInstance.data.datasets[0].label = config.data.datasets[0].label;
                 chartInstance.data.datasets[1].label = config.data.datasets[1].label;
                 chartInstance.options.plugins.title.text = config.options.plugins.title.text;
-                // Y-axis ticks are handled by callback which uses currentLanguage
                 chartInstance.update();
             }
         }
@@ -1246,7 +1323,6 @@
         function selectOption(event) {
             if (answerSubmitted) return;
 
-            // Remove 'selected' from previously selected option if any
             const currentlySelected = optionsContainerEl.querySelector('.quiz-option.selected');
             if (currentlySelected) {
                 currentlySelected.classList.remove('selected');
@@ -1266,8 +1342,8 @@
             const correctAnswerIndex = currentQuizData[currentQuestionIndex].answer;
 
             optionsContainerEl.childNodes.forEach(child => {
-                child.disabled = true; // Disable all options
-                child.classList.remove('selected'); // Remove general selected style
+                child.disabled = true; 
+                child.classList.remove('selected'); 
             });
 
 
@@ -1311,7 +1387,7 @@
             score = 0;
             quizResultsAreaEl.style.display = 'none';
             quizQuestionContainerEl.style.display = 'block';
-            document.getElementById('quiz-navigation').style.display = 'flex'; // Show navigation
+            document.getElementById('quiz-navigation').style.display = 'flex'; 
             nextQuestionBtn.textContent = translations[currentLanguage].quiz_nextButton;
             loadQuestion();
         });
@@ -1319,16 +1395,15 @@
         function showResults() {
             quizQuestionContainerEl.style.display = 'none';
             feedbackAreaEl.style.display = 'none';
-            document.getElementById('quiz-navigation').style.display = 'none'; // Hide navigation
+            document.getElementById('quiz-navigation').style.display = 'none'; 
             quizResultsAreaEl.style.display = 'block';
             
             const scoreSuffix = score === 1 ? translations[currentLanguage].quiz_scoreSuffix_singular : translations[currentLanguage].quiz_scoreSuffix_plural;
             scoreTextEl.textContent = `${score} ${translations[currentLanguage].quiz_scoreOutOf} ${currentQuizData.length} (${((score / currentQuizData.length) * 100).toFixed(0)}%)`;
         }
 
-        // Initial page load
         document.addEventListener('DOMContentLoaded', () => {
-            setLanguage(currentLanguage); // Set initial language (default 'de')
+            setLanguage(currentLanguage); 
             if (document.getElementById('quiz-area')) {
                  loadQuestion();
             }
