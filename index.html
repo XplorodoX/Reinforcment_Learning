@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reinforcement Learning Infografik - Vertieft</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']],
+          tags: 'ams'
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e0f2fe; /* Light blue background */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .stat-card {
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #0056B3;
+        }
+        .stat-label {
+            font-size: 1rem;
+            color: #007BFF;
+        }
+        .concept-box {
+            background-color: #caf0f8;
+            border: 1px solid #90e0ef;
+            border-radius: 0.5rem;
+            padding: 1.5rem; /* Increased padding */
+            margin-bottom: 1.5rem; /* Increased margin */
+        }
+        .flow-step {
+            background-color: #ffffff;
+            border: 2px solid #007BFF;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: #007BFF;
+            margin: 0.25rem 0;
+            text-align: center;
+        }
+        h1, h2, h3, h4 {
+            color: #0056B3;
+        }
+        .math-formula { /* For inline MathJax, if needed, though $...$ should suffice */
+            font-family: 'Inter', sans-serif;
+            font-size: 1.05em; /* Slightly larger for readability */
+            background-color: #f0f9ff;
+            padding: 0.2em 0.4em;
+            border-radius: 0.25rem;
+            color: #022c43;
+            display: inline-block; /* Ensures padding and background work well */
+        }
+        .equation-block {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            overflow-x: auto;
+        }
+        .explanation-point {
+            margin-bottom: 0.75rem;
+            padding-left: 1rem;
+            position: relative;
+        }
+        .explanation-point::before {
+            content: "🔹";
+            position: absolute;
+            left: -0.25rem;
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-blue-600 text-white p-6 shadow-lg">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl font-bold">Reinforcement Learning: Vertiefte Einblicke</h1>
+            <p class="mt-2 text-lg">Detaillierte Konzepte und Algorithmen visualisiert</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8 space-y-16">
+
+        <section id="intro-rl-mdp" class="bg-white p-8 rounded-lg shadow-xl">
+            <h2 class="text-3xl font-semibold mb-8 text-center text-blue-700">1. Grundlagen: RL & Markov-Entscheidungsprozesse (MDPs)</h2>
+            <p class="text-lg mb-6 text-gray-700 leading-relaxed">
+                Reinforcement Learning (RL) ist ein Paradigma des maschinellen Lernens, bei dem ein autonomer <strong>Agent</strong> lernt, optimale Sequenzen von Entscheidungen (Aktionen) in einer komplexen und oft unsicheren <strong>Umgebung</strong> zu treffen. Das primäre Ziel des Agenten ist es, die Summe der erhaltenen <strong>Belohnungen</strong> über die Zeit zu maximieren. Dieser Lernprozess ist fundamental iterativ und erfahrungsbasiert.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-10 items-start">
+                <div class="concept-box bg-blue-50 border-blue-200 p-6">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-600">Der Agent-Umgebung-Interaktionszyklus</h3>
+                    <div class="space-y-3">
+                        <div class="flow-step">1. Agent beobachtet aktuellen Zustand $S_t$ der Umgebung.</div>
+                        <div class="flow-arrow">⬇️</div>
+                        <div class="flow-step">2. Agent wählt eine Aktion $A_t$ basierend auf seiner aktuellen Strategie (Policy $\pi$).</div>
+                        <div class="flow-arrow">➡️</div>
+                        <div class="flow-step">3. Umgebung reagiert: Agent erhält eine Belohnung $R_{t+1}$ und beobachtet den neuen Zustand $S_{t+1}$.</div>
+                        <div class="flow-arrow">🔄</div>
+                        <div class="flow-step">4. Agent aktualisiert seine Policy $\pi$ basierend auf der Erfahrung $(S_t, A_t, R_{t+1}, S_{t+1})$.</div>
+                    </div>
+                    <p class="mt-5 text-sm text-gray-600">Dieser Zyklus wiederholt sich, wodurch der Agent schrittweise lernt, bessere Entscheidungen zu treffen.</p>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="stat-card p-6">
+                        <div class="stat-value">🎯</div>
+                        <div class="stat-label mt-2">Maximierung des kumulativen Returns</div>
+                        <p class="text-sm text-gray-600 mt-3">Der Return $G_t = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \dots = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1}$ ist die Summe der diskontierten zukünftigen Belohnungen. Die <strong>Reward Hypothesis</strong> besagt, dass alle Ziele durch die Maximierung des erwarteten kumulativen Rewards formuliert werden können.</p>
+                    </div>
+                     <div class="concept-box bg-blue-50 border-blue-200 p-4">
+                        <h4 class="text-lg font-semibold text-blue-600 mb-2">Der Diskontierungsfaktor $\gamma$</h4>
+                        <p class="text-sm text-gray-700 mb-1">Steuert die Wichtigkeit zukünftiger Belohnungen:</p>
+                        <ul class="list-none space-y-1 text-sm">
+                            <li class="explanation-point">$\gamma \approx 0$: Agent ist "kurzsichtig", fokussiert auf unmittelbare Belohnungen.</li>
+                            <li class="explanation-point">$\gamma \approx 1$: Agent ist "weitsichtig", berücksichtigt zukünftige Belohnungen stark.</li>
+                        </ul>
+                        <p class="text-xs text-gray-500 mt-2">Notwendig für kontinuierliche Aufgaben, um unendliche Returns zu vermeiden.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-semibold mb-4 text-blue-600">Der Markov-Entscheidungsprozess (MDP)</h3>
+            <p class="mb-4 text-gray-700 leading-relaxed">Ein MDP ist der Standardformalismus für RL-Probleme, die die Markov-Eigenschaft erfüllen. Er wird durch ein Tupel $(S, A, P, R, \gamma)$ definiert:</p>
+            <div class="grid md:grid-cols-2 gap-x-8 gap-y-4 mb-6">
+                <div class="explanation-point"><strong>S (Zustandsraum):</strong> Eine Menge aller möglichen Zustände. Z.B. Positionen auf einem Schachbrett, Gelenkwinkel eines Roboters.</div>
+                <div class="explanation-point"><strong>A (Aktionsraum):</strong> Eine Menge aller möglichen Aktionen. Z.B. Züge im Schach, Motorkommandos für einen Roboter.</div>
+                <div class="explanation-point"><strong>P (Zustandsübergangsmodell):</strong> $P(s'|s, a) = Pr\{S_{t+1}=s' | S_t=s, A_t=a\}$. Definiert die Dynamik der Umgebung.</div>
+                <div class="explanation-point"><strong>R (Belohnungsfunktion):</strong> $R(s, a, s') = E[R_{t+1} | S_t=s, A_t=a, S_{t+1}=s']$. Definiert das Ziel des Agenten.</div>
+            </div>
+            <div class="concept-box bg-indigo-50 border-indigo-200 p-5">
+                <h4 class="text-lg font-semibold text-indigo-700 mb-2">Die Markov-Eigenschaft</h4>
+                <p class="text-gray-700">"Die Zukunft ist unabhängig von der Vergangenheit, gegeben die Gegenwart."</p>
+                <p class="mt-2 text-sm equation-block text-indigo-800">$Pr\{S_{t+1}=s', R_{t+1}=r | S_t, A_t, S_{t-1}, A_{t-1}, \dots\} = Pr\{S_{t+1}=s', R_{t+1}=r | S_t, A_t\}$</p>
+                <p class="mt-2 text-sm text-gray-600">Der aktuelle Zustand $S_t$ enthält alle relevanten Informationen aus der Historie, um die nächste Zustands- und Belohnungswahrscheinlichkeit zu bestimmen. Dies ist eine starke Vereinfachung, die viele RL-Algorithmen ermöglicht.</p>
+            </div>
+
+            <div class="mt-8 p-6 bg-yellow-50 border border-yellow-300 rounded-lg">
+                <h4 class="text-xl font-semibold text-yellow-700 mb-3">Kernherausforderungen und Konzepte</h4>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h5 class="text-lg font-semibold text-yellow-600 mb-1">Credit Assignment</h5>
+                        <p class="text-sm text-gray-700">Wie können Belohnungen (oder Bestrafungen), die erst spät in einer Sequenz von Aktionen auftreten, korrekt den früheren Aktionen zugeordnet werden, die ursächlich dafür waren?</p>
+                    </div>
+                    <div>
+                        <h5 class="text-lg font-semibold text-yellow-600 mb-1">Exploration vs. Exploitation</h5>
+                        <p class="text-sm text-gray-700">Der Agent muss entscheiden, ob er neue Aktionen ausprobiert, um mehr über die Umgebung zu lernen (Exploration), oder ob er die aktuell besten bekannten Aktionen ausführt, um die Belohnung zu maximieren (Exploitation).</p>
+                    </div>
+                    <div>
+                        <h5 class="text-lg font-semibold text-yellow-600 mb-1">Policy ($\pi$): Die Strategie des Agenten</h5>
+                        <p class="text-sm text-gray-700">Eine Abbildung von Zuständen zu Aktionen. Deterministisch: $\pi(s) = a$. Stochastisch: $\pi(a|s) = Pr\{A_t=a | S_t=s\}$.</p>
+                    </div>
+                    <div>
+                        <h5 class="text-lg font-semibold text-yellow-600 mb-1">Wertfunktionen ($V^\pi, Q^\pi$): Wie gut ist ein Zustand/Aktion?</h5>
+                        <p class="text-sm text-gray-700">$V^\pi(s)$: Erwarteter Return, wenn man in Zustand $s$ startet und Policy $\pi$ folgt. $Q^\pi(s,a)$: Erwarteter Return, wenn man in Zustand $s$ Aktion $a$ ausführt und danach Policy $\pi$ folgt.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="dp" class="bg-white p-8 rounded-lg shadow-xl">
+            <h2 class="text-3xl font-semibold mb-8 text-center text-blue-700">2. Dynamische Programmierung (DP): Planung mit perfektem Modell</h2>
+            <p class="text-lg mb-6 text-gray-700 leading-relaxed">
+                Dynamische Programmierung (DP) umfasst Algorithmen, die eine optimale Policy $\pi^*$ für einen gegebenen MDP berechnen können, vorausgesetzt, das Modell der Umgebung (Übergangswahrscheinlichkeiten $P$ und Belohnungen $R$) ist vollständig bekannt. DP-Methoden nutzen Wertfunktionen, um die Suche nach guten Policies zu strukturieren und basieren auf den Bellman-Gleichungen.
+            </p>
+            <div class="concept-box bg-blue-50 border-blue-200 p-6 mb-8">
+                <h3 class="text-xl font-semibold mb-3 text-blue-600">Bellman-Optimalitätsprinzip</h3>
+                <p class="text-gray-700 italic">"Eine optimale Policy hat die Eigenschaft, dass, was auch immer der Anfangszustand und die erste Entscheidung sind, die verbleibenden Entscheidungen eine optimale Policy bezüglich des aus der ersten Entscheidung resultierenden Zustands darstellen müssen." (Bellman, 1957)</p>
+                <p class="mt-3 text-sm text-gray-600">Einfach gesagt: Wenn der beste Pfad von A nach C über B führt, dann muss der Teilpfad von B nach C auch der beste Pfad von B nach C sein.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="concept-box bg-green-50 border-green-200 p-6">
+                    <h3 class="text-xl font-semibold mb-4 text-green-700">Policy Iteration (Politikiteration)</h3>
+                    <p class="text-sm text-gray-700 mb-3">Ein iterativer Algorithmus, der zwischen zwei Schritten wechselt:</p>
+                    <div class="space-y-3">
+                        <div class="flow-step bg-green-100 border-green-500"><strong>1. Policy Evaluation (Bewertung):</strong> Berechne die Zustands-Wertfunktion $V^\pi(s)$ für die aktuelle Policy $\pi$. Dies geschieht durch iteratives Anwenden der Bellman-Erwartungsgleichung bis zur Konvergenz: <br> <span class="math-formula text-xs">$V_{k+1}^\pi(s) \leftarrow \sum_a \pi(a|s) \sum_{s',r} P(s',r|s,a) [r + \gamma V_k^\pi(s')]$</span></div>
+                        <div class="flow-arrow text-green-600">⬇️</div>
+                        <div class="flow-step bg-green-100 border-green-500"><strong>2. Policy Improvement (Verbesserung):</strong> Verbessere die Policy, indem für jeden Zustand $s$ gierig die Aktion gewählt wird, die $Q^\pi(s,a)$ maximiert: <br> <span class="math-formula text-xs">$\pi'(s) \leftarrow \text{argmax}_a \sum_{s',r} P(s',r|s,a) [r + \gamma V^\pi(s')]$</span></div>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-600">Dieser Prozess konvergiert garantiert zur optimalen Policy $\pi^*$. "Sweeps" beziehen sich auf vollständige Durchläufe über alle Zustände während der Evaluation oder Iteration.</p>
+                </div>
+                <div class="concept-box bg-purple-50 border-purple-200 p-6">
+                    <h3 class="text-xl font-semibold mb-4 text-purple-700">Value Iteration (Wertiteration)</h3>
+                    <p class="text-sm text-gray-700 mb-3">Kombiniert im Wesentlichen einen Schritt der Policy Evaluation und einen Schritt der Policy Improvement in einer einzigen Update-Regel. Sie iteriert direkt über die Bellman-Optimalitätsgleichung für $V^*(s)$:</p>
+                     <div class="flow-step bg-purple-100 border-purple-500 equation-block">
+                        <span class="math-formula">$V_{k+1}(s) \leftarrow \max_a \sum_{s',r} P(s',r|s,a) [r + \gamma V_k(s')]$</span>
+                     </div>
+                     <p class="mt-4 text-sm text-gray-600">Konvergiert ebenfalls zur optimalen Wertfunktion $V^*$, aus der die optimale Policy $\pi^*$ dann durch eine einmalige gierige Auswahl extrahiert werden kann.</p>
+                </div>
+            </div>
+            <div class="concept-box">
+                <h3 class="text-xl font-semibold mb-2 text-blue-600">Beziehung zwischen $V^\pi$ und $Q^\pi$</h3>
+                <p class="text-gray-700 mb-2">Die Zustands-Wertfunktion und die Aktions-Wertfunktion sind eng miteinander verbunden:</p>
+                <div class="equation-block text-sm">
+                    <span class="math-formula">$V^\pi(s) = \sum_a \pi(a|s) Q^\pi(s,a)$</span> (wenn $\pi$ stochastisch ist)
+                    <br>
+                    <span class="math-formula">$V^\pi(s) = Q^\pi(s, \pi(s))$</span> (wenn $\pi$ deterministisch ist)
+                    <br>
+                    <span class="math-formula">$Q^\pi(s,a) = \sum_{s',r} P(s',r|s,a) [r + \gamma V^\pi(s')]$</span>
+                </div>
+            </div>
+             <div class="mt-8 p-6 bg-red-50 border border-red-200 rounded-lg">
+                <h4 class="text-xl font-semibold text-red-700 mb-3">Wann ist DP anwendbar?</h4>
+                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                    <li>Wenn ein vollständiges und genaues Modell der Umgebung ($P$ und $R$) verfügbar ist.</li>
+                    <li>Eher für Planungsprobleme als für direktes Lernen aus Interaktion.</li>
+                    <li>Obwohl rechenintensiv für sehr große Probleme, bilden DP-Konzepte die theoretische Grundlage für viele andere RL-Algorithmen.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="model-free-prediction" class="bg-white p-8 rounded-lg shadow-xl">
+            <h2 class="text-3xl font-semibold mb-8 text-center text-blue-700">3. Modellfreie Vorhersage: Lernen ohne Modell</h2>
+            <p class="text-lg mb-6 text-gray-700 leading-relaxed">
+                In vielen realen Szenarien ist ein exaktes Modell der Umgebung nicht verfügbar. Modellfreie Vorhersagemethoden ermöglichen es, Wertfunktionen ($V^\pi$ oder $Q^\pi$) für eine gegebene Policy $\pi$ direkt aus Erfahrungsepisoden zu schätzen, die durch Interaktion mit der Umgebung generiert werden.
+            </p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4 text-blue-600">a) Monte Carlo (MC) Methoden</h3>
+                    <p class="mb-4 text-gray-700 leading-relaxed">MC-Methoden lernen, indem sie den durchschnittlichen Return nach Besuchen eines Zustands über viele vollständige Episoden berechnen.
+                    <br><strong>First-Visit MC:</strong> Berücksichtigt nur den Return nach dem ersten Besuch eines Zustands $s$ in einer Episode.
+                    <br><strong>Every-Visit MC:</strong> Berücksichtigt den Return nach jedem Besuch eines Zustands $s$ in einer Episode.</p>
+                    <div class="concept-box">
+                        <h4 class="text-lg font-semibold mb-1 text-blue-500">Update-Regel (inkrementell für $V(S_t)$):</h4>
+                        <span class="math-formula">$V(S_t) \leftarrow V(S_t) + \alpha (G_t - V(S_t))$</span>
+                        <p class="text-xs text-gray-500 mt-1">Hier ist $G_t$ der tatsächlich beobachtete (vollständige) Return ab Zeitschritt $t$ bis zum Ende der Episode. $\alpha$ ist die Lernrate.</p>
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="text-md font-semibold text-green-600">Vorteile:</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-600"><li>Unverzerrt (kein Bootstrapping-Bias).</li><li>Einfach zu verstehen und zu implementieren.</li></ul>
+                        <h4 class="text-md font-semibold text-red-600 mt-2">Nachteile:</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-600"><li>Hohe Varianz, da der Return von vielen zufälligen Aktionen und Übergängen abhängt.</li><li>Funktioniert nur für episodische (terminierende) Aufgaben.</li><li>Updates erfolgen erst am Ende einer Episode.</li></ul>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4 text-blue-600">b) Temporal Difference (TD) Learning</h3>
+                    <p class="mb-4 text-gray-700 leading-relaxed">TD-Methoden lernen von jedem Schritt, indem sie ihre aktuelle Schätzung basierend auf der Schätzung des nächsten Zustands anpassen – ein Prozess, der als <strong>Bootstrapping</strong> bezeichnet wird. Sie benötigen keine vollständigen Episoden.</p>
+                     <div class="concept-box">
+                        <h4 class="text-lg font-semibold mb-1 text-blue-500">TD(0) Update-Regel für $V(S_t)$:</h4>
+                        <span class="math-formula">$V(S_t) \leftarrow V(S_t) + \alpha [R_{t+1} + \gamma V(S_{t+1}) - V(S_t)]$</span>
+                        <p class="text-xs text-gray-500 mt-1">Der Term $R_{t+1} + \gamma V(S_{t+1})$ ist das <strong>TD-Target</strong> (eine Schätzung des Returns), und $[R_{t+1} + \gamma V(S_{t+1}) - V(S_t)]$ ist der <strong>TD-Fehler</strong>.</p>
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="text-md font-semibold text-green-600">Vorteile:</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-600"><li>Geringere Varianz als MC.</li><li>Kann online lernen (nach jedem Schritt).</li><li>Funktioniert auch für kontinuierliche Aufgaben.</li></ul>
+                        <h4 class="text-md font-semibold text-red-600 mt-2">Nachteile:</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-600"><li>Verzerrt, da die Schätzung auf einer anderen Schätzung ($V(S_{t+1})$) basiert.</li><li>Empfindlicher gegenüber der Initialisierung der Werte.</li></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 concept-box bg-teal-50 border-teal-200 p-6">
+                <h3 class="text-xl font-semibold text-teal-700 mb-3">N-Step TD Methoden</h3>
+                <p class="text-gray-700 mb-2">Diese Methoden schlagen eine Brücke zwischen MC und TD(0). Anstatt nur einen Schritt (TD(0)) oder die gesamte Episode (MC) für das Update zu betrachten, verwenden n-Step TD Methoden einen Return über $n$ Schritte:</p>
+                <div class="equation-block text-sm">
+                    <span class="math-formula">$G_{t:t+n} = R_{t+1} + \gamma R_{t+2} + \dots + \gamma^{n-1} R_{t+n} + \gamma^n V(S_{t+n})$</span>
+                </div>
+                <p class="text-gray-700 mt-2">Die Update-Regel lautet dann:</p>
+                 <div class="equation-block text-sm">
+                    <span class="math-formula">$V(S_t) \leftarrow V(S_t) + \alpha [G_{t:t+n} - V(S_t)]$</span>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">Der Parameter $n$ erlaubt einen Trade-off zwischen dem Bias von TD(0) und der Varianz von MC.</p>
+            </div>
+             <div class="mt-10 text-center">
+                <h3 class="text-2xl font-semibold mb-4 text-blue-600">Visueller Vergleich: MC vs. TD Update</h3>
+                 <div class="chart-container h-72 md:h-96">
+                    <canvas id="mcVsTdChart"></canvas>
+                </div>
+                <p class="text-md text-gray-600 mt-4">Das Diagramm illustriert die unterschiedlichen Stärken und Schwächen von MC- und TD-Lernansätzen bezüglich Bias, Varianz und Update-Frequenz.</p>
+            </div>
+        </section>
+
+        <section id="model-free-control" class="bg-white p-8 rounded-lg shadow-xl">
+            <h2 class="text-3xl font-semibold mb-8 text-center text-blue-700">4. Modellfreie Steuerung: Optimale Policies ohne Modell finden</h2>
+            <p class="text-lg mb-6 text-gray-700 leading-relaxed">
+                Modellfreie Steuerungsmethoden erweitern die Ideen der modellfreien Vorhersage, um nicht nur Wertfunktionen zu schätzen, sondern auch aktiv eine (nahezu) optimale Policy $\pi^*$ zu finden. Da kein Umgebungsmodell vorhanden ist, lernen diese Methoden typischerweise die Aktions-Wertfunktion $Q(s,a)$, da diese direkt angibt, wie gut es ist, eine bestimmte Aktion $a$ in einem Zustand $s$ auszuführen. Die Policy wird dann oft $\epsilon$-gierig auf Basis dieser $Q$-Werte abgeleitet.
+            </p>
+            <div class="concept-box bg-yellow-50 border-yellow-200 p-6 mb-10">
+                <h3 class="text-xl font-semibold mb-4 text-yellow-700 text-center">Generalisierte Policy Iteration (GPI) für Modellfreie Steuerung</h3>
+                <div class="flex flex-col md:flex-row justify-around items-center space-y-4 md:space-y-0 md:space-x-6">
+                    <div class="flow-step bg-yellow-100 border-yellow-500 p-5 text-center">
+                        <h4 class="font-semibold mb-1">1. Policy Evaluation (Schätzung)</h4>
+                        Schätze $Q^\pi(s,a)$ für die aktuelle Policy $\pi$ (z.B. mittels MC oder TD Updates auf $Q$-Werte).
+                    </div>
+                    <div class="text-3xl font-bold text-yellow-600 self-center">🔄</div>
+                    <div class="flow-step bg-yellow-100 border-yellow-500 p-5 text-center">
+                        <h4 class="font-semibold mb-1">2. Policy Improvement (Verbesserung)</h4>
+                        Aktualisiere $\pi$, indem $\epsilon$-gierig bezüglich der aktuellen $Q$-Werte agiert wird: <br> $\pi(s) \leftarrow \text{argmax}_a Q(s,a)$ (mit $\epsilon$ W'keit zufällig).
+                    </div>
+                </div>
+                <p class="mt-5 text-sm text-gray-600 text-center">Dieser iterative Prozess konvergiert typischerweise gegen die optimale Aktions-Wertfunktion $Q^*$ und die optimale Policy $\pi^*$. Die Notwendigkeit von $Q(s,a)$ ergibt sich daraus, dass ohne Modell $P(s'|s,a)$ die $V(s)$-Funktion allein nicht ausreicht, um eine gierige Aktion zu bestimmen.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="concept-box bg-sky-50 border-sky-200 p-6">
+                    <h3 class="text-2xl font-semibold mb-4 text-sky-700">SARSA (On-Policy TD Control)</h3>
+                    <p class="mb-3 text-gray-700 leading-relaxed">SARSA ist ein On-Policy TD-Algorithmus. "On-Policy" bedeutet, dass die $Q$-Werte für die Policy geschätzt und verbessert werden, die der Agent tatsächlich ausführt (inklusive explorativer Aktionen).</p>
+                    <div class="equation-block">
+                        <h4 class="text-lg font-semibold mb-1 text-sky-600">Update-Regel für $Q(S_t, A_t)$:</h4>
+                        <span class="math-formula block">$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha [R_{t+1} + \gamma Q(S_{t+1}, A_{t+1}) - Q(S_t, A_t)]$</span>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600">
+                        Der Name SARSA kommt von der Sequenz der Ereignisse im Update: $(S_t, A_t, R_{t+1}, S_{t+1}, A_{t+1})$. $A_{t+1}$ wird gemäß der aktuellen (oft $\epsilon$-greedy) Policy gewählt.
+                    </p>
+                </div>
+                <div class="concept-box bg-lime-50 border-lime-200 p-6">
+                    <h3 class="text-2xl font-semibold mb-4 text-lime-700">Q-Learning (Off-Policy TD Control)</h3>
+                    <p class="mb-3 text-gray-700 leading-relaxed">Q-Learning ist ein Off-Policy TD-Algorithmus. "Off-Policy" bedeutet, dass es die optimale Aktions-Wertfunktion $Q^*(s,a)$ lernt, unabhängig von der Policy, die der Agent zur Exploration verwendet (Verhaltenspolicy), solange diese alle Zustands-Aktions-Paare ausreichend oft besucht.</p>
+                     <div class="equation-block">
+                        <h4 class="text-lg font-semibold mb-1 text-lime-600">Update-Regel für $Q(S_t, A_t)$:</h4>
+                        <span class="math-formula block">$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha [R_{t+1} + \gamma \max_{a'} Q(S_{t+1}, a') - Q(S_t, A_t)]$</span>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600">
+                        Der entscheidende Unterschied ist der Term $\max_{a'} Q(S_{t+1}, a')$, der den maximalen $Q$-Wert im Folgezustand verwendet, was der Aktion entspricht, die eine gierige Policy wählen würde (Zielpolicy).
+                    </p>
+                </div>
+            </div>
+            <div class="mt-10 p-6 bg-indigo-50 border border-indigo-200 rounded-lg">
+                <h3 class="text-xl font-semibold text-indigo-700 mb-3">Vergleich der Update-Pfade: SARSA vs. Q-Learning</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                    <div class="p-4 bg-white rounded shadow">
+                        <h4 class="font-bold text-indigo-600 mb-2">SARSA (On-Policy)</h4>
+                        <p>$S_t \xrightarrow{A_t (\text{aus } \pi)} R_{t+1}, S_{t+1} \xrightarrow{A_{t+1} (\text{aus } \pi)} \dots$</p>
+                        <p class="mt-1">Update für $Q(S_t, A_t)$ verwendet $Q(S_{t+1}, A_{t+1})$. Lernt den Wert der tatsächlich ausgeführten Policy.</p>
+                    </div>
+                    <div class="p-4 bg-white rounded shadow">
+                        <h4 class="font-bold text-indigo-600 mb-2">Q-Learning (Off-Policy)</h4>
+                        <p>$S_t \xrightarrow{A_t (\text{aus Verhaltens-}\pi)} R_{t+1}, S_{t+1} \quad (\text{Zielaktion ist } \text{argmax}_{a'} Q(S_{t+1}, a'))$</p>
+                        <p class="mt-1">Update für $Q(S_t, A_t)$ verwendet $\max_{a'} Q(S_{t+1}, a')$. Lernt den Wert der optimalen (gierigen) Policy, auch wenn die Aktionen anders gewählt wurden.</p>
+                    </div>
+                </div>
+                 <p class="mt-5 text-md font-semibold text-indigo-600">Bedeutung von $\epsilon$-greedy Exploration:</p>
+                <p class="text-sm text-gray-700 leading-relaxed">
+                    Um sicherzustellen, dass der Agent alle relevanten Zustands-Aktions-Paare erkundet und nicht in lokalen Optima stecken bleibt, wird oft eine $\epsilon$-greedy Strategie verwendet. Mit einer kleinen Wahrscheinlichkeit $\epsilon$ wählt der Agent eine zufällige Aktion, anstatt der aktuell als optimal erachteten (gierigen) Aktion. Der Wert von $\epsilon$ wird oft im Laufe des Trainings reduziert (Annealing), um von Exploration zu Exploitation überzugehen.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-blue-700 text-white text-center p-8 mt-16">
+        <p class="text-lg">&copy; 2025 Vertiefte Reinforcement Learning Infografik.</p>
+        <p class="text-sm">Basierend auf Vorlesungsmaterialien und Standard-RL-Konzepten.</p>
+    </footer>
+
+    <script>
+        function wrapLabels(label, maxWidth) {
+            if (typeof label !== 'string') { // Handle cases where label might already be an array
+                if (Array.isArray(label)) return label;
+                return [String(label)]; // Convert to string if not already
+            }
+            const words = label.split(' ');
+            let lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + word).length > maxWidth && currentLine.length > 0) {
+                    lines.push(currentLine.trim());
+                    currentLine = word + ' ';
+                } else {
+                    currentLine += word + ' ';
+                }
+            }
+            lines.push(currentLine.trim());
+            return lines;
+        }
+        
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            }
+            return label;
+        };
+
+        const mcVsTdCtx = document.getElementById('mcVsTdChart').getContext('2d');
+        new Chart(mcVsTdCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Bias', 'Varianz', wrapLabels('Update Häufigkeit', 16), wrapLabels('Nutzung unvollst. Episoden', 16), wrapLabels('Sensitivität Initialisierung', 16)],
+                datasets: [{
+                    label: 'Monte Carlo (MC)',
+                    data: [1, 5, 1, 1, 1],
+                    backgroundColor: 'rgba(0, 123, 255, 0.7)',
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    borderWidth: 1
+                }, {
+                    label: 'Temporal Difference (TD)',
+                    data: [3, 2, 5, 5, 4],
+                    backgroundColor: 'rgba(255, 193, 7, 0.7)',
+                    borderColor: 'rgba(255, 193, 7, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Vergleich: MC vs. TD Eigenschaften (Skala 1=Niedrig/Nein, 5=Hoch/Ja)',
+                        font: { size: 18, weight: 'bold' },
+                        padding: { top: 10, bottom: 20 },
+                        color: '#0056B3'
+                    },
+                    tooltip: {
+                        callbacks: {
+                           title: tooltipTitleCallback,
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                const a_value = context.raw;
+                                let characteristic = context.label;
+                                if (Array.isArray(characteristic)) characteristic = characteristic.join(' ');
+
+                                if (characteristic.includes('Bias')) {
+                                   label += (a_value === 1 ? 'Niedrig (Unverzerrt)' : 'Mittel (Verzerrt)');
+                                } else if (characteristic.includes('Varianz')) {
+                                   label += (a_value === 5 ? 'Hoch' : 'Niedrig');
+                                } else if (characteristic.includes('Update')) {
+                                   label += (a_value === 1 ? 'Am Episodenende' : 'Nach jedem Schritt');
+                                } else if (characteristic.includes('Episoden')) {
+                                   label += (a_value === 1 ? 'Nein' : 'Ja (Bootstrapping)');
+                                } else if (characteristic.includes('Initialisierung')) {
+                                   label += (a_value === 1 ? 'Unempfindlich' : 'Empfindlich');
+                                } else {
+                                   label += a_value;
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 5.5,
+                        ticks: {
+                            stepSize: 1,
+                            callback: function(value) {
+                                switch(value) {
+                                    case 1: return '1 (Niedrig/Nein)';
+                                    case 2: return '2';
+                                    case 3: return '3 (Mittel)';
+                                    case 4: return '4';
+                                    case 5: return '5 (Hoch/Ja)';
+                                    default: return '';
+                                }
+                            },
+                           color: '#0056B3',
+                           font: { weight: '600'}
+                        },
+                        grid: {
+                            color: 'rgba(0, 86, 179, 0.15)'
+                        }
+                    },
+                    x: {
+                         ticks: { color: '#0056B3', font: { weight: '600'}},
+                         grid: { display: false }
+                    }
+                },
+                animation: {
+                    duration: 1000,
+                    easing: 'easeInOutQuart'
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
