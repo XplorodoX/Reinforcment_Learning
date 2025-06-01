@@ -186,7 +186,8 @@
         .lang-btn {
             padding: 0.5rem 1rem;
             border-radius: 0.375rem;
-            text-sm font-medium;
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500; /* font-medium */
             transition: background-color 0.2s;
         }
         .lang-btn.active {
@@ -201,8 +202,8 @@
             background-color: #0069d9;
         }
         .sub-concept-box {
-            background-color: #e6f7ff; /* Slightly different light blue */
-            border: 1px solid #ade8f4; /* Lighter border */
+            background-color: #e6f7ff; 
+            border: 1px solid #ade8f4; 
             border-radius: 0.375rem;
             padding: 1rem;
             margin-top: 1rem;
@@ -228,7 +229,7 @@
         <section id="intro-rl-mdp" class="bg-white p-8 rounded-lg shadow-xl">
             <h2 class="text-3xl font-semibold mb-8 text-center text-blue-700" data-i18n="section1Title">1. Grundlagen: RL & Markov-Entscheidungsprozesse (MDPs)</h2>
             <p class="text-lg mb-6 text-gray-700 leading-relaxed" data-i18n="section1Intro">
-                Reinforcement Learning (RL) ist ein Paradigma des maschinellen Lernens, bei dem ein autonomer <strong>Agent</strong> lernt, optimale Sequenzen von Entscheidungen (Aktionen) in einer komplexen und oft unsicheren <strong>Umgebung</strong> zu treffen. Das primäre Ziel des Agenten ist es, die Summe der erhaltenen <strong>Belohnungen</strong> über die Zeit zu maximieren. Dieser Lernprozess ist fundamental iterativ und erfahrungsbasiert.
+                Reinforcement Learning (RL) ist ein Paradigma des maschinellen Lernens, bei dem ein autonomer <strong>Agent</strong> lernt, optimale Sequenzen von Entscheidungen (Aktionen) in einer komplexen und oft unsicheren <strong>Umgebung</strong> zu treffen. Das primäre Ziel des Agenten ist es, die Summe der erhaltenen <strong>Belohnungen</strong> über die Zeit zu maximieren. Dieser Lernprozess ist fundamental iterativ und erfahrungsbasiert. RL unterscheidet sich von anderen Lernparadigmen wie überwachtem Lernen (wo gelabelte Beispiele gegeben sind) und unüberwachtem Lernen (wo es darum geht, versteckte Strukturen zu finden) durch seinen Fokus auf zielgerichtetes Lernen durch Interaktion und evaluatives Feedback.
             </p>
 
             <div class="grid md:grid-cols-2 gap-8 mb-10 items-start">
@@ -259,7 +260,7 @@
                             <li class="explanation-point" data-i18n="gammaShortSighted">$\gamma \approx 0$: Agent ist "kurzsichtig", fokussiert auf unmittelbare Belohnungen.</li>
                             <li class="explanation-point" data-i18n="gammaLongSighted">$\gamma \approx 1$: Agent ist "weitsichtig", berücksichtigt zukünftige Belohnungen stark.</li>
                         </ul>
-                        <p class="text-xs text-gray-500 mt-2" data-i18n="gammaContinuous">Notwendig für kontinuierliche Aufgaben, um unendliche Returns zu vermeiden.</p>
+                        <p class="text-xs text-gray-500 mt-2" data-i18n="gammaContinuous">Notwendig für kontinuierliche Aufgaben, um unendliche Returns zu vermeiden und mathematische Konvergenz sicherzustellen.</p>
                     </div>
                 </div>
             </div>
@@ -267,16 +268,16 @@
             <h3 class="text-2xl font-semibold mb-4 text-blue-600" data-i18n="mdpTitle">Der Markov-Entscheidungsprozess (MDP)</h3>
             <p class="mb-4 text-gray-700 leading-relaxed" data-i18n="mdpIntro">Ein MDP ist der Standardformalismus für RL-Probleme, die die Markov-Eigenschaft erfüllen. Er wird durch ein Tupel $(S, A, P, R, \gamma)$ definiert:</p>
             <div class="grid md:grid-cols-2 gap-x-8 gap-y-4 mb-6">
-                <div class="explanation-point" data-i18n="mdpS"><strong>S (Zustandsraum):</strong> Eine Menge aller möglichen Zustände. Z.B. Positionen auf einem Schachbrett, Gelenkwinkel eines Roboters.</div>
-                <div class="explanation-point" data-i18n="mdpA"><strong>A (Aktionsraum):</strong> Eine Menge aller möglichen Aktionen. Z.B. Züge im Schach, Motorkommandos für einen Roboter.</div>
-                <div class="explanation-point" data-i18n="mdpP"><strong>P (Zustandsübergangsmodell):</strong> $P(s'|s, a) = Pr\{S_{t+1}=s' | S_t=s, A_t=a\}$. Definiert die Dynamik der Umgebung.</div>
-                <div class="explanation-point" data-i18n="mdpR"><strong>R (Belohnungsfunktion):</strong> $R(s, a, s') = E[R_{t+1} | S_t=s, A_t=a, S_{t+1}=s']$. Definiert das Ziel des Agenten.</div>
+                <div class="explanation-point" data-i18n="mdpS"><strong>S (Zustandsraum):</strong> Eine Menge aller möglichen Zustände. Z.B. Positionen auf einem Schachbrett, Gelenkwinkel eines Roboters. Kann endlich oder unendlich sein.</div>
+                <div class="explanation-point" data-i18n="mdpA"><strong>A (Aktionsraum):</strong> Eine Menge aller möglichen Aktionen. Z.B. Züge im Schach, Motorkommandos für einen Roboter. Kann endlich oder unendlich sein.</div>
+                <div class="explanation-point" data-i18n="mdpP"><strong>P (Zustandsübergangsmodell):</strong> $P(s'|s, a) = Pr\{S_{t+1}=s' | S_t=s, A_t=a\}$. Definiert die Dynamik der Umgebung. Für jede Zustands-Aktions-Paar $(s,a)$ gibt $P$ eine Wahrscheinlichkeitsverteilung über mögliche Nachfolgezustände $s'$ an.</div>
+                <div class="explanation-point" data-i18n="mdpR"><strong>R (Belohnungsfunktion):</strong> $R(s, a, s') = E[R_{t+1} | S_t=s, A_t=a, S_{t+1}=s']$. Definiert das Ziel des Agenten. Gibt die erwartete unmittelbare Belohnung an, die beim Übergang von $s$ zu $s'$ durch Aktion $a$ erhalten wird. Manchmal auch als $R(s,a)$ oder $R(s)$ definiert.</div>
             </div>
             <div class="concept-box bg-indigo-50 border-indigo-200 p-5">
                 <h4 class="text-lg font-semibold text-indigo-700 mb-2" data-i18n="markovPropertyTitle">Die Markov-Eigenschaft</h4>
                 <p class="text-gray-700" data-i18n="markovPropertyQuote">"Die Zukunft ist unabhängig von der Vergangenheit, gegeben die Gegenwart."</p>
-                <p class="mt-2 text-sm equation-block text-indigo-800">$Pr\{S_{t+1}=s', R_{t+1}=r | S_t, A_t, S_{t-1}, A_{t-1}, \dots\} = Pr\{S_{t+1}=s', R_{t+1}=r | S_t, A_t\}$</p>
-                <p class="mt-2 text-sm text-gray-600" data-i18n="markovPropertyDesc">Der aktuelle Zustand $S_t$ enthält alle relevanten Informationen aus der Historie, um die nächste Zustands- und Belohnungswahrscheinlichkeit zu bestimmen. Dies ist eine starke Vereinfachung, die viele RL-Algorithmen ermöglicht.</p>
+                <p class="mt-2 text-sm equation-block text-indigo-800">$Pr\{S_{t+1}=s', R_{t+1}=r | S_t, A_t, S_{t-1}, A_{t-1}, \dots, S_0, A_0\} = Pr\{S_{t+1}=s', R_{t+1}=r | S_t, A_t\}$</p>
+                <p class="mt-2 text-sm text-gray-600" data-i18n="markovPropertyDesc">Der aktuelle Zustand $S_t$ enthält alle relevanten Informationen aus der Historie, um die nächste Zustands- und Belohnungswahrscheinlichkeit zu bestimmen. Dies ist eine starke Vereinfachung, die viele RL-Algorithmen ermöglicht. Wenn diese Eigenschaft nicht perfekt erfüllt ist, spricht man von partiell beobachtbaren MDPs (POMDPs), die komplexer sind.</p>
             </div>
 
             <div class="mt-8 p-6 bg-yellow-50 border border-yellow-300 rounded-lg">
@@ -284,19 +285,19 @@
                 <div class="grid md:grid-cols-2 gap-6">
                     <div>
                         <h5 class="text-lg font-semibold text-yellow-600 mb-1" data-i18n="creditAssignmentTitle">Credit Assignment</h5>
-                        <p class="text-sm text-gray-700" data-i18n="creditAssignmentDesc">Wie können Belohnungen (oder Bestrafungen), die erst spät in einer Sequenz von Aktionen auftreten, korrekt den früheren Aktionen zugeordnet werden, die ursächlich dafür waren?</p>
+                        <p class="text-sm text-gray-700" data-i18n="creditAssignmentDesc">Wie können Belohnungen (oder Bestrafungen), die erst spät in einer Sequenz von Aktionen auftreten, korrekt den früheren Aktionen zugeordnet werden, die ursächlich dafür waren? Dies ist besonders schwierig bei langen Verzögerungen zwischen Aktion und Konsequenz.</p>
                     </div>
                     <div>
                         <h5 class="text-lg font-semibold text-yellow-600 mb-1" data-i18n="exploreExploitTitle">Exploration vs. Exploitation</h5>
-                        <p class="text-sm text-gray-700" data-i18n="exploreExploitDesc">Der Agent muss entscheiden, ob er neue Aktionen ausprobiert, um mehr über die Umgebung zu lernen (Exploration), oder ob er die aktuell besten bekannten Aktionen ausführt, um die Belohnung zu maximieren (Exploitation).</p>
+                        <p class="text-sm text-gray-700" data-i18n="exploreExploitDesc">Der Agent muss entscheiden, ob er neue Aktionen ausprobiert, um mehr über die Umgebung zu lernen und potenziell bessere, unbekannte Belohnungen zu finden (Exploration), oder ob er die aktuell besten bekannten Aktionen ausführt, um die bereits bekannte Belohnung zu maximieren (Exploitation).</p>
                     </div>
                     <div>
                         <h5 class="text-lg font-semibold text-yellow-600 mb-1" data-i18n="policyTitle">Policy ($\pi$): Die Strategie des Agenten</h5>
-                        <p class="text-sm text-gray-700" data-i18n="policyDesc">Eine Abbildung von Zuständen zu Aktionen. Deterministisch: $\pi(s) = a$. Stochastisch: $\pi(a|s) = Pr\{A_t=a | S_t=s\}$.</p>
+                        <p class="text-sm text-gray-700" data-i18n="policyDesc">Eine Abbildung von Zuständen zu Aktionen. Deterministisch: $\pi(s) = a$. Stochastisch: $\pi(a|s) = Pr\{A_t=a | S_t=s\}$. Das Ziel ist es, eine optimale Policy $\pi_*$ zu finden.</p>
                     </div>
                     <div>
                         <h5 class="text-lg font-semibold text-yellow-600 mb-1" data-i18n="valueFunctionTitle">Wertfunktionen ($V^\pi, Q^\pi$): Wie gut ist ein Zustand/Aktion?</h5>
-                        <p class="text-sm text-gray-700" data-i18n="valueFunctionDesc">$V^\pi(s)$: Erwarteter Return, wenn man in Zustand $s$ startet und Policy $\pi$ folgt. $Q^\pi(s,a)$: Erwarteter Return, wenn man in Zustand $s$ Aktion $a$ ausführt und danach Policy $\pi$ folgt.</p>
+                        <p class="text-sm text-gray-700" data-i18n="valueFunctionDesc">$V^\pi(s) = E_\pi[G_t | S_t=s]$: Erwarteter Return, wenn man in Zustand $s$ startet und Policy $\pi$ folgt. $Q^\pi(s,a) = E_\pi[G_t | S_t=s, A_t=a]$: Erwarteter Return, wenn man in Zustand $s$ Aktion $a$ ausführt und danach Policy $\pi$ folgt.</p>
                     </div>
                 </div>
             </div>
@@ -305,7 +306,7 @@
         <section id="dp" class="bg-white p-8 rounded-lg shadow-xl">
             <h2 class="text-3xl font-semibold mb-8 text-center text-blue-700" data-i18n="section2Title">2. Dynamische Programmierung (DP): Planung mit perfektem Modell</h2>
             <p class="text-lg mb-6 text-gray-700 leading-relaxed" data-i18n="section2Intro">
-                Dynamische Programmierung (DP) umfasst Algorithmen, die eine optimale Policy $\pi^*$ für einen gegebenen MDP berechnen können, vorausgesetzt, das Modell der Umgebung (Übergangswahrscheinlichkeiten $P$ und Belohnungen $R$) ist vollständig bekannt. DP-Methoden nutzen Wertfunktionen, um die Suche nach guten Policies zu strukturieren und basieren auf den Bellman-Gleichungen.
+                Dynamische Programmierung (DP) umfasst Algorithmen, die eine optimale Policy $\pi^*$ für einen gegebenen MDP berechnen können, vorausgesetzt, das Modell der Umgebung (Übergangswahrscheinlichkeiten $P$ und Belohnungen $R$) ist vollständig bekannt. DP-Methoden nutzen Wertfunktionen, um die Suche nach guten Policies zu strukturieren und basieren auf den Bellman-Gleichungen. Sie sind fundamental für das Verständnis von RL, auch wenn ihre direkte Anwendbarkeit durch die Modellannahme und den Rechenaufwand ("Fluch der Dimensionalität") begrenzt ist.
             </p>
             <div class="concept-box bg-blue-50 border-blue-200 p-6 mb-8">
                 <h3 class="text-xl font-semibold mb-3 text-blue-600" data-i18n="bellmanOptimalityPrincipleTitle">Bellman-Optimalitätsprinzip</h3>
@@ -316,7 +317,7 @@
             <div class="grid md:grid-cols-2 gap-8 mb-8">
                 <div class="concept-box bg-green-50 border-green-200 p-6">
                     <h3 class="text-xl font-semibold mb-4 text-green-700" data-i18n="policyIterationTitle">Policy Iteration (Politikiteration)</h3>
-                    <p class="text-sm text-gray-700 mb-3" data-i18n="policyIterationDesc">Ein iterativer Algorithmus, der zwischen zwei Schritten wechselt:</p>
+                    <p class="text-sm text-gray-700 mb-3" data-i18n="policyIterationDesc">Ein iterativer Algorithmus, der zwischen zwei Schritten wechselt, bis die Policy nicht mehr verbessert werden kann:</p>
                     <div class="space-y-3">
                         <div class="flow-step bg-green-100 border-green-500"><strong data-i18n="policyEvalTitle">1. Policy Evaluation (Bewertung):</strong> <span data-i18n="policyEvalDesc">Berechne die Zustands-Wertfunktion $V^\pi(s)$ für die aktuelle Policy $\pi$. Dies geschieht durch iteratives Anwenden der Bellman-Erwartungsgleichung bis zur Konvergenz:</span> <br> <span class="math-formula text-xs">$V_{k+1}^\pi(s) \leftarrow \sum_a \pi(a|s) \sum_{s',r} P(s',r|s,a) [r + \gamma V_k^\pi(s')]$</span></div>
                         <div class="flow-arrow text-green-600">⬇️</div>
@@ -448,7 +449,7 @@
                     </p>
                      <div class="sub-concept-box mt-4">
                         <h4 class="text-lg font-semibold text-sky-600 mb-2" data-i18n="expectedSarsaTitle">Expected SARSA</h4>
-                        <p class="text-sm text-gray-700" data-i18n="expectedSarsaDesc">Eine Variante, die den Erwartungswert über alle möglichen Aktionen $A_{t+1}$ gemäß der aktuellen Policy $\pi$ nimmt, anstatt die spezifisch gewählte Aktion $A_{t+1}$ zu verwenden. Dies kann die Varianz reduzieren.</p>
+                        <p class="text-sm text-gray-700" data-i18n="expectedSarsaDesc">Eine Variante, die den Erwartungswert über alle möglichen Aktionen $A_{t+1}$ gemäß der aktuellen Policy $\pi$ nimmt, anstatt die spezifisch gewählte Aktion $A_{t+1}$ zu verwenden. Dies kann die Varianz reduzieren und ist oft stabiler.</p>
                         <span class="math-formula block mt-2 text-xs">$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha [R_{t+1} + \gamma \sum_{a'} \pi(a'|S_{t+1}) Q(S_{t+1}, a') - Q(S_t, A_t)]$</span>
                     </div>
                 </div>
@@ -464,8 +465,8 @@
                     </p>
                     <div class="sub-concept-box mt-4">
                         <h4 class="text-lg font-semibold text-lime-600 mb-2" data-i18n="doubleQLearningTitle">Double Q-Learning</h4>
-                        <p class="text-sm text-gray-700" data-i18n="doubleQLearningDesc">Standard Q-Learning kann unter bestimmten Umständen zu einer Überschätzung der Q-Werte führen (Maximierungs-Bias). Double Q-Learning adressiert dies, indem es zwei separate Q-Wert-Schätzungen ($Q_A$ und $Q_B$) pflegt. Eine wird zur Auswahl der besten Aktion im nächsten Zustand verwendet, die andere zur Bewertung dieser Aktion.</p>
-                        <p class="text-sm text-gray-700 mt-1" data-i18n="doubleQLearningUpdate">Z.B. Update für $Q_A$: $Q_A(S_t,A_t) \leftarrow Q_A(S_t,A_t) + \alpha [R_{t+1} + \gamma Q_B(S_{t+1}, \text{argmax}_{a'} Q_A(S_{t+1},a')) - Q_A(S_t,A_t)]$ (und umgekehrt für $Q_B$).</p>
+                        <p class="text-sm text-gray-700" data-i18n="doubleQLearningDesc">Standard Q-Learning kann unter bestimmten Umständen zu einer Überschätzung der Q-Werte führen (Maximierungs-Bias), da der $\max$-Operator sowohl zur Auswahl als auch zur Bewertung der Aktion verwendet wird. Double Q-Learning adressiert dies, indem es zwei separate Q-Wert-Schätzungen ($Q_A$ und $Q_B$) pflegt. Eine wird zur Auswahl der besten Aktion im nächsten Zustand verwendet, die andere zur Bewertung dieser Aktion.</p>
+                        <p class="text-sm text-gray-700 mt-1" data-i18n="doubleQLearningUpdate">Z.B. Update für $Q_A$ (mit 50% Wahrscheinlichkeit): $Q_A(S_t,A_t) \leftarrow Q_A(S_t,A_t) + \alpha [R_{t+1} + \gamma Q_B(S_{t+1}, \text{argmax}_{a'} Q_A(S_{t+1},a')) - Q_A(S_t,A_t)]$. In der anderen Hälfte der Fälle wird $Q_B$ mit den Rollen von $Q_A$ und $Q_B$ vertauscht aktualisiert.</p>
                     </div>
                 </div>
             </div>
@@ -475,12 +476,12 @@
                     <div class="p-4 bg-white rounded shadow">
                         <h4 class="font-bold text-indigo-600 mb-2" data-i18n="sarsaPathTitle">SARSA (On-Policy)</h4>
                         <p>$S_t \xrightarrow{A_t (\text{aus } \pi)} R_{t+1}, S_{t+1} \xrightarrow{A_{t+1} (\text{aus } \pi)} \dots$</p>
-                        <p class="mt-1" data-i18n="sarsaPathDesc">Update für $Q(S_t, A_t)$ verwendet $Q(S_{t+1}, A_{t+1})$. Lernt den Wert der tatsächlich ausgeführten Policy.</p>
+                        <p class="mt-1" data-i18n="sarsaPathDesc">Update für $Q(S_t, A_t)$ verwendet $Q(S_{t+1}, A_{t+1})$. Lernt den Wert der tatsächlich ausgeführten Policy (inkl. Exploration).</p>
                     </div>
                     <div class="p-4 bg-white rounded shadow">
                         <h4 class="font-bold text-indigo-600 mb-2" data-i18n="qLearningPathTitle">Q-Learning (Off-Policy)</h4>
                         <p>$S_t \xrightarrow{A_t (\text{aus Verhaltens-}\pi)} R_{t+1}, S_{t+1} \quad (\text{Zielaktion ist } \text{argmax}_{a'} Q(S_{t+1}, a'))$</p>
-                        <p class="mt-1" data-i18n="qLearningPathDesc">Update für $Q(S_t, A_t)$ verwendet $\max_{a'} Q(S_{t+1}, a')$. Lernt den Wert der optimalen (gierigen) Policy, auch wenn die Aktionen anders gewählt wurden.</p>
+                        <p class="mt-1" data-i18n="qLearningPathDesc">Update für $Q(S_t, A_t)$ verwendet $\max_{a'} Q(S_{t+1}, a')$. Lernt den Wert der optimalen (gierigen) Policy, auch wenn die Aktionen anders (z.B. explorativ) gewählt wurden.</p>
                     </div>
                 </div>
                  <p class="mt-5 text-md font-semibold text-indigo-600" data-i18n="epsilonGreedyTitle">Bedeutung von $\epsilon$-greedy Exploration:</p>
@@ -491,9 +492,9 @@
              <div class="mt-10 p-6 bg-purple-50 border border-purple-200 rounded-lg">
                 <h3 class="text-xl font-semibold text-purple-700 mb-3" data-i18n="vfaTitle">Ausblick: Wertfunktionsapproximation (VFA)</h3>
                 <p class="text-gray-700 leading-relaxed" data-i18n="vfaDesc">
-                    Für Probleme mit sehr großen oder kontinuierlichen Zustandsräumen sind tabellarische Darstellungen von $Q(s,a)$ (eine Tabelle für jedes Zustands-Aktions-Paar) nicht mehr praktikabel. Hier kommt die Wertfunktionsapproximation ins Spiel: Anstatt die Q-Werte exakt zu speichern, werden sie durch eine parametrisierte Funktion approximiert, z.B. eine lineare Funktion oder ein neuronales Netz: $Q(s,a; \mathbf{w}) \approx Q^*(s,a)$. Die Parameter $\mathbf{w}$ werden dann gelernt.
+                    Für Probleme mit sehr großen oder kontinuierlichen Zustandsräumen sind tabellarische Darstellungen von $Q(s,a)$ (eine Tabelle für jedes Zustands-Aktions-Paar) nicht mehr praktikabel. Hier kommt die Wertfunktionsapproximation ins Spiel: Anstatt die Q-Werte exakt zu speichern, werden sie durch eine parametrisierte Funktion approximiert, z.B. eine lineare Funktion $\hat{q}(s,a;\mathbf{w}) = \mathbf{w}^\top \mathbf{x}(s,a)$ oder ein neuronales Netz $Q(s,a; \mathbf{w}) \approx Q^*(s,a)$. Die Parameter $\mathbf{w}$ werden dann gelernt, oft mittels Gradientenverfahren.
                 </p>
-                <p class="mt-2 text-sm text-gray-600" data-i18n="vfaExample">Ein bekanntes Beispiel ist das Deep Q-Network (DQN), das ein tiefes neuronales Netz zur Approximation der Q-Funktion verwendet und bemerkenswerte Erfolge in komplexen Umgebungen wie Atari-Spielen erzielt hat.</p>
+                <p class="mt-2 text-sm text-gray-600" data-i18n="vfaExample">Ein bekanntes Beispiel ist das Deep Q-Network (DQN), das ein tiefes neuronales Netz zur Approximation der Q-Funktion verwendet und bemerkenswerte Erfolge in komplexen Umgebungen wie Atari-Spielen erzielt hat. Dies eröffnet die Anwendung von RL auf Probleme mit hochdimensionalen sensorischen Eingaben.</p>
             </div>
         </section>
 
@@ -537,7 +538,7 @@
                 headerTitle: "Reinforcement Learning: Detaillierte Einblicke & Quiz",
                 headerSubtitle: "Vertiefte Konzepte, Algorithmen und interaktives Quiz",
                 section1Title: "1. Grundlagen: RL & Markov-Entscheidungsprozesse (MDPs)",
-                section1Intro: "Reinforcement Learning (RL) ist ein Paradigma des maschinellen Lernens, bei dem ein autonomer <strong>Agent</strong> lernt, optimale Sequenzen von Entscheidungen (Aktionen) in einer komplexen und oft unsicheren <strong>Umgebung</strong> zu treffen. Das primäre Ziel des Agenten ist es, die Summe der erhaltenen <strong>Belohnungen</strong> über die Zeit zu maximieren. Dieser Lernprozess ist fundamental iterativ und erfahrungsbasiert.",
+                section1Intro: "Reinforcement Learning (RL) ist ein Paradigma des maschinellen Lernens, bei dem ein autonomer <strong>Agent</strong> lernt, optimale Sequenzen von Entscheidungen (Aktionen) in einer komplexen und oft unsicheren <strong>Umgebung</strong> zu treffen. Das primäre Ziel des Agenten ist es, die Summe der erhaltenen <strong>Belohnungen</strong> über die Zeit zu maximieren. Dieser Lernprozess ist fundamental iterativ und erfahrungsbasiert. RL unterscheidet sich von anderen Lernparadigmen wie überwachtem Lernen (wo gelabelte Beispiele gegeben sind) und unüberwachtem Lernen (wo es darum geht, versteckte Strukturen zu finden) durch seinen Fokus auf zielgerichtetes Lernen durch Interaktion und evaluatives Feedback.",
                 agentEnvCycleTitle: "Der Agent-Umgebung-Interaktionszyklus",
                 cycleStep1: "1. Agent beobachtet aktuellen Zustand $S_t$ der Umgebung.",
                 cycleStep2: "2. Agent wählt eine Aktion $A_t$ basierend auf seiner aktuellen Strategie (Policy $\\pi$).",
@@ -545,38 +546,38 @@
                 cycleStep4: "4. Agent aktualisiert seine Policy $\\pi$ basierend auf der Erfahrung $(S_t, A_t, R_{t+1}, S_{t+1})$.",
                 cycleDesc: "Dieser Zyklus wiederholt sich, wodurch der Agent schrittweise lernt, bessere Entscheidungen zu treffen.",
                 goalTitle: "Maximierung des kumulativen Returns",
-                goalDesc: "Der Return $G_t = R_{t+1} + \\gamma R_{t+2} + \\gamma^2 R_{t+3} + \\dots = \\sum_{k=0}^{\\infty} \\gamma^k R_{t+k+1}$ ist die Summe der diskontierten zukünftigen Belohnungen. Die <strong>Reward Hypothesis</strong> besagt, dass alle Ziele durch die Maximierung des erwarteten kumulativen Rewards formuliert werden können.",
+                goalDesc: "Der Return $G_t = R_{t+1} + \\gamma R_{t+2} + \\gamma^2 R_{t+3} + \\dots = \\sum_{k=0}^{\\infty} \\gamma^k R_{t+k+1}$ ist die Summe der diskontierten zukünftigen Belohnungen. Die <strong data-i18n=\"rewardHypothesis\">Reward Hypothesis</strong> besagt, dass alle Ziele durch die Maximierung des erwarteten kumulativen Rewards formuliert werden können.",
                 rewardHypothesis: "Reward Hypothesis",
                 gammaFactorTitle: "Der Diskontierungsfaktor $\\gamma$",
                 gammaDesc: "Steuert die Wichtigkeit zukünftiger Belohnungen:",
                 gammaShortSighted: "$\\gamma \\approx 0$: Agent ist \"kurzsichtig\", fokussiert auf unmittelbare Belohnungen.",
                 gammaLongSighted: "$\\gamma \\approx 1$: Agent ist \"weitsichtig\", berücksichtigt zukünftige Belohnungen stark.",
-                gammaContinuous: "Notwendig für kontinuierliche Aufgaben, um unendliche Returns zu vermeiden.",
+                gammaContinuous: "Notwendig für kontinuierliche Aufgaben, um unendliche Returns zu vermeiden und mathematische Konvergenz sicherzustellen.",
                 mdpTitle: "Der Markov-Entscheidungsprozess (MDP)",
                 mdpIntro: "Ein MDP ist der Standardformalismus für RL-Probleme, die die Markov-Eigenschaft erfüllen. Er wird durch ein Tupel $(S, A, P, R, \\gamma)$ definiert:",
-                mdpS: "<strong>S (Zustandsraum):</strong> Eine Menge aller möglichen Zustände. Z.B. Positionen auf einem Schachbrett, Gelenkwinkel eines Roboters.",
-                mdpA: "<strong>A (Aktionsraum):</strong> Eine Menge aller möglichen Aktionen. Z.B. Züge im Schach, Motorkommandos für einen Roboter.",
-                mdpP: "<strong>P (Zustandsübergangsmodell):</strong> $P(s'|s, a) = Pr\\{S_{t+1}=s' | S_t=s, A_t=a\\}$. Definiert die Dynamik der Umgebung.",
-                mdpR: "<strong>R (Belohnungsfunktion):</strong> $R(s, a, s') = E[R_{t+1} | S_t=s, A_t=a, S_{t+1}=s']$. Definiert das Ziel des Agenten.",
+                mdpS: "<strong>S (Zustandsraum):</strong> Eine Menge aller möglichen Zustände. Z.B. Positionen auf einem Schachbrett, Gelenkwinkel eines Roboters. Kann endlich oder unendlich sein.",
+                mdpA: "<strong>A (Aktionsraum):</strong> Eine Menge aller möglichen Aktionen. Z.B. Züge im Schach, Motorkommandos für einen Roboter. Kann endlich oder unendlich sein.",
+                mdpP: "<strong>P (Zustandsübergangsmodell):</strong> $P(s'|s, a) = Pr\\{S_{t+1}=s' | S_t=s, A_t=a\\}$. Definiert die Dynamik der Umgebung. Für jede Zustands-Aktions-Paar $(s,a)$ gibt $P$ eine Wahrscheinlichkeitsverteilung über mögliche Nachfolgezustände $s'$ an.",
+                mdpR: "<strong>R (Belohnungsfunktion):</strong> $R(s, a, s') = E[R_{t+1} | S_t=s, A_t=a, S_{t+1}=s']$. Definiert das Ziel des Agenten. Gibt die erwartete unmittelbare Belohnung an, die beim Übergang von $s$ zu $s'$ durch Aktion $a$ erhalten wird. Manchmal auch als $R(s,a)$ oder $R(s)$ definiert.",
                 markovPropertyTitle: "Die Markov-Eigenschaft",
                 markovPropertyQuote: "\"Die Zukunft ist unabhängig von der Vergangenheit, gegeben die Gegenwart.\"",
-                markovPropertyDesc: "Der aktuelle Zustand $S_t$ enthält alle relevanten Informationen aus der Historie, um die nächste Zustands- und Belohnungswahrscheinlichkeit zu bestimmen. Dies ist eine starke Vereinfachung, die viele RL-Algorithmen ermöglicht.",
+                markovPropertyDesc: "Der aktuelle Zustand $S_t$ enthält alle relevanten Informationen aus der Historie, um die nächste Zustands- und Belohnungswahrscheinlichkeit zu bestimmen. Dies ist eine starke Vereinfachung, die viele RL-Algorithmen ermöglicht. Wenn diese Eigenschaft nicht perfekt erfüllt ist, spricht man von partiell beobachtbaren MDPs (POMDPs), die komplexer sind.",
                 coreChallengesTitle: "Kernherausforderungen und Konzepte",
                 creditAssignmentTitle: "Credit Assignment",
-                creditAssignmentDesc: "Wie können Belohnungen (oder Bestrafungen), die erst spät in einer Sequenz von Aktionen auftreten, korrekt den früheren Aktionen zugeordnet werden, die ursächlich dafür waren?",
+                creditAssignmentDesc: "Wie können Belohnungen (oder Bestrafungen), die erst spät in einer Sequenz von Aktionen auftreten, korrekt den früheren Aktionen zugeordnet werden, die ursächlich dafür waren? Dies ist besonders schwierig bei langen Verzögerungen zwischen Aktion und Konsequenz.",
                 exploreExploitTitle: "Exploration vs. Exploitation",
-                exploreExploitDesc: "Der Agent muss entscheiden, ob er neue Aktionen ausprobiert, um mehr über die Umgebung zu lernen (Exploration), oder ob er die aktuell besten bekannten Aktionen ausführt, um die Belohnung zu maximieren (Exploitation).",
+                exploreExploitDesc: "Der Agent muss entscheiden, ob er neue Aktionen ausprobiert, um mehr über die Umgebung zu lernen und potenziell bessere, unbekannte Belohnungen zu finden (Exploration), oder ob er die aktuell besten bekannten Aktionen ausführt, um die bereits bekannte Belohnung zu maximieren (Exploitation).",
                 policyTitle: "Policy ($\\pi$): Die Strategie des Agenten",
-                policyDesc: "Eine Abbildung von Zuständen zu Aktionen. Deterministisch: $\\pi(s) = a$. Stochastisch: $\\pi(a|s) = Pr\\{A_t=a | S_t=s\\}$.",
+                policyDesc: "Eine Abbildung von Zuständen zu Aktionen. Deterministisch: $\\pi(s) = a$. Stochastisch: $\\pi(a|s) = Pr\\{A_t=a | S_t=s\\}$. Das Ziel ist es, eine optimale Policy $\\pi_*$ zu finden.",
                 valueFunctionTitle: "Wertfunktionen ($V^\\pi, Q^\\pi$): Wie gut ist ein Zustand/Aktion?",
-                valueFunctionDesc: "$V^\\pi(s)$: Erwarteter Return, wenn man in Zustand $s$ startet und Policy $\\pi$ folgt. $Q^\\pi(s,a)$: Erwarteter Return, wenn man in Zustand $s$ Aktion $a$ ausführt und danach Policy $\\pi$ folgt.",
+                valueFunctionDesc: "$V^\\pi(s) = E_\\pi[G_t | S_t=s]$: Erwarteter Return, wenn man in Zustand $s$ startet und Policy $\\pi$ folgt. $Q^\\pi(s,a) = E_\\pi[G_t | S_t=s, A_t=a]$: Erwarteter Return, wenn man in Zustand $s$ Aktion $a$ ausführt und danach Policy $\\pi$ folgt.",
                 section2Title: "2. Dynamische Programmierung (DP): Planung mit perfektem Modell",
-                section2Intro: "Dynamische Programmierung (DP) umfasst Algorithmen, die eine optimale Policy $\\pi^*$ für einen gegebenen MDP berechnen können, vorausgesetzt, das Modell der Umgebung (Übergangswahrscheinlichkeiten $P$ und Belohnungen $R$) ist vollständig bekannt. DP-Methoden nutzen Wertfunktionen, um die Suche nach guten Policies zu strukturieren und basieren auf den Bellman-Gleichungen.",
+                section2Intro: "Dynamische Programmierung (DP) umfasst Algorithmen, die eine optimale Policy $\\pi^*$ für einen gegebenen MDP berechnen können, vorausgesetzt, das Modell der Umgebung (Übergangswahrscheinlichkeiten $P$ und Belohnungen $R$) ist vollständig bekannt. DP-Methoden nutzen Wertfunktionen, um die Suche nach guten Policies zu strukturieren und basieren auf den Bellman-Gleichungen. Sie sind fundamental für das Verständnis von RL, auch wenn ihre direkte Anwendbarkeit durch die Modellannahme und den Rechenaufwand (\"Fluch der Dimensionalität\") begrenzt ist.",
                 bellmanOptimalityPrincipleTitle: "Bellman-Optimalitätsprinzip",
                 bellmanOptimalityPrincipleQuote: "\"Eine optimale Policy hat die Eigenschaft, dass, was auch immer der Anfangszustand und die erste Entscheidung sind, die verbleibenden Entscheidungen eine optimale Policy bezüglich des aus der ersten Entscheidung resultierenden Zustands darstellen müssen.\" (Bellman, 1957)",
                 bellmanOptimalityPrincipleDesc: "Einfach gesagt: Wenn der beste Pfad von A nach C über B führt, dann muss der Teilpfad von B nach C auch der beste Pfad von B nach C sein.",
                 policyIterationTitle: "Policy Iteration (Politikiteration)",
-                policyIterationDesc: "Ein iterativer Algorithmus, der zwischen zwei Schritten wechselt:",
+                policyIterationDesc: "Ein iterativer Algorithmus, der zwischen zwei Schritten wechselt, bis die Policy nicht mehr verbessert werden kann:",
                 policyEvalTitle: "1. Policy Evaluation (Bewertung):",
                 policyEvalDesc: "Berechne die Zustands-Wertfunktion $V^\\pi(s)$ für die aktuelle Policy $\\pi$. Dies geschieht durch iteratives Anwenden der Bellman-Erwartungsgleichung bis zur Konvergenz:",
                 policyImprovTitle: "2. Policy Improvement (Verbesserung):",
@@ -642,24 +643,24 @@
                 sarsaUpdateRuleTitle: "Update-Regel für $Q(S_t, A_t)$:",
                 sarsaNameOrigin: "Der Name SARSA kommt von der Sequenz der Ereignisse im Update: $(S_t, A_t, R_{t+1}, S_{t+1}, A_{t+1})$. $A_{t+1}$ wird gemäß der aktuellen (oft $\\epsilon$-greedy) Policy gewählt.",
                 expectedSarsaTitle: "Expected SARSA",
-                expectedSarsaDesc: "Eine Variante, die den Erwartungswert über alle möglichen Aktionen $A_{t+1}$ gemäß der aktuellen Policy $\\pi$ nimmt, anstatt die spezifisch gewählte Aktion $A_{t+1}$ zu verwenden. Dies kann die Varianz reduzieren.",
+                expectedSarsaDesc: "Eine Variante, die den Erwartungswert über alle möglichen Aktionen $A_{t+1}$ gemäß der aktuellen Policy $\\pi$ nimmt, anstatt die spezifisch gewählte Aktion $A_{t+1}$ zu verwenden. Dies kann die Varianz reduzieren und ist oft stabiler.",
                 qLearningTitle: "Q-Learning (Off-Policy TD Control)",
                 qLearningDesc: "Q-Learning ist ein Off-Policy TD-Algorithmus. \"Off-Policy\" bedeutet, dass es die optimale Aktions-Wertfunktion $Q^*(s,a)$ lernt, unabhängig von der Policy, die der Agent zur Exploration verwendet (Verhaltenspolicy), solange diese alle Zustands-Aktions-Paare ausreichend oft besucht.",
                 qLearningUpdateRuleTitle: "Update-Regel für $Q(S_t, A_t)$:",
                 qLearningKeyDiff: "Der entscheidende Unterschied ist der Term $\\max_{a'} Q(S_{t+1}, a')$, der den maximalen $Q$-Wert im Folgezustand verwendet, was der Aktion entspricht, die eine gierige Policy wählen würde (Zielpolicy).",
                 doubleQLearningTitle: "Double Q-Learning",
-                doubleQLearningDesc: "Standard Q-Learning kann unter bestimmten Umständen zu einer Überschätzung der Q-Werte führen (Maximierungs-Bias). Double Q-Learning adressiert dies, indem es zwei separate Q-Wert-Schätzungen ($Q_A$ und $Q_B$) pflegt. Eine wird zur Auswahl der besten Aktion im nächsten Zustand verwendet, die andere zur Bewertung dieser Aktion.",
-                doubleQLearningUpdate: "Z.B. Update für $Q_A$: $Q_A(S_t,A_t) \\leftarrow Q_A(S_t,A_t) + \\alpha [R_{t+1} + \\gamma Q_B(S_{t+1}, \\text{argmax}_{a'} Q_A(S_{t+1},a')) - Q_A(S_t,A_t)]$ (und umgekehrt für $Q_B$).",
+                doubleQLearningDesc: "Standard Q-Learning kann unter bestimmten Umständen zu einer Überschätzung der Q-Werte führen (Maximierungs-Bias), da der $\\max$-Operator sowohl zur Auswahl als auch zur Bewertung der Aktion verwendet wird. Double Q-Learning adressiert dies, indem es zwei separate Q-Wert-Schätzungen ($Q_A$ und $Q_B$) pflegt. Eine wird zur Auswahl der besten Aktion im nächsten Zustand verwendet, die andere zur Bewertung dieser Aktion.",
+                doubleQLearningUpdate: "Z.B. Update für $Q_A$ (mit 50% Wahrscheinlichkeit): $Q_A(S_t,A_t) \\leftarrow Q_A(S_t,A_t) + \\alpha [R_{t+1} + \\gamma Q_B(S_{t+1}, \\text{argmax}_{a'} Q_A(S_{t+1},a')) - Q_A(S_t,A_t)]$ (und umgekehrt für $Q_B$).",
                 onOffPolicyCompareTitle: "Vergleich der Update-Pfade: SARSA vs. Q-Learning",
                 sarsaPathTitle: "SARSA (On-Policy)",
-                sarsaPathDesc: "Update für $Q(S_t, A_t)$ verwendet $Q(S_{t+1}, A_{t+1})$. Lernt den Wert der tatsächlich ausgeführten Policy.",
+                sarsaPathDesc: "Update für $Q(S_t, A_t)$ verwendet $Q(S_{t+1}, A_{t+1})$. Lernt den Wert der tatsächlich ausgeführten Policy (inkl. Exploration).",
                 qLearningPathTitle: "Q-Learning (Off-Policy)",
-                qLearningPathDesc: "Update für $Q(S_t, A_t)$ verwendet $\\max_{a'} Q(S_{t+1}, a')$. Lernt den Wert der optimalen (gierigen) Policy, auch wenn die Aktionen anders gewählt wurden.",
+                qLearningPathDesc: "Update für $Q(S_t, A_t)$ verwendet $\\max_{a'} Q(S_{t+1}, a')$. Lernt den Wert der optimalen (gierigen) Policy, auch wenn die Aktionen anders (z.B. explorativ) gewählt wurden.",
                 epsilonGreedyTitle: "Bedeutung von $\\epsilon$-greedy Exploration:",
                 epsilonGreedyDesc: "Um sicherzustellen, dass der Agent alle relevanten Zustands-Aktions-Paare erkundet und nicht in lokalen Optima stecken bleibt, wird oft eine $\\epsilon$-greedy Strategie verwendet. Mit einer kleinen Wahrscheinlichkeit $\\epsilon$ wählt der Agent eine zufällige Aktion, anstatt der aktuell als optimal erachteten (gierigen) Aktion. Der Wert von $\\epsilon$ wird oft im Laufe des Trainings reduziert (Annealing), um von Exploration zu Exploitation überzugehen.",
                 vfaTitle: "Ausblick: Wertfunktionsapproximation (VFA)",
-                vfaDesc: "Für Probleme mit sehr großen oder kontinuierlichen Zustandsräumen sind tabellarische Darstellungen von $Q(s,a)$ (eine Tabelle für jedes Zustands-Aktions-Paar) nicht mehr praktikabel. Hier kommt die Wertfunktionsapproximation ins Spiel: Anstatt die Q-Werte exakt zu speichern, werden sie durch eine parametrisierte Funktion approximiert, z.B. eine lineare Funktion oder ein neuronales Netz: $Q(s,a; \\mathbf{w}) \\approx Q^*(s,a)$. Die Parameter $\\mathbf{w}$ werden dann gelernt.",
-                vfaExample: "Ein bekanntes Beispiel ist das Deep Q-Network (DQN), das ein tiefes neuronales Netz zur Approximation der Q-Funktion verwendet und bemerkenswerte Erfolge in komplexen Umgebungen wie Atari-Spielen erzielt hat.",
+                vfaDesc: "Für Probleme mit sehr großen oder kontinuierlichen Zustandsräumen sind tabellarische Darstellungen von $Q(s,a)$ (eine Tabelle für jedes Zustands-Aktions-Paar) nicht mehr praktikabel. Hier kommt die Wertfunktionsapproximation ins Spiel: Anstatt die Q-Werte exakt zu speichern, werden sie durch eine parametrisierte Funktion approximiert, z.B. eine lineare Funktion $\\hat{q}(s,a;\\mathbf{w}) = \\mathbf{w}^\\top \\mathbf{x}(s,a)$ oder ein neuronales Netz $Q(s,a; \\mathbf{w}) \\approx Q^*(s,a)$. Die Parameter $\\mathbf{w}$ werden dann gelernt, oft mittels Gradientenverfahren.",
+                vfaExample: "Ein bekanntes Beispiel ist das Deep Q-Network (DQN), das ein tiefes neuronales Netz zur Approximation der Q-Funktion verwendet und bemerkenswerte Erfolge in komplexen Umgebungen wie Atari-Spielen erzielt hat. Dies eröffnet die Anwendung von RL auf Probleme mit hochdimensionalen sensorischen Eingaben.",
                 quizSectionTitle: "Wissens-Quiz zur Zwischenprüfung",
                 quizJsonLoading: "Lade Quizdaten...",
                 quizLoading: "Frage wird geladen...",
@@ -704,7 +705,7 @@
                 headerTitle: "Reinforcement Learning: Detailed Insights & Quiz",
                 headerSubtitle: "In-depth Concepts, Algorithms, and Interactive Quiz",
                 section1Title: "1. Basics: RL & Markov Decision Processes (MDPs)",
-                section1Intro: "Reinforcement Learning (RL) is a paradigm of machine learning where an autonomous <strong>agent</strong> learns to make optimal sequences of decisions (actions) in a complex and often uncertain <strong>environment</strong>. The primary goal of the agent is to maximize the sum of received <strong>rewards</strong> over time. This learning process is fundamentally iterative and experience-based.",
+                section1Intro: "Reinforcement Learning (RL) is a paradigm of machine learning where an autonomous <strong>agent</strong> learns to make optimal sequences of decisions (actions) in a complex and often uncertain <strong>environment</strong>. The primary goal of the agent is to maximize the sum of received <strong>rewards</strong> over time. This learning process is fundamentally iterative and experience-based. RL differs from other learning paradigms like supervised learning (where labeled examples are given) and unsupervised learning (which is about finding hidden structures) through its focus on goal-directed learning via interaction and evaluative feedback.",
                 agentEnvCycleTitle: "The Agent-Environment Interaction Cycle",
                 cycleStep1: "1. Agent observes current state $S_t$ of the environment.",
                 cycleStep2: "2. Agent selects an action $A_t$ based on its current strategy (policy $\\pi$).",
@@ -718,32 +719,32 @@
                 gammaDesc: "Controls the importance of future rewards:",
                 gammaShortSighted: "$\\gamma \\approx 0$: Agent is \"myopic\", focusing on immediate rewards.",
                 gammaLongSighted: "$\\gamma \\approx 1$: Agent is \"far-sighted\", strongly considering future rewards.",
-                gammaContinuous: "Necessary for continuous tasks to avoid infinite returns.",
+                gammaContinuous: "Necessary for continuous tasks to avoid infinite returns and ensure mathematical convergence.",
                 mdpTitle: "The Markov Decision Process (MDP)",
                 mdpIntro: "An MDP is the standard formalism for RL problems that satisfy the Markov property. It is defined by a tuple $(S, A, P, R, \\gamma)$:",
-                mdpS: "<strong>S (State Space):</strong> A set of all possible states. E.g., positions on a chessboard, joint angles of a robot.",
-                mdpA: "<strong>A (Action Space):</strong> A set of all possible actions. E.g., moves in chess, motor commands for a robot.",
-                mdpP: "<strong>P (State Transition Model):</strong> $P(s'|s, a) = Pr\\{S_{t+1}=s' | S_t=s, A_t=a\\}$. Defines the dynamics of the environment.",
-                mdpR: "<strong>R (Reward Function):</strong> $R(s, a, s') = E[R_{t+1} | S_t=s, A_t=a, S_{t+1}=s']$. Defines the agent's goal.",
+                mdpS: "<strong>S (State Space):</strong> A set of all possible states. E.g., positions on a chessboard, joint angles of a robot. Can be finite or infinite.",
+                mdpA: "<strong>A (Action Space):</strong> A set of all possible actions. E.g., moves in chess, motor commands for a robot. Can be finite or infinite.",
+                mdpP: "<strong>P (State Transition Model):</strong> $P(s'|s, a) = Pr\\{S_{t+1}=s' | S_t=s, A_t=a\\}$. Defines the dynamics of the environment. For each state-action pair $(s,a)$, $P$ gives a probability distribution over possible successor states $s'$.",
+                mdpR: "<strong>R (Reward Function):</strong> $R(s, a, s') = E[R_{t+1} | S_t=s, A_t=a, S_{t+1}=s']$. Defines the agent's goal. Gives the expected immediate reward received when transitioning from $s$ to $s'$ via action $a$. Sometimes also defined as $R(s,a)$ or $R(s)$.",
                 markovPropertyTitle: "The Markov Property",
                 markovPropertyQuote: "\"The future is independent of the past, given the present.\"",
-                markovPropertyDesc: "The current state $S_t$ contains all relevant information from the history to determine the next state and reward probabilities. This is a strong simplification that enables many RL algorithms.",
+                markovPropertyDesc: "The current state $S_t$ contains all relevant information from the history to determine the next state and reward probabilities. This is a strong simplification that enables many RL algorithms. If this property is not perfectly met, one speaks of partially observable MDPs (POMDPs), which are more complex.",
                 coreChallengesTitle: "Core Challenges and Concepts",
                 creditAssignmentTitle: "Credit Assignment",
-                creditAssignmentDesc: "How can rewards (or punishments) that occur late in a sequence of actions be correctly attributed to the earlier actions that caused them?",
+                creditAssignmentDesc: "How can rewards (or punishments) that occur late in a sequence of actions be correctly attributed to the earlier actions that caused them? This is particularly difficult with long delays between action and consequence.",
                 exploreExploitTitle: "Exploration vs. Exploitation",
-                exploreExploitDesc: "The agent must decide whether to try new actions to learn more about the environment (exploration) or to execute the currently known best actions to maximize reward (exploitation).",
+                exploreExploitDesc: "The agent must decide whether to try new actions to learn more about the environment and potentially find better, unknown rewards (exploration), or to execute the currently known best actions to maximize known rewards (exploitation).",
                 policyTitle: "Policy ($\\pi$): The Agent's Strategy",
-                policyDesc: "A mapping from states to actions. Deterministic: $\\pi(s) = a$. Stochastic: $\\pi(a|s) = Pr\\{A_t=a | S_t=s\\}$.",
+                policyDesc: "A mapping from states to actions. Deterministic: $\\pi(s) = a$. Stochastic: $\\pi(a|s) = Pr\\{A_t=a | S_t=s\\}$. The goal is to find an optimal policy $\\pi_*$.",
                 valueFunctionTitle: "Value Functions ($V^\\pi, Q^\\pi$): How good is a state/action?",
-                valueFunctionDesc: "$V^\\pi(s)$: Expected return starting in state $s$ and following policy $\\pi$. $Q^\\pi(s,a)$: Expected return starting in state $s$, taking action $a$, and thereafter following policy $\\pi$.",
+                valueFunctionDesc: "$V^\\pi(s) = E_\\pi[G_t | S_t=s]$: Expected return starting in state $s$ and following policy $\\pi$. $Q^\\pi(s,a) = E_\\pi[G_t | S_t=s, A_t=a]$: Expected return starting in state $s$, taking action $a$, and thereafter following policy $\\pi$.",
                 section2Title: "2. Dynamic Programming (DP): Planning with a Perfect Model",
-                section2Intro: "Dynamic Programming (DP) comprises algorithms that can compute an optimal policy $\\pi^*$ for a given MDP, provided that the model of the environment (transition probabilities $P$ and rewards $R$) is fully known. DP methods use value functions to structure the search for good policies and are based on Bellman equations.",
+                section2Intro: "Dynamic Programming (DP) comprises algorithms that can compute an optimal policy $\\pi^*$ for a given MDP, provided that the model of the environment (transition probabilities $P$ and rewards $R$) is fully known. DP methods use value functions to structure the search for good policies and are based on Bellman equations. They are fundamental to understanding RL, even if their direct applicability is limited by the model assumption and computational cost (\"curse of dimensionality\").",
                 bellmanOptimalityPrincipleTitle: "Bellman's Principle of Optimality",
                 bellmanOptimalityPrincipleQuote: "\"An optimal policy has the property that whatever the initial state and initial decision are, the remaining decisions must constitute an optimal policy with regard to the state resulting from the first decision.\" (Bellman, 1957)",
                 bellmanOptimalityPrincipleDesc: "Simply put: If the best path from A to C goes through B, then the subpath from B to C must also be the best path from B to C.",
                 policyIterationTitle: "Policy Iteration",
-                policyIterationDesc: "An iterative algorithm that alternates between two steps:",
+                policyIterationDesc: "An iterative algorithm that alternates between two steps until the policy no longer improves:",
                 policyEvalTitle: "1. Policy Evaluation:",
                 policyEvalDesc: "Compute the state-value function $V^\\pi(s)$ for the current policy $\\pi$. This is done by iteratively applying the Bellman expectation equation until convergence:",
                 policyImprovTitle: "2. Policy Improvement:",
@@ -809,24 +810,24 @@
                 sarsaUpdateRuleTitle: "Update Rule for $Q(S_t, A_t)$:",
                 sarsaNameOrigin: "The name SARSA comes from the sequence of events in the update: $(S_t, A_t, R_{t+1}, S_{t+1}, A_{t+1})$. $A_{t+1}$ is chosen according to the current (often $\\epsilon$-greedy) policy.",
                 expectedSarsaTitle: "Expected SARSA",
-                expectedSarsaDesc: "A variant that takes the expectation over all possible actions $A_{t+1}$ according to the current policy $\\pi$, instead of using the specifically chosen action $A_{t+1}$. This can reduce variance.",
+                expectedSarsaDesc: "A variant that takes the expectation over all possible actions $A_{t+1}$ according to the current policy $\\pi$, instead of using the specifically chosen action $A_{t+1}$. This can reduce variance and is often more stable.",
                 qLearningTitle: "Q-Learning (Off-Policy TD Control)",
                 qLearningDesc: "Q-Learning is an off-policy TD algorithm. \"Off-policy\" means it learns the optimal action-value function $Q^*(s,a)$ independently of the policy used by the agent for exploration (behavior policy), as long as it visits all state-action pairs sufficiently often.",
                 qLearningUpdateRuleTitle: "Update Rule for $Q(S_t, A_t)$:",
                 qLearningKeyDiff: "The key difference is the term $\\max_{a'} Q(S_{t+1}, a')$, which uses the maximum $Q$-value in the next state, corresponding to the action a greedy policy would choose (target policy).",
                 doubleQLearningTitle: "Double Q-Learning",
-                doubleQLearningDesc: "Standard Q-Learning can, under certain circumstances, lead to an overestimation of Q-values (maximization bias). Double Q-Learning addresses this by maintaining two separate Q-value estimates ($Q_A$ and $Q_B$). One is used to select the best action in the next state, and the other is used to evaluate that action.",
-                doubleQLearningUpdate: "E.g., Update for $Q_A$: $Q_A(S_t,A_t) \\leftarrow Q_A(S_t,A_t) + \\alpha [R_{t+1} + \\gamma Q_B(S_{t+1}, \\text{argmax}_{a'} Q_A(S_{t+1},a')) - Q_A(S_t,A_t)]$ (and vice versa for $Q_B$).",
+                doubleQLearningDesc: "Standard Q-Learning can, under certain circumstances, lead to an overestimation of Q-values (maximization bias), as the $\\max$ operator is used for both selecting and evaluating an action. Double Q-Learning addresses this by maintaining two separate Q-value estimates ($Q_A$ and $Q_B$). One is used to select the best action in the next state, and the other is used to evaluate that action.",
+                doubleQLearningUpdate: "E.g., Update for $Q_A$ (with 50% probability): $Q_A(S_t,A_t) \\leftarrow Q_A(S_t,A_t) + \\alpha [R_{t+1} + \\gamma Q_B(S_{t+1}, \\text{argmax}_{a'} Q_A(S_{t+1},a')) - Q_A(S_t,A_t)]$ (and vice versa for $Q_B$).",
                 onOffPolicyCompareTitle: "Comparison of Update Paths: SARSA vs. Q-Learning",
                 sarsaPathTitle: "SARSA (On-Policy)",
-                sarsaPathDesc: "Update for $Q(S_t, A_t)$ uses $Q(S_{t+1}, A_{t+1})$. Learns the value of the policy actually being executed.",
+                sarsaPathDesc: "Update for $Q(S_t, A_t)$ uses $Q(S_{t+1}, A_{t+1})$. Learns the value of the policy actually being executed (incl. exploration).",
                 qLearningPathTitle: "Q-Learning (Off-Policy)",
-                qLearningPathDesc: "Update for $Q(S_t, A_t)$ uses $\\max_{a'} Q(S_{t+1}, a')$. Learns the value of the optimal (greedy) policy, even if actions were chosen differently.",
+                qLearningPathDesc: "Update for $Q(S_t, A_t)$ uses $\\max_{a'} Q(S_{t+1}, a')$. Learns the value of the optimal (greedy) policy, even if actions were chosen differently (e.g., exploratively).",
                 epsilonGreedyTitle: "Importance of $\\epsilon$-greedy Exploration:",
                 epsilonGreedyDesc: "To ensure the agent explores all relevant state-action pairs and doesn't get stuck in local optima, an $\\epsilon$-greedy strategy is often used. With a small probability $\\epsilon$, the agent chooses a random action instead of the one currently considered optimal (greedy). The value of $\\epsilon$ is often reduced over time (annealing) to shift from exploration to exploitation.",
                 vfaTitle: "Outlook: Value Function Approximation (VFA)",
-                vfaDesc: "For problems with very large or continuous state spaces, tabular representations of $Q(s,a)$ (a table for each state-action pair) are no longer practical. This is where value function approximation comes into play: Instead of storing Q-values exactly, they are approximated by a parameterized function, e.g., a linear function or a neural network: $Q(s,a; \\mathbf{w}) \\approx Q^*(s,a)$. The parameters $\\mathbf{w}$ are then learned.",
-                vfaExample: "A well-known example is the Deep Q-Network (DQN), which uses a deep neural network to approximate the Q-function and has achieved remarkable success in complex environments like Atari games.",
+                vfaDesc: "For problems with very large or continuous state spaces, tabular representations of $Q(s,a)$ (a table for each state-action pair) are no longer practical. This is where value function approximation comes into play: Instead of storing Q-values exactly, they are approximated by a parameterized function, e.g., a linear function $\\hat{q}(s,a;\\mathbf{w}) = \\mathbf{w}^\\top \\mathbf{x}(s,a)$ or a neural network $Q(s,a; \\mathbf{w}) \\approx Q^*(s,a)$. The parameters $\\mathbf{w}$ are then learned, often using gradient methods.",
+                vfaExample: "A well-known example is the Deep Q-Network (DQN), which uses a deep neural network to approximate the Q-function and has achieved remarkable success in complex environments like Atari games. This opens up the application of RL to problems with high-dimensional sensory inputs.",
                 quizSectionTitle: "Knowledge Quiz for Midterm",
                 quizJsonLoading: "Loading quiz data...",
                 quizLoading: "Loading question...",
@@ -868,10 +869,10 @@
             }
         };
 
-        let quizDataStore = {}; // Will be filled by fetch
+        let quizDataStore = {}; 
         let currentLanguage = 'de'; 
-        let activeQuizQuestions = []; // Subset of questions for the current session
-        let currentQuizData = []; // Full data loaded from JSON for current language
+        let activeQuizQuestions = []; 
+        let currentQuizData = []; 
         let chartInstance = null;
 
 
@@ -891,8 +892,8 @@
                     throw new Error(`HTTP error! status: ${response.status} for quiz_data_${lang}.json`);
                 }
                 const data = await response.json();
-                quizDataStore[lang] = data; // Store all loaded questions
-                currentQuizData = data; // Set currentQuizData to the newly loaded full set
+                quizDataStore[lang] = data; 
+                currentQuizData = data; 
                 
                 quizLoadingMessageEl.style.display = 'none';
                 quizQuestionContainerEl.style.display = 'block';
@@ -950,6 +951,7 @@
                  currentQuizData = quizDataStore[lang];
             }
 
+
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.dataset.i18n;
                 if (translations[lang] && translations[lang][key]) {
@@ -968,14 +970,14 @@
             const resultsAreaVisible = quizResultsAreaEl && quizResultsAreaEl.style.display !== 'none';
 
             if (quizDataLoadedSuccessfully) {
-                if (quizAreaVisible && !resultsAreaVisible) { // Quiz is active or should be started
-                    initializeQuizSession(); // This will shuffle and pick new questions
-                } else if (resultsAreaVisible) { // Quiz was finished, update results text
+                if (quizAreaVisible && !resultsAreaVisible) { 
+                    initializeQuizSession(); 
+                } else if (resultsAreaVisible) { 
                     showResults(); 
                 }
-            } else if (lang !== previousLang) { // If loading new lang failed, try to revert or show error
+            } else if (lang !== previousLang) { 
                  displayQuizError(translations[lang].quizJsonLoading.replace("Lade", "Fehler beim Laden der") + ` quiz_data_${lang}.json. Versuche ${previousLang}...`);
-                 await loadQuizDataForLang(previousLang); // Try to load previous lang data
+                 await loadQuizDataForLang(previousLang); 
                  initializeQuizSession();
             }
 
@@ -1179,7 +1181,7 @@
                 displayQuizError(translations[currentLanguage].quizJsonLoading || "Quiz data not available.");
                 return;
             }
-            if (currentQuestionIndex >= activeQuizQuestions.length) {
+            if (currentQuestionIndex >= activeQuizQuestions.length) { 
                 showResults();
                 return;
             }
@@ -1196,20 +1198,18 @@
             
             optionsContainerEl.innerHTML = '';
             
-            // Create an array of option objects to shuffle, preserving original index
             let questionOptions = currentQuestionData.options.map((optionText, index) => ({
                 text: optionText,
                 originalIndex: index 
             }));
 
-            // Shuffle the options
             shuffleArray(questionOptions);
 
             questionOptions.forEach((optionObj) => {
                 const optionEl = document.createElement('button');
                 optionEl.classList.add('quiz-option');
                 optionEl.innerHTML = optionObj.text; 
-                optionEl.dataset.originalIndex = optionObj.originalIndex; // Store original index
+                optionEl.dataset.originalIndex = optionObj.originalIndex; 
                 optionEl.addEventListener('click', selectOption);
                 optionsContainerEl.appendChild(optionEl);
             });
@@ -1251,9 +1251,8 @@
             optionsContainerEl.childNodes.forEach(buttonEl => {
                 buttonEl.disabled = true; 
                 buttonEl.classList.remove('selected'); 
-                // Highlight the actual correct answer based on its original index
                 if (parseInt(buttonEl.dataset.originalIndex) === correctAnswerOriginalIndex) {
-                    if (selectedOriginalIndex !== correctAnswerOriginalIndex) { // Only if user was wrong
+                    if (selectedOriginalIndex !== correctAnswerOriginalIndex) { 
                          buttonEl.classList.add('correct');
                     }
                 }
@@ -1266,12 +1265,10 @@
                 feedbackAreaEl.className = 'quiz-feedback feedback-correct';
                 selectedOptionElement.classList.add('correct');
             } else {
-                // Find the text of the correct option by its original index
                 const correctOptionText = activeQuizQuestions[currentQuestionIndex].options[correctAnswerOriginalIndex];
                 feedbackAreaEl.innerHTML = `${translations[currentLanguage].quiz_feedbackIncorrectPrefix} "${correctOptionText}"`;
                 feedbackAreaEl.className = 'quiz-feedback feedback-incorrect';
                 selectedOptionElement.classList.add('incorrect');
-                // The correct one is already highlighted above if it wasn't the selected one
             }
             feedbackAreaEl.style.display = 'block';
             if (window.MathJax && window.MathJax.typesetPromise) { 
@@ -1298,7 +1295,7 @@
         });
 
         restartQuizBtn.addEventListener('click', () => {
-            initializeQuizSession(); // This will re-shuffle and pick new questions
+            initializeQuizSession(); 
             quizResultsAreaEl.style.display = 'none';
         });
 
