@@ -500,13 +500,14 @@
         <section id="quiz" class="bg-white p-8 rounded-lg shadow-xl">
             <h2 class="text-3xl font-semibold mb-8 text-center text-blue-700" data-i18n="quizSectionTitle">Wissens-Quiz zur Zwischenprüfung</h2>
             <div id="quiz-area" class="quiz-container max-w-2xl mx-auto">
-                <div id="quiz-question-container">
-                    <p class="quiz-question" id="question-text" data-i18n="quizLoading">Frage wird geladen...</p>
+                <div id="quiz-loading-message" class="text-center text-gray-600" data-i18n="quizJsonLoading">Lade Quizdaten...</div>
+                <div id="quiz-question-container" style="display:none;">
+                    <p class="quiz-question" id="question-text"></p>
                     <div id="options-container">
                         </div>
                 </div>
                 <div id="quiz-feedback-area" class="quiz-feedback" style="display: none;"></div>
-                <div id="quiz-navigation" class="quiz-navigation mt-6 flex justify-between items-center">
+                <div id="quiz-navigation" class="quiz-navigation mt-6 flex justify-between items-center" style="display:none;">
                     <span id="question-counter" class="text-sm text-gray-600"></span>
                     <button id="next-question-btn" class="opacity-50 cursor-not-allowed" disabled data-i18n="quiz_nextButton">Nächste Frage</button>
                 </div>
@@ -660,6 +661,7 @@
                 vfaDesc: "Für Probleme mit sehr großen oder kontinuierlichen Zustandsräumen sind tabellarische Darstellungen von $Q(s,a)$ (eine Tabelle für jedes Zustands-Aktions-Paar) nicht mehr praktikabel. Hier kommt die Wertfunktionsapproximation ins Spiel: Anstatt die Q-Werte exakt zu speichern, werden sie durch eine parametrisierte Funktion approximiert, z.B. eine lineare Funktion oder ein neuronales Netz: $Q(s,a; \\mathbf{w}) \\approx Q^*(s,a)$. Die Parameter $\\mathbf{w}$ werden dann gelernt.",
                 vfaExample: "Ein bekanntes Beispiel ist das Deep Q-Network (DQN), das ein tiefes neuronales Netz zur Approximation der Q-Funktion verwendet und bemerkenswerte Erfolge in komplexen Umgebungen wie Atari-Spielen erzielt hat.",
                 quizSectionTitle: "Wissens-Quiz zur Zwischenprüfung",
+                quizJsonLoading: "Lade Quizdaten...",
                 quizLoading: "Frage wird geladen...",
                 quiz_nextButton: "Nächste Frage",
                 quiz_resultsButton: "Ergebnisse anzeigen",
@@ -826,6 +828,7 @@
                 vfaDesc: "For problems with very large or continuous state spaces, tabular representations of $Q(s,a)$ (a table for each state-action pair) are no longer practical. This is where value function approximation comes into play: Instead of storing Q-values exactly, they are approximated by a parameterized function, e.g., a linear function or a neural network: $Q(s,a; \\mathbf{w}) \\approx Q^*(s,a)$. The parameters $\\mathbf{w}$ are then learned.",
                 vfaExample: "A well-known example is the Deep Q-Network (DQN), which uses a deep neural network to approximate the Q-function and has achieved remarkable success in complex environments like Atari games.",
                 quizSectionTitle: "Knowledge Quiz for Midterm",
+                quizJsonLoading: "Loading quiz data...",
                 quizLoading: "Loading question...",
                 quiz_nextButton: "Next Question",
                 quiz_resultsButton: "Show Results",
@@ -865,223 +868,58 @@
             }
         };
 
-        const quizDataStore = {
-            de: [
-                {
-                    question: "Was ist das primäre Ziel eines Reinforcement Learning Agenten?",
-                    options: [
-                        "Die Dynamik der Umgebung perfekt zu verstehen.",
-                        "Die kumulative Belohnung über die Zeit zu maximieren.",
-                        "Möglichst viele Zustände zu explorieren.",
-                        "Die Anzahl der ausgeführten Aktionen zu minimieren."
-                    ],
-                    answer: 1
-                },
-                {
-                    question: "Welche der folgenden Komponenten gehört NICHT zu einem Markov Decision Process (MDP)?",
-                    options: [
-                        "Zustandsraum (S)",
-                        "Aktionsraum (A)",
-                        "Belohnungsfunktion (R)",
-                        "Die interne Speichergröße des Agenten."
-                    ],
-                    answer: 3
-                },
-                {
-                    question: "Dynamische Programmierung (DP) Methoden benötigen zwingend:",
-                    options: [
-                        "Kein Modell der Umgebung.",
-                        "Ein perfektes Modell der Umgebung (P und R).",
-                        "Nur Beispiel-Episoden aus Erfahrung.",
-                        "Eine vordefinierte optimale Policy."
-                    ],
-                    answer: 1
-                },
-                {
-                    question: "Value Iteration berechnet direkt die...",
-                    options: [
-                        "Optimale Policy $\\pi^*$.",
-                        "Optimale Zustands-Wertfunktion $V^*$.",
-                        "Übergangswahrscheinlichkeiten P.",
-                        "Belohnungsfunktion R."
-                    ],
-                    answer: 1
-                },
-                {
-                    question: "Welche Methode lernt aus vollständigen Episoden, ist unverzerrt, kann aber hohe Varianz aufweisen?",
-                    options: [
-                        "Temporal Difference (TD) Learning.",
-                        "Monte Carlo (MC) Methoden.",
-                        "Dynamische Programmierung.",
-                        "Q-Learning."
-                    ],
-                    answer: 1
-                },
-                {
-                    question: "TD(0) Learning aktualisiert seine Wertschätzung basierend auf:",
-                    options: [
-                        "Dem finalen Ergebnis der gesamten Episode.",
-                        "Der beobachteten Belohnung und der geschätzten Wertfunktion des *nächsten* Zustands (Bootstrapping).",
-                        "Einem perfekten Modell der Zustandsübergänge.",
-                        "Nur der unmittelbaren Belohnung, ignoriert zukünftige Zustände."
-                    ],
-                    answer: 1
-                },
-                {
-                    question: "Was bedeutet \"On-Policy\" im Kontext von Algorithmen wie SARSA?",
-                    options: [
-                        "Es lernt den Wert der optimalen Policy, unabhängig von den Aktionen des Agenten.",
-                        "Es lernt den Wert der Policy, die der Agent aktuell verfolgt.",
-                        "Es benötigt keine Policy, um zu lernen.",
-                        "Es kann nur verwendet werden, wenn die Policy deterministisch ist."
-                    ],
-                    answer: 1
-                },
-                {
-                    question: "Q-Learning ist ein \"Off-Policy\" Algorithmus, weil:",
-                    options: [
-                        "Es immer zufällige Aktionen wählt.",
-                        "Seine Updates die tatsächlich im nächsten Schritt ausgeführte Aktion verwenden.",
-                        "Es seine Q-Werte in Richtung des maximal möglichen Q-Wertes des nächsten Zustands aktualisiert, unabhängig davon, welche Aktion zur Exploration tatsächlich ausgeführt wurde.",
-                        "Es eine separate Policy für die Evaluation und eine andere für die Steuerung benötigt."
-                    ],
-                    answer: 2
-                },
-                {
-                    question: "Was ist der Hauptzweck von Double Q-Learning?",
-                    options: [
-                        "Die Lernrate zu verdoppeln.",
-                        "Den Maximierungs-Bias (Überschätzung von Q-Werten) zu reduzieren.",
-                        "Zwei Umgebungen gleichzeitig zu modellieren.",
-                        "Die Exploration zu beschleunigen."
-                    ],
-                    answer: 1
-                },
-                {
-                    question: "Wertfunktionsapproximation (VFA) wird typischerweise eingesetzt, wenn...",
-                    options: [
-                        "Das Umgebungsmodell perfekt bekannt ist.",
-                        "Der Zustands- und/oder Aktionsraum sehr groß oder kontinuierlich ist.",
-                        "Man nur sehr wenige Trainingsdaten hat.",
-                        "Man die Varianz der Schätzungen erhöhen möchte."
-                    ],
-                    answer: 1
-                }
-            ],
-            en: [
-                 {
-                    question: "What is the primary goal of a Reinforcement Learning agent?",
-                    options: [
-                        "To perfectly understand the dynamics of the environment.",
-                        "To maximize the cumulative reward over time.",
-                        "To explore as many states as possible.",
-                        "To minimize the number of actions taken."
-                    ],
-                    answer: 1
-                },
-                {
-                    question: "Which of the following components is NOT part of a Markov Decision Process (MDP)?",
-                    options: [
-                        "State Space (S)",
-                        "Action Space (A)",
-                        "Reward Function (R)",
-                        "The agent's internal memory size."
-                    ],
-                    answer: 3
-                },
-                {
-                    question: "Dynamic Programming (DP) methods necessarily require:",
-                    options: [
-                        "No model of the environment.",
-                        "A perfect model of the environment (P and R).",
-                        "Only sample episodes from experience.",
-                        "A predefined optimal policy."
-                    ],
-                    answer: 1
-                },
-                {
-                    question: "Value Iteration directly computes the...",
-                    options: [
-                        "Optimal policy $\\pi^*$.",
-                        "Optimal state-value function $V^*$.",
-                        "Transition probabilities P.",
-                        "Reward function R."
-                    ],
-                    answer: 1
-                },
-                {
-                    question: "Which method learns from complete episodes, is unbiased, but can have high variance?",
-                    options: [
-                        "Temporal Difference (TD) Learning.",
-                        "Monte Carlo (MC) Methods.",
-                        "Dynamic Programming.",
-                        "Q-Learning."
-                    ],
-                    answer: 1
-                },
-                {
-                    question: "TD(0) Learning updates its value estimate based on:",
-                    options: [
-                        "The final outcome of the entire episode.",
-                        "The observed reward and the estimated value function of the *next* state (bootstrapping).",
-                        "A perfect model of state transitions.",
-                        "Only the immediate reward, ignoring future states."
-                    ],
-                    answer: 1
-                },
-                {
-                    question: "What does \"On-Policy\" mean in the context of algorithms like SARSA?",
-                    options: [
-                        "It learns the value of the optimal policy, regardless of the agent's actions.",
-                        "It learns the value of the policy the agent is currently following.",
-                        "It does not require a policy to learn.",
-                        "It can only be used if the policy is deterministic."
-                    ],
-                    answer: 1
-                },
-                {
-                    question: "Q-Learning is an \"Off-Policy\" algorithm because:",
-                    options: [
-                        "It always chooses random actions.",
-                        "Its updates use the action actually taken in the next step.",
-                        "It updates its Q-values towards the maximum possible Q-value of the next state, regardless of which action was actually taken for exploration.",
-                        "It requires a separate policy for evaluation and another for control."
-                    ],
-                    answer: 2
-                },
-                {
-                    question: "What is the main purpose of Double Q-Learning?",
-                    options: [
-                        "To double the learning rate.",
-                        "To reduce maximization bias (overestimation of Q-values).",
-                        "To model two environments simultaneously.",
-                        "To speed up exploration."
-                    ],
-                    answer: 1
-                },
-                {
-                    question: "Value Function Approximation (VFA) is typically used when...",
-                    options: [
-                        "The environment model is perfectly known.",
-                        "The state and/or action space is very large or continuous.",
-                        "There is very little training data.",
-                        "One wants to increase the variance of the estimates."
-                    ],
-                    answer: 1
-                }
-            ]
-        };
-
-        let currentLanguage = 'de'; // Default language
-        let currentQuizData = quizDataStore[currentLanguage];
+        let quizDataStore = {}; // Wird durch fetch gefüllt
+        let currentLanguage = 'de'; 
+        let currentQuizData = [];
         let chartInstance = null;
 
 
         // --- I18N Functions ---
-        function setLanguage(lang) {
+        async function loadQuizDataForLang(lang) {
+            const quizLoadingMessageEl = document.getElementById('quiz-loading-message');
+            const quizQuestionContainerEl = document.getElementById('quiz-question-container');
+            const quizNavigationEl = document.getElementById('quiz-navigation');
+
+            quizLoadingMessageEl.style.display = 'block';
+            quizQuestionContainerEl.style.display = 'none';
+            quizNavigationEl.style.display = 'none';
+            
+            try {
+                const response = await fetch(`quiz_data_${lang}.json`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                quizDataStore[lang] = await response.json();
+                currentQuizData = quizDataStore[lang];
+                quizLoadingMessageEl.style.display = 'none';
+                quizQuestionContainerEl.style.display = 'block';
+                quizNavigationEl.style.display = 'flex';
+                return true;
+            } catch (error) {
+                console.error('Failed to load quiz data for language:', lang, error);
+                quizLoadingMessageEl.innerHTML = `Fehler beim Laden der Quizdaten für ${lang}. Bitte stellen Sie sicher, dass die Datei quiz_data_${lang}.json vorhanden ist.`;
+                quizQuestionContainerEl.style.display = 'none';
+                quizNavigationEl.style.display = 'none';
+                currentQuizData = []; // Fallback to empty quiz
+                return false;
+            }
+        }
+
+        async function setLanguage(lang) {
             currentLanguage = lang;
             document.documentElement.lang = lang;
-            currentQuizData = quizDataStore[lang];
+
+            if (!quizDataStore[lang]) {
+                const loaded = await loadQuizDataForLang(lang);
+                if (!loaded && lang === 'de') { // Fallback if default language fails
+                    // Potentially load a minimal built-in quiz or show error more permanently
+                } else if (!loaded && lang !== 'de') { // If non-default fails, try loading default
+                     await loadQuizDataForLang('de');
+                }
+            } else {
+                 currentQuizData = quizDataStore[lang];
+            }
+
 
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.dataset.i18n;
@@ -1096,19 +934,25 @@
             document.getElementById('lang-en-btn').classList.toggle('active', lang === 'en');
 
             updateChartLanguage();
-            if (document.getElementById('quiz-area').style.display !== 'none' && !quizResultsAreaEl.style.display !== 'none') { 
-                 if (currentQuestionIndex < currentQuizData.length) { 
+            
+            const quizAreaVisible = document.getElementById('quiz-area') && document.getElementById('quiz-area').style.display !== 'none';
+            const resultsAreaVisible = quizResultsAreaEl && quizResultsAreaEl.style.display !== 'none';
+
+            if (quizAreaVisible && !resultsAreaVisible) {
+                 if (currentQuizData && currentQuizData.length > 0 && currentQuestionIndex < currentQuizData.length) {
                     loadQuestion(); 
-                 } else { 
-                    showResults();
+                 } else if (currentQuizData && currentQuizData.length > 0 && currentQuestionIndex >= currentQuizData.length) { // Quiz was finished, now lang change
+                    showResults(); // Update results text
+                 } else {
+                    // Quiz data might not be loaded or empty, message is handled by loadQuizDataForLang
                  }
-            } else if (quizResultsAreaEl.style.display !== 'none') { 
+            } else if (resultsAreaVisible) {
                  showResults(); 
             }
 
 
             if (window.MathJax && window.MathJax.typesetPromise) {
-                window.MathJax.typesetPromise();
+                window.MathJax.typesetPromise().catch(err => console.error("MathJax typesetting error on lang change:", err));
             }
         }
 
@@ -1147,9 +991,9 @@
                 return label.join(' ');
             }
             const currentTrans = translations[currentLanguage];
-            if (typeof label === 'string' && currentTrans[label]) { 
-                 return currentTrans[label];
-            }
+            //This logic is tricky if labels are dynamic keys. Assuming labels are direct strings from currentTrans for chart.
+            //If labels were keys like 'chart_mcVsTd_label_bias', this would be:
+            // if (typeof label === 'string' && currentTrans[label]) { return currentTrans[label]; }
             return label; 
         };
         
@@ -1194,7 +1038,7 @@
                         },
                         tooltip: {
                             callbacks: {
-                               title: tooltipTitleCallback,
+                               title: tooltipTitleCallback, // Uses the refined callback
                                label: function(context) {
                                     let label = context.dataset.label || '';
                                     if (label) {
@@ -1285,13 +1129,38 @@
         const restartQuizBtn = document.getElementById('restart-quiz-btn');
         const questionCounterEl = document.getElementById('question-counter');
         const quizQuestionContainerEl = document.getElementById('quiz-question-container');
+        const quizLoadingMessageEl = document.getElementById('quiz-loading-message');
+        const quizNavigationEl = document.getElementById('quiz-navigation');
+
 
         let currentQuestionIndex = 0;
         let score = 0;
         let selectedOptionElement = null;
         let answerSubmitted = false;
 
+        function displayQuizError(message) {
+            quizLoadingMessageEl.innerHTML = message;
+            quizLoadingMessageEl.style.display = 'block';
+            quizQuestionContainerEl.style.display = 'none';
+            quizNavigationEl.style.display = 'none';
+        }
+
+
         function loadQuestion() {
+            if (!currentQuizData || currentQuizData.length === 0) {
+                displayQuizError(translations[currentLanguage].quizJsonLoading || "Quiz data not available.");
+                return;
+            }
+            if (currentQuestionIndex >= currentQuizData.length) { // Should not happen if logic is correct
+                showResults();
+                return;
+            }
+
+            quizLoadingMessageEl.style.display = 'none';
+            quizQuestionContainerEl.style.display = 'block';
+            quizNavigationEl.style.display = 'flex';
+
+
             answerSubmitted = false;
             selectedOptionElement = null;
             const currentQuestion = currentQuizData[currentQuestionIndex];
@@ -1386,27 +1255,32 @@
             currentQuestionIndex = 0;
             score = 0;
             quizResultsAreaEl.style.display = 'none';
-            quizQuestionContainerEl.style.display = 'block';
-            document.getElementById('quiz-navigation').style.display = 'flex'; 
-            nextQuestionBtn.textContent = translations[currentLanguage].quiz_nextButton;
-            loadQuestion();
+            if(currentQuizData && currentQuizData.length > 0) { // Only load if data is available
+                quizQuestionContainerEl.style.display = 'block';
+                quizNavigationEl.style.display = 'flex'; 
+                nextQuestionBtn.textContent = translations[currentLanguage].quiz_nextButton;
+                loadQuestion();
+            } else {
+                displayQuizError(translations[currentLanguage].quizJsonLoading || "Quiz data not available for restart.");
+            }
         });
 
         function showResults() {
             quizQuestionContainerEl.style.display = 'none';
             feedbackAreaEl.style.display = 'none';
-            document.getElementById('quiz-navigation').style.display = 'none'; 
+            quizNavigationEl.style.display = 'none'; 
             quizResultsAreaEl.style.display = 'block';
             
             const scoreSuffix = score === 1 ? translations[currentLanguage].quiz_scoreSuffix_singular : translations[currentLanguage].quiz_scoreSuffix_plural;
-            scoreTextEl.textContent = `${score} ${translations[currentLanguage].quiz_scoreOutOf} ${currentQuizData.length} (${((score / currentQuizData.length) * 100).toFixed(0)}%)`;
+            if (currentQuizData && currentQuizData.length > 0) {
+                scoreTextEl.textContent = `${score} ${translations[currentLanguage].quiz_scoreOutOf} ${currentQuizData.length} (${((score / currentQuizData.length) * 100).toFixed(0)}%)`;
+            } else {
+                scoreTextEl.textContent = "N/A";
+            }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             setLanguage(currentLanguage); 
-            if (document.getElementById('quiz-area')) {
-                 loadQuestion();
-            }
         });
 
     </script>
