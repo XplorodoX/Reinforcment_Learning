@@ -868,9 +868,10 @@
             }
         };
 
-        let quizDataStore = {}; // Wird durch fetch gefüllt
+        let quizDataStore = {}; // Will be filled by fetch
         let currentLanguage = 'de'; 
-        let currentQuizData = [];
+        let activeQuizQuestions = []; // Subset of questions for the current session
+        let currentQuizData = []; // Full data loaded from JSON for current language
         let chartInstance = null;
 
 
@@ -887,39 +888,67 @@
             try {
                 const response = await fetch(`quiz_data_${lang}.json`);
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`HTTP error! status: ${response.status} for quiz_data_${lang}.json`);
                 }
-                quizDataStore[lang] = await response.json();
-                currentQuizData = quizDataStore[lang];
+                const data = await response.json();
+                quizDataStore[lang] = data; // Store all loaded questions
+                currentQuizData = data; // Set currentQuizData to the newly loaded full set
+                
                 quizLoadingMessageEl.style.display = 'none';
                 quizQuestionContainerEl.style.display = 'block';
                 quizNavigationEl.style.display = 'flex';
                 return true;
             } catch (error) {
                 console.error('Failed to load quiz data for language:', lang, error);
-                quizLoadingMessageEl.innerHTML = `Fehler beim Laden der Quizdaten für ${lang}. Bitte stellen Sie sicher, dass die Datei quiz_data_${lang}.json vorhanden ist.`;
+                quizLoadingMessageEl.innerHTML = translations[lang].quizJsonLoading.replace("Lade", "Fehler beim Laden der") + ` (quiz_data_${lang}.json).`;
                 quizQuestionContainerEl.style.display = 'none';
                 quizNavigationEl.style.display = 'none';
-                currentQuizData = []; // Fallback to empty quiz
+                currentQuizData = []; 
+                activeQuizQuestions = [];
                 return false;
             }
         }
+        
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function initializeQuizSession() {
+            if (!currentQuizData || currentQuizData.length === 0) {
+                displayQuizError(translations[currentLanguage].quizJsonLoading || "Quiz data not available.");
+                activeQuizQuestions = [];
+                return;
+            }
+
+            let shuffledQuestions = [...currentQuizData];
+            shuffleArray(shuffledQuestions);
+            activeQuizQuestions = shuffledQuestions.slice(0, Math.min(10, shuffledQuestions.length));
+            
+            currentQuestionIndex = 0;
+            score = 0;
+
+            if (activeQuizQuestions.length > 0) {
+                loadQuestion();
+            } else {
+                 displayQuizError(translations[currentLanguage].quizJsonLoading.replace("Lade", "Keine Quizfragen verfügbar in") + ` quiz_data_${currentLanguage}.json`);
+            }
+        }
+
 
         async function setLanguage(lang) {
+            const previousLang = currentLanguage;
             currentLanguage = lang;
             document.documentElement.lang = lang;
 
+            let quizDataLoadedSuccessfully = true;
             if (!quizDataStore[lang]) {
-                const loaded = await loadQuizDataForLang(lang);
-                if (!loaded && lang === 'de') { // Fallback if default language fails
-                    // Potentially load a minimal built-in quiz or show error more permanently
-                } else if (!loaded && lang !== 'de') { // If non-default fails, try loading default
-                     await loadQuizDataForLang('de');
-                }
+                quizDataLoadedSuccessfully = await loadQuizDataForLang(lang);
             } else {
                  currentQuizData = quizDataStore[lang];
             }
-
 
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.dataset.i18n;
@@ -938,16 +967,16 @@
             const quizAreaVisible = document.getElementById('quiz-area') && document.getElementById('quiz-area').style.display !== 'none';
             const resultsAreaVisible = quizResultsAreaEl && quizResultsAreaEl.style.display !== 'none';
 
-            if (quizAreaVisible && !resultsAreaVisible) {
-                 if (currentQuizData && currentQuizData.length > 0 && currentQuestionIndex < currentQuizData.length) {
-                    loadQuestion(); 
-                 } else if (currentQuizData && currentQuizData.length > 0 && currentQuestionIndex >= currentQuizData.length) { // Quiz was finished, now lang change
-                    showResults(); // Update results text
-                 } else {
-                    // Quiz data might not be loaded or empty, message is handled by loadQuizDataForLang
-                 }
-            } else if (resultsAreaVisible) {
-                 showResults(); 
+            if (quizDataLoadedSuccessfully) {
+                if (quizAreaVisible && !resultsAreaVisible) { // Quiz is active or should be started
+                    initializeQuizSession(); // This will shuffle and pick new questions
+                } else if (resultsAreaVisible) { // Quiz was finished, update results text
+                    showResults(); 
+                }
+            } else if (lang !== previousLang) { // If loading new lang failed, try to revert or show error
+                 displayQuizError(translations[lang].quizJsonLoading.replace("Lade", "Fehler beim Laden der") + ` quiz_data_${lang}.json. Versuche ${previousLang}...`);
+                 await loadQuizDataForLang(previousLang); // Try to load previous lang data
+                 initializeQuizSession();
             }
 
 
@@ -991,9 +1020,6 @@
                 return label.join(' ');
             }
             const currentTrans = translations[currentLanguage];
-            //This logic is tricky if labels are dynamic keys. Assuming labels are direct strings from currentTrans for chart.
-            //If labels were keys like 'chart_mcVsTd_label_bias', this would be:
-            // if (typeof label === 'string' && currentTrans[label]) { return currentTrans[label]; }
             return label; 
         };
         
@@ -1038,7 +1064,7 @@
                         },
                         tooltip: {
                             callbacks: {
-                               title: tooltipTitleCallback, // Uses the refined callback
+                               title: tooltipTitleCallback, 
                                label: function(context) {
                                     let label = context.dataset.label || '';
                                     if (label) {
@@ -1137,6 +1163,8 @@
         let score = 0;
         let selectedOptionElement = null;
         let answerSubmitted = false;
+        const MAX_QUIZ_QUESTIONS = 10;
+
 
         function displayQuizError(message) {
             quizLoadingMessageEl.innerHTML = message;
@@ -1147,11 +1175,11 @@
 
 
         function loadQuestion() {
-            if (!currentQuizData || currentQuizData.length === 0) {
+            if (!activeQuizQuestions || activeQuizQuestions.length === 0) {
                 displayQuizError(translations[currentLanguage].quizJsonLoading || "Quiz data not available.");
                 return;
             }
-            if (currentQuestionIndex >= currentQuizData.length) { // Should not happen if logic is correct
+            if (currentQuestionIndex >= activeQuizQuestions.length) {
                 showResults();
                 return;
             }
@@ -1163,15 +1191,25 @@
 
             answerSubmitted = false;
             selectedOptionElement = null;
-            const currentQuestion = currentQuizData[currentQuestionIndex];
-            questionTextEl.innerHTML = currentQuestion.question; 
+            const currentQuestionData = activeQuizQuestions[currentQuestionIndex];
+            questionTextEl.innerHTML = currentQuestionData.question; 
             
             optionsContainerEl.innerHTML = '';
-            currentQuestion.options.forEach((option, index) => {
+            
+            // Create an array of option objects to shuffle, preserving original index
+            let questionOptions = currentQuestionData.options.map((optionText, index) => ({
+                text: optionText,
+                originalIndex: index 
+            }));
+
+            // Shuffle the options
+            shuffleArray(questionOptions);
+
+            questionOptions.forEach((optionObj) => {
                 const optionEl = document.createElement('button');
                 optionEl.classList.add('quiz-option');
-                optionEl.innerHTML = option; 
-                optionEl.dataset.index = index;
+                optionEl.innerHTML = optionObj.text; 
+                optionEl.dataset.originalIndex = optionObj.originalIndex; // Store original index
                 optionEl.addEventListener('click', selectOption);
                 optionsContainerEl.appendChild(optionEl);
             });
@@ -1180,7 +1218,7 @@
             nextQuestionBtn.disabled = true;
             nextQuestionBtn.classList.add('opacity-50', 'cursor-not-allowed');
             nextQuestionBtn.classList.remove('opacity-100');
-            questionCounterEl.textContent = `${translations[currentLanguage].quiz_questionCounterPrefix} ${currentQuestionIndex + 1} ${translations[currentLanguage].quiz_questionCounterOf} ${currentQuizData.length}`;
+            questionCounterEl.textContent = `${translations[currentLanguage].quiz_questionCounterPrefix} ${currentQuestionIndex + 1} ${translations[currentLanguage].quiz_questionCounterOf} ${activeQuizQuestions.length}`;
             nextQuestionBtn.textContent = translations[currentLanguage].quiz_nextButton;
 
 
@@ -1207,25 +1245,33 @@
             if (!selectedOptionElement || answerSubmitted) return;
             answerSubmitted = true;
 
-            const selectedAnswerIndex = parseInt(selectedOptionElement.dataset.index);
-            const correctAnswerIndex = currentQuizData[currentQuestionIndex].answer;
+            const selectedOriginalIndex = parseInt(selectedOptionElement.dataset.originalIndex);
+            const correctAnswerOriginalIndex = activeQuizQuestions[currentQuestionIndex].answer;
 
-            optionsContainerEl.childNodes.forEach(child => {
-                child.disabled = true; 
-                child.classList.remove('selected'); 
+            optionsContainerEl.childNodes.forEach(buttonEl => {
+                buttonEl.disabled = true; 
+                buttonEl.classList.remove('selected'); 
+                // Highlight the actual correct answer based on its original index
+                if (parseInt(buttonEl.dataset.originalIndex) === correctAnswerOriginalIndex) {
+                    if (selectedOriginalIndex !== correctAnswerOriginalIndex) { // Only if user was wrong
+                         buttonEl.classList.add('correct');
+                    }
+                }
             });
 
 
-            if (selectedAnswerIndex === correctAnswerIndex) {
+            if (selectedOriginalIndex === correctAnswerOriginalIndex) {
                 score++;
                 feedbackAreaEl.textContent = translations[currentLanguage].quiz_feedbackCorrect;
                 feedbackAreaEl.className = 'quiz-feedback feedback-correct';
                 selectedOptionElement.classList.add('correct');
             } else {
-                feedbackAreaEl.innerHTML = `${translations[currentLanguage].quiz_feedbackIncorrectPrefix} "${currentQuizData[currentQuestionIndex].options[correctAnswerIndex]}"`;
+                // Find the text of the correct option by its original index
+                const correctOptionText = activeQuizQuestions[currentQuestionIndex].options[correctAnswerOriginalIndex];
+                feedbackAreaEl.innerHTML = `${translations[currentLanguage].quiz_feedbackIncorrectPrefix} "${correctOptionText}"`;
                 feedbackAreaEl.className = 'quiz-feedback feedback-incorrect';
                 selectedOptionElement.classList.add('incorrect');
-                optionsContainerEl.childNodes[correctAnswerIndex].classList.add('correct');
+                // The correct one is already highlighted above if it wasn't the selected one
             }
             feedbackAreaEl.style.display = 'block';
             if (window.MathJax && window.MathJax.typesetPromise) { 
@@ -1236,7 +1282,7 @@
             nextQuestionBtn.classList.remove('opacity-50', 'cursor-not-allowed');
             nextQuestionBtn.classList.add('opacity-100');
 
-            if (currentQuestionIndex === currentQuizData.length - 1) {
+            if (currentQuestionIndex === activeQuizQuestions.length - 1) {
                 nextQuestionBtn.textContent = translations[currentLanguage].quiz_resultsButton;
             }
         }
@@ -1244,7 +1290,7 @@
 
         nextQuestionBtn.addEventListener('click', () => {
             currentQuestionIndex++;
-            if (currentQuestionIndex < currentQuizData.length) {
+            if (currentQuestionIndex < activeQuizQuestions.length) {
                 loadQuestion();
             } else {
                 showResults();
@@ -1252,17 +1298,8 @@
         });
 
         restartQuizBtn.addEventListener('click', () => {
-            currentQuestionIndex = 0;
-            score = 0;
+            initializeQuizSession(); // This will re-shuffle and pick new questions
             quizResultsAreaEl.style.display = 'none';
-            if(currentQuizData && currentQuizData.length > 0) { // Only load if data is available
-                quizQuestionContainerEl.style.display = 'block';
-                quizNavigationEl.style.display = 'flex'; 
-                nextQuestionBtn.textContent = translations[currentLanguage].quiz_nextButton;
-                loadQuestion();
-            } else {
-                displayQuizError(translations[currentLanguage].quizJsonLoading || "Quiz data not available for restart.");
-            }
         });
 
         function showResults() {
@@ -1272,8 +1309,8 @@
             quizResultsAreaEl.style.display = 'block';
             
             const scoreSuffix = score === 1 ? translations[currentLanguage].quiz_scoreSuffix_singular : translations[currentLanguage].quiz_scoreSuffix_plural;
-            if (currentQuizData && currentQuizData.length > 0) {
-                scoreTextEl.textContent = `${score} ${translations[currentLanguage].quiz_scoreOutOf} ${currentQuizData.length} (${((score / currentQuizData.length) * 100).toFixed(0)}%)`;
+            if (activeQuizQuestions && activeQuizQuestions.length > 0) {
+                scoreTextEl.textContent = `${score} ${translations[currentLanguage].quiz_scoreOutOf} ${activeQuizQuestions.length} (${((score / activeQuizQuestions.length) * 100).toFixed(0)}%)`;
             } else {
                 scoreTextEl.textContent = "N/A";
             }
