@@ -1,5 +1,7 @@
 [
   {
+    "id": "q1_rl_goal",
+    "type": "multiple-choice",
     "question": "Was ist das primäre Ziel eines Reinforcement Learning Agenten?",
     "options": [
       "Die Dynamik der Umgebung perfekt zu verstehen.",
@@ -7,13 +9,145 @@
       "Möglichst viele Zustände zu explorieren.",
       "Die Anzahl der ausgeführten Aktionen zu minimieren."
     ],
-    "answer": 1,
-    "type": "multiple-choice"
+    "answer": 1
   },
   {
-    "question": "Benötigen DP-Methoden zwingend ein perfektes Modell der Umgebung?",
+    "id": "q2_mdp_components",
+    "type": "multiple-choice",
+    "question": "Welche der folgenden Komponenten gehört NICHT zu einem Markov Decision Process (MDP)?",
+    "options": [
+      "Zustandsraum (S)",
+      "Aktionsraum (A)",
+      "Belohnungsfunktion (R)",
+      "Die interne Speichergröße des Agenten."
+    ],
+    "answer": 3
+  },
+  {
+    "id": "q3_dp_requirement",
+    "type": "multiple-choice",
+    "question": "Dynamische Programmierung (DP) Methoden benötigen zwingend:",
+    "options": [
+      "Kein Modell der Umgebung.",
+      "Ein perfektes Modell der Umgebung (P und R).",
+      "Nur Beispiel-Episoden aus Erfahrung.",
+      "Eine vordefinierte optimale Policy."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "q4_value_iteration_calculates",
+    "type": "multiple-choice",
+    "question": "Value Iteration berechnet direkt die...",
+    "options": [
+      "Optimale Policy $\\pi^*$.",
+      "Optimale Zustands-Wertfunktion $V^*$.",
+      "Übergangswahrscheinlichkeiten P.",
+      "Belohnungsfunktion R."
+    ],
+    "answer": 1 
+  },
+  {
+    "id": "q5_mc_properties",
+    "type": "multiple-choice",
+    "question": "Welche Methode lernt aus vollständigen Episoden, ist unverzerrt, kann aber hohe Varianz aufweisen?",
+    "options": [
+      "Temporal Difference (TD) Learning.",
+      "Monte Carlo (MC) Methoden.",
+      "Dynamische Programmierung.",
+      "Q-Learning."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "q6_td0_update",
+    "type": "multiple-choice",
+    "question": "TD(0) Learning aktualisiert seine Wertschätzung basierend auf:",
+    "options": [
+      "Dem finalen Ergebnis der gesamten Episode.",
+      "Der beobachteten Belohnung und der geschätzten Wertfunktion des *nächsten* Zustands (Bootstrapping).",
+      "Einem perfekten Modell der Zustandsübergänge.",
+      "Nur der unmittelbaren Belohnung, ignoriert zukünftige Zustände."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "q7_on_policy_sarsa",
+    "type": "multiple-choice",
+    "question": "Was bedeutet \"On-Policy\" im Kontext von Algorithmen wie SARSA?",
+    "options": [
+      "Es lernt den Wert der optimalen Policy, unabhängig von den Aktionen des Agenten.",
+      "Es lernt den Wert der Policy, die der Agent aktuell verfolgt.",
+      "Es benötigt keine Policy, um zu lernen.",
+      "Es kann nur verwendet werden, wenn die Policy deterministisch ist."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "q8_off_policy_qlearning",
+    "type": "multiple-choice",
+    "question": "Q-Learning ist ein \"Off-Policy\" Algorithmus, weil:",
+    "options": [
+      "Es immer zufällige Aktionen wählt.",
+      "Seine Updates die tatsächlich im nächsten Schritt ausgeführte Aktion verwenden.",
+      "Es seine Q-Werte in Richtung des maximal möglichen Q-Wertes des nächsten Zustands aktualisiert, unabhängig davon, welche Aktion zur Exploration tatsächlich ausgeführt wurde.",
+      "Es eine separate Policy für die Evaluation und eine andere für die Steuerung benötigt."
+    ],
+    "answer": 2
+  },
+  {
+    "id": "q9_double_q_purpose",
+    "type": "multiple-choice",
+    "question": "Was ist der Hauptzweck von Double Q-Learning?",
+    "options": [
+      "Die Lernrate zu verdoppeln.",
+      "Den Maximierungs-Bias (Überschätzung von Q-Werten) zu reduzieren.",
+      "Zwei Umgebungen gleichzeitig zu modellieren.",
+      "Die Exploration zu beschleunigen."
+    ],
+    "answer": 1 
+  },
+  {
+    "id": "q10_vfa_usage",
+    "type": "multiple-choice",
+    "question": "Wertfunktionsapproximation (VFA) wird typischerweise eingesetzt, wenn...",
+    "options": [
+      "Das Umgebungsmodell perfekt bekannt ist.",
+      "Der Zustands- und/oder Aktionsraum sehr groß oder kontinuierlich ist.",
+      "Man nur sehr wenige Trainingsdaten hat.",
+      "Man die Varianz der Schätzungen erhöhen möchte."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "q11_maximization_bias",
+    "type": "multiple-choice",
+    "question": "Was versteht man unter dem Maximierungs-Bias im Kontext von Q-Learning?",
+    "options": [
+      "Eine Tendenz, Belohnungen zu maximieren, auch wenn es suboptimal ist.",
+      "Eine systematische Überschätzung der Aktionswerte aufgrund der Verwendung des Maximum-Operators im Update.",
+      "Eine Tendenz, die Anzahl der Aktionen in einer Episode zu maximieren.",
+      "Ein Fehler, der auftritt, wenn die Lernrate zu hoch ist."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "q12_expected_sarsa_advantage",
+    "type": "multiple-choice",
+    "question": "Was ist ein Vorteil von Expected SARSA gegenüber dem Standard-SARSA?",
+    "options": [
+      "Es ist immer schneller in der Konvergenz.",
+      "Es hat typischerweise eine geringere Varianz in den Updates.",
+      "Es benötigt kein $\\epsilon$-greedy Vorgehen für die Exploration.",
+      "Es ist ein Off-Policy Algorithmus."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "q13_yes_no_markov",
+    "type": "yes-no",
+    "question": "Ist die Markov-Eigenschaft fundamental für die meisten Standard-RL-Algorithmen?",
     "options": ["Ja", "Nein"],
-    "answer": 0,
-    "type": "yes-no"
+    "answer": 0 
   }
 ]
