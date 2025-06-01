@@ -1,153 +1,596 @@
 [
   {
-    "id": "q1_rl_goal",
+    "id": "ch1_q1_rl_definition",
     "type": "multiple-choice",
-    "question": "Was ist das primäre Ziel eines Reinforcement Learning Agenten?",
+    "question": "Was ist das Hauptziel von Reinforcement Learning? [cite: 1155]",
     "options": [
-      "Die Dynamik der Umgebung perfekt zu verstehen.",
-      "Die kumulative Belohnung über die Zeit zu maximieren.",
-      "Möglichst viele Zustände zu explorieren.",
-      "Die Anzahl der ausgeführten Aktionen zu minimieren."
+      "Die genaue Modellierung der Umgebung.",
+      "Das Maximieren eines numerischen Belohnungssignals über die Zeit.",
+      "Das Finden versteckter Strukturen in ungelabelten Daten.",
+      "Das korrekte Klassifizieren von Eingabedaten basierend auf Beispielen."
     ],
     "answer": 1
   },
   {
-    "id": "q2_mdp_components",
+    "id": "ch1_q2_rl_characteristics",
     "type": "multiple-choice",
-    "question": "Welche der folgenden Komponenten gehört NICHT zu einem Markov Decision Process (MDP)?",
+    "question": "Welche der folgenden Eigenschaften ist NICHT typisch für Reinforcement Learning Probleme? [cite: 1155]",
     "options": [
-      "Zustandsraum (S)",
-      "Aktionsraum (A)",
-      "Belohnungsfunktion (R)",
-      "Die interne Speichergröße des Agenten."
-    ],
-    "answer": 3
-  },
-  {
-    "id": "q3_dp_requirement",
-    "type": "multiple-choice",
-    "question": "Dynamische Programmierung (DP) Methoden benötigen zwingend:",
-    "options": [
-      "Kein Modell der Umgebung.",
-      "Ein perfektes Modell der Umgebung (P und R).",
-      "Nur Beispiel-Episoden aus Erfahrung.",
-      "Eine vordefinierte optimale Policy."
-    ],
-    "answer": 1
-  },
-  {
-    "id": "q4_value_iteration_calculates",
-    "type": "multiple-choice",
-    "question": "Value Iteration berechnet direkt die...",
-    "options": [
-      "Optimale Policy $\\pi^*$.",
-      "Optimale Zustands-Wertfunktion $V^*$.",
-      "Übergangswahrscheinlichkeiten P.",
-      "Belohnungsfunktion R."
-    ],
-    "answer": 1 
-  },
-  {
-    "id": "q5_mc_properties",
-    "type": "multiple-choice",
-    "question": "Welche Methode lernt aus vollständigen Episoden, ist unverzerrt, kann aber hohe Varianz aufweisen?",
-    "options": [
-      "Temporal Difference (TD) Learning.",
-      "Monte Carlo (MC) Methoden.",
-      "Dynamische Programmierung.",
-      "Q-Learning."
-    ],
-    "answer": 1
-  },
-  {
-    "id": "q6_td0_update",
-    "type": "multiple-choice",
-    "question": "TD(0) Learning aktualisiert seine Wertschätzung basierend auf:",
-    "options": [
-      "Dem finalen Ergebnis der gesamten Episode.",
-      "Der beobachteten Belohnung und der geschätzten Wertfunktion des *nächsten* Zustands (Bootstrapping).",
-      "Einem perfekten Modell der Zustandsübergänge.",
-      "Nur der unmittelbaren Belohnung, ignoriert zukünftige Zustände."
-    ],
-    "answer": 1
-  },
-  {
-    "id": "q7_on_policy_sarsa",
-    "type": "multiple-choice",
-    "question": "Was bedeutet \"On-Policy\" im Kontext von Algorithmen wie SARSA?",
-    "options": [
-      "Es lernt den Wert der optimalen Policy, unabhängig von den Aktionen des Agenten.",
-      "Es lernt den Wert der Policy, die der Agent aktuell verfolgt.",
-      "Es benötigt keine Policy, um zu lernen.",
-      "Es kann nur verwendet werden, wenn die Policy deterministisch ist."
-    ],
-    "answer": 1
-  },
-  {
-    "id": "q8_off_policy_qlearning",
-    "type": "multiple-choice",
-    "question": "Q-Learning ist ein \"Off-Policy\" Algorithmus, weil:",
-    "options": [
-      "Es immer zufällige Aktionen wählt.",
-      "Seine Updates die tatsächlich im nächsten Schritt ausgeführte Aktion verwenden.",
-      "Es seine Q-Werte in Richtung des maximal möglichen Q-Wertes des nächsten Zustands aktualisiert, unabhängig davon, welche Aktion zur Exploration tatsächlich ausgeführt wurde.",
-      "Es eine separate Policy für die Evaluation und eine andere für die Steuerung benötigt."
+      "Der Lernende wird nicht explizit angewiesen, welche Aktionen er ausführen soll.",
+      "Die Aktionen des Lernenden beeinflussen seine späteren Eingaben (Closed-Loop).",
+      "Es gibt immer einen externen Supervisor, der korrekte Aktionen vorgibt.",
+      "Die Konsequenzen von Aktionen können sich über längere Zeiträume erstrecken."
     ],
     "answer": 2
   },
   {
-    "id": "q9_double_q_purpose",
+    "id": "ch1_q3_exploration_exploitation",
     "type": "multiple-choice",
-    "question": "Was ist der Hauptzweck von Double Q-Learning?",
+    "question": "Das Exploration-Exploitation-Dilemma beschreibt den Konflikt zwischen: [cite: 1156]",
     "options": [
-      "Die Lernrate zu verdoppeln.",
-      "Den Maximierungs-Bias (Überschätzung von Q-Werten) zu reduzieren.",
-      "Zwei Umgebungen gleichzeitig zu modellieren.",
-      "Die Exploration zu beschleunigen."
+      "Dem Ausprobieren neuer Aktionen, um bessere Strategien zu entdecken, und dem Anwenden bekannter guter Aktionen, um Belohnungen zu erhalten.",
+      "Dem schnellen Lernen und dem genauen Lernen.",
+      "Dem Aufbau eines Modells und dem direkten Lernen von Werten.",
+      "Kurzfristigen und langfristigen Zielen."
     ],
-    "answer": 1 
+    "answer": 0
   },
   {
-    "id": "q10_vfa_usage",
+    "id": "ch1_q4_rl_elements_policy",
     "type": "multiple-choice",
-    "question": "Wertfunktionsapproximation (VFA) wird typischerweise eingesetzt, wenn...",
+    "question": "Welches Element eines Reinforcement Learning Systems definiert das Verhalten des Agenten zu einem gegebenen Zeitpunkt? [cite: 1160]",
     "options": [
-      "Das Umgebungsmodell perfekt bekannt ist.",
-      "Der Zustands- und/oder Aktionsraum sehr groß oder kontinuierlich ist.",
-      "Man nur sehr wenige Trainingsdaten hat.",
-      "Man die Varianz der Schätzungen erhöhen möchte."
+      "Das Belohnungssignal",
+      "Die Wertfunktion",
+      "Die Policy",
+      "Das Modell der Umgebung"
     ],
-    "answer": 1
+    "answer": 2
   },
   {
-    "id": "q11_maximization_bias",
+    "id": "ch1_q5_value_function_purpose",
     "type": "multiple-choice",
-    "question": "Was versteht man unter dem Maximierungs-Bias im Kontext von Q-Learning?",
+    "question": "Was spezifiziert eine Wertfunktion im Reinforcement Learning? [cite: 1161]",
     "options": [
-      "Eine Tendenz, Belohnungen zu maximieren, auch wenn es suboptimal ist.",
-      "Eine systematische Überschätzung der Aktionswerte aufgrund der Verwendung des Maximum-Operators im Update.",
-      "Eine Tendenz, die Anzahl der Aktionen in einer Episode zu maximieren.",
-      "Ein Fehler, der auftritt, wenn die Lernrate zu hoch ist."
-    ],
-    "answer": 1
-  },
-  {
-    "id": "q12_expected_sarsa_advantage",
-    "type": "multiple-choice",
-    "question": "Was ist ein Vorteil von Expected SARSA gegenüber dem Standard-SARSA?",
-    "options": [
-      "Es ist immer schneller in der Konvergenz.",
-      "Es hat typischerweise eine geringere Varianz in den Updates.",
-      "Es benötigt kein $\\epsilon$-greedy Vorgehen für die Exploration.",
-      "Es ist ein Off-Policy Algorithmus."
+      "Die unmittelbare Belohnung für eine Aktion.",
+      "Was langfristig gut ist, d.h. die erwartete kumulative zukünftige Belohnung.",
+      "Die Wahrscheinlichkeit, einen bestimmten Zustand zu erreichen.",
+      "Die optimale Aktion in jedem Zustand."
     ],
     "answer": 1
   },
   {
-    "id": "q13_yes_no_markov",
+    "id": "ch2_q1_bandit_problem",
+    "type": "multiple-choice",
+    "question": "Was ist das Kernproblem beim n-armigen Banditenproblem? [cite: 1184]",
+    "options": [
+      "Die Modellierung der Dynamik eines komplexen Systems.",
+      "Das Ausbalancieren von Exploration (neue Optionen testen) und Exploitation (die aktuell beste bekannte Option wählen), um den Gesamtertrag zu maximieren.",
+      "Das Vorhersagen des nächsten Zustands basierend auf der aktuellen Aktion.",
+      "Das Lernen einer Policy für eine Sequenz von Entscheidungen."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch2_q2_action_value_estimation",
+    "type": "multiple-choice",
+    "question": "Wie wird der Wert einer Aktion $Q_t(a)$ beim Sample-Average-Verfahren im Banditenproblem geschätzt? [cite: 1185]",
+    "options": [
+      "Als der Maximalwert aller bisher erhaltenen Belohnungen für diese Aktion.",
+      "Als der Durchschnitt aller bisher erhaltenen Belohnungen, nachdem diese Aktion gewählt wurde.",
+      "Als die zuletzt erhaltene Belohnung für diese Aktion.",
+      "Als eine gewichtete Summe der Belohnungen, wobei neuere Belohnungen stärker gewichtet werden."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch2_q3_epsilon_greedy",
+    "type": "multiple-choice",
+    "question": "Wie verhält sich eine $\\epsilon$-greedy Aktionsauswahlstrategie? [cite: 1186]",
+    "options": [
+      "Sie wählt immer die Aktion mit dem höchsten geschätzten Wert.",
+      "Sie wählt immer eine zufällige Aktion.",
+      "Sie wählt meistens die Aktion mit dem höchsten geschätzten Wert, aber mit einer kleinen Wahrscheinlichkeit $\\epsilon$ eine zufällige Aktion.",
+      "Sie wählt immer die Aktion, die am seltensten ausprobiert wurde."
+    ],
+    "answer": 2
+  },
+  {
+    "id": "ch2_q4_incremental_update",
+    "type": "multiple-choice",
+    "question": "Die inkrementelle Update-Regel $Q_{k+1} = Q_k + \\frac{1}{k}[R_k - Q_k]$ dient zur Berechnung des: [cite: 1189]",
+    "options": [
+      "Gewichteten Durchschnitts der Belohnungen.",
+      "Einfachen Durchschnitts der ersten $k$ Belohnungen.",
+      "Maximalen Werts der ersten $k$ Belohnungen.",
+      "TD-Fehlers."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch2_q5_optimistic_initialization",
+    "type": "multiple-choice",
+    "question": "Was ist der Hauptzweck von \"optimistischen Anfangswerten\" bei Banditenproblemen? [cite: 1191, 1192]",
+    "options": [
+      "Die Konvergenzgeschwindigkeit zu erhöhen.",
+      "Die Exploration in den frühen Lernphasen zu fördern.",
+      "Den Bias der Schätzungen zu reduzieren.",
+      "Die Komplexität des Algorithmus zu verringern."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch2_q6_ucb_selection",
+    "type": "multiple-choice",
+    "question": "Die Upper-Confidence-Bound (UCB) Aktionsauswahl... [cite: 1193]",
+    "options": [
+      "Wählt Aktionen rein zufällig aus, um Exploration zu gewährleisten.",
+      "Bevorzugt Aktionen, die bisher selten gewählt wurden oder deren Wertschätzung unsicher ist, aber vielversprechend erscheint.",
+      "Ist identisch mit der $\\epsilon$-greedy Methode.",
+      "Benötigt ein vollständiges Modell der Belohnungswahrscheinlichkeiten."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch2_q7_gradient_bandit_baseline",
     "type": "yes-no",
-    "question": "Ist die Markov-Eigenschaft fundamental für die meisten Standard-RL-Algorithmen?",
+    "question": "Ist die Verwendung einer Baseline (z.B. der durchschnittliche bisherige Reward $\\overline{R}_t$) in Gradient-Bandit-Algorithmen wichtig für die Reduktion der Varianz der Updates? [cite: 1195, 1196]",
     "options": ["Ja", "Nein"],
-    "answer": 0 
+    "answer": 0
+  },
+  {
+    "id": "ch3_q1_agent_interface",
+    "type": "multiple-choice",
+    "question": "Wodurch wird die Interaktion zwischen Agent und Umgebung im RL-Framework hauptsächlich definiert? [cite: 1206]",
+    "options": [
+      "Nur durch die Policy des Agenten.",
+      "Durch Zustände, Aktionen und Belohnungen.",
+      "Durch das interne Modell des Agenten.",
+      "Durch die Lernrate und den Diskontierungsfaktor."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch3_q2_reward_hypothesis",
+    "type": "yes-no",
+    "question": "Besagt die \"Reward Hypothesis\", dass alle Ziele als Maximierung der erwarteten kumulativen Summe eines empfangenen skalaren Signals (Belohnung) betrachtet werden können? [cite: 1209]",
+    "options": ["Ja", "Nein"],
+    "answer": 0
+  },
+  {
+    "id": "ch3_q3_return_episodic",
+    "type": "multiple-choice",
+    "question": "Wie ist der Return $G_t$ in einfachen episodischen Aufgaben typischerweise definiert? [cite: 1211]",
+    "options": [
+      "Als die unmittelbare Belohnung $R_{t+1}$.",
+      "Als die Summe aller Belohnungen ab Zeitschritt $t$ bis zum Ende der Episode.",
+      "Als der Durchschnitt aller Belohnungen in der Episode.",
+      "Als die maximale Belohnung, die in der Episode erreicht wurde."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch3_q4_discounting",
+    "type": "multiple-choice",
+    "question": "Welchen Zweck hat der Diskontierungsfaktor $\\gamma$ in der Definition des Returns für kontinuierliche Aufgaben? [cite: 1212]",
+    "options": [
+      "Er gewichtet kurzfristige Belohnungen höher als langfristige.",
+      "Er stellt sicher, dass die Summe der zukünftigen Belohnungen endlich bleibt, auch wenn die Aufgabe unendlich lange dauert.",
+      "Er erhöht die Explorationsrate des Agenten.",
+      "Er vereinfacht die Berechnung der Policy."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch3_q5_markov_property",
+    "type": "multiple-choice",
+    "question": "Die Markov-Eigenschaft besagt, dass die Zukunft... [cite: 1216]",
+    "options": [
+      "Vollständig von der gesamten Historie der Zustände und Aktionen abhängt.",
+      "Nur vom aktuellen Zustand und der aktuellen Aktion abhängt, gegeben die Vergangenheit.",
+      "Deterministisch ist, wenn der aktuelle Zustand bekannt ist.",
+      "Immer zur maximalen Belohnung führt."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch3_q6_mdp_definition",
+    "type": "multiple-choice",
+    "question": "Ein finiter Markov Decision Process (MDP) ist vollständig definiert durch: [cite: 1219]",
+    "options": [
+      "Nur die Zustands- und Aktionsräume.",
+      "Die Zustands- und Aktionsräume, die Übergangswahrscheinlichkeiten $p(s',r|s,a)$ und den Diskontierungsfaktor $\\gamma$.",
+      "Die Policy des Agenten und die Wertfunktion.",
+      "Die Belohnungsfunktion und die Anzahl der Episoden."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch3_q7_state_value_function",
+    "type": "multiple-choice",
+    "question": "Die Zustands-Wertfunktion $v_\\pi(s)$ ist definiert als: [cite: 1224]",
+    "options": [
+      "Die unmittelbare Belohnung im Zustand $s$.",
+      "Der erwartete Return, wenn man in Zustand $s$ startet und danach Policy $\\pi$ folgt.",
+      "Die Wahrscheinlichkeit, Zustand $s$ unter Policy $\\pi$ zu erreichen.",
+      "Die beste Aktion, die in Zustand $s$ ausgeführt werden kann."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch3_q8_action_value_function",
+    "type": "multiple-choice",
+    "question": "Die Aktions-Wertfunktion $q_\\pi(s,a)$ ist definiert als: [cite: 1224]",
+    "options": [
+      "Der Wert der Aktion $a$, unabhängig vom Zustand.",
+      "Der erwartete Return, wenn man in Zustand $s$ startet, Aktion $a$ ausführt und danach Policy $\\pi$ folgt.",
+      "Die Wahrscheinlichkeit, Aktion $a$ im Zustand $s$ auszuführen.",
+      "Die sofortige Belohnung nach Ausführung von Aktion $a$ in Zustand $s$."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch3_q9_bellman_equation_v",
+    "type": "yes-no",
+    "question": "Drückt die Bellman-Gleichung für $v_\\pi$ eine Beziehung zwischen dem Wert eines Zustands und den Werten seiner Nachfolgezustände aus? [cite: 1225]",
+    "options": ["Ja", "Nein"],
+    "answer": 0
+  },
+  {
+    "id": "ch3_q10_optimal_policy_definition",
+    "type": "multiple-choice",
+    "question": "Eine optimale Policy $\\pi_*$ ist eine Policy, die... [cite: 1229]",
+    "options": [
+      "Die kürzeste Episode garantiert.",
+      "Den höchsten erwarteten Return für alle Zustände im Vergleich zu allen anderen Policies erreicht.",
+      "Am schnellsten konvergiert.",
+      "Immer deterministisch ist."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch3_q11_bellman_optimality_v",
+    "type": "yes-no",
+    "question": "Bezieht sich die Bellman-Optimalitätsgleichung für $v_*$ auf eine spezifische Policy? [cite: 1230]",
+    "options": ["Nein", "Ja"],
+    "answer": 0
+  },
+  {
+    "id": "ch3_q12_greedy_optimal",
+    "type": "yes-no",
+    "question": "Ist eine Policy, die gierig bezüglich der optimalen Wertfunktion $v_*$ agiert, immer eine optimale Policy? [cite: 1231]",
+    "options": ["Ja", "Nein"],
+    "answer": 0
+  },
+  {
+    "id": "ch4_q1_dp_assumption",
+    "type": "multiple-choice",
+    "question": "Welche grundlegende Annahme treffen klassische Dynamic Programming (DP) Algorithmen bezüglich der Umgebung? [cite: 1243]",
+    "options": [
+      "Die Umgebung muss nicht bekannt sein.",
+      "Es wird ein perfektes Modell der Umgebung (MDP) vorausgesetzt.",
+      "Die Umgebung muss deterministisch sein.",
+      "Es werden nur Beispiel-Episoden benötigt."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch4_q2_policy_evaluation",
+    "type": "multiple-choice",
+    "question": "Was ist das Ziel der Policy Evaluation (Vorhersageproblem) in DP? [cite: 1244]",
+    "options": [
+      "Die optimale Policy direkt zu finden.",
+      "Die Zustands-Wertfunktion $v_\\pi$ für eine gegebene Policy $\\pi$ zu berechnen.",
+      "Die beste Aktion für jeden Zustand zu bestimmen.",
+      "Ein Modell der Umgebung zu lernen."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch4_q3_iterative_policy_evaluation",
+    "type": "yes-no",
+    "question": "Verwendet die iterative Policy Evaluation die Bellman-Gleichung für $v_\\pi$ als Update-Regel, um sukzessive Approximationen der Wertfunktion zu erhalten? [cite: 1245]",
+    "options": ["Ja", "Nein"],
+    "answer": 0
+  },
+  {
+    "id": "ch4_q4_policy_improvement_theorem",
+    "type": "multiple-choice",
+    "question": "Was besagt das Policy Improvement Theorem im Wesentlichen? [cite: 1248]",
+    "options": [
+      "Jede Policy kann durch zufällige Änderungen verbessert werden.",
+      "Wenn eine Policy $\\pi'$ gierig bezüglich $q_\\pi$ ist, dann ist $\\pi'$ mindestens so gut wie $\\pi$.",
+      "Die optimale Policy ist immer deterministisch.",
+      "Policy Evaluation ist immer notwendig vor Policy Improvement."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch4_q5_policy_iteration_process",
+    "type": "multiple-choice",
+    "question": "Policy Iteration ist ein Prozess, der wiederholt zwischen welchen beiden Schritten wechselt? [cite: 1250]",
+    "options": [
+      "Modelllernen und Planung.",
+      "Exploration und Exploitation.",
+      "Policy Evaluation und Policy Improvement.",
+      "Aktionsauswahl und Belohnungsempfang."
+    ],
+    "answer": 2
+  },
+  {
+    "id": "ch4_q6_value_iteration_update",
+    "type": "multiple-choice",
+    "question": "Value Iteration ist im Wesentlichen das Anwenden welcher Gleichung als Update-Regel? [cite: 1254]",
+    "options": [
+      "Der Bellman-Erwartungsgleichung für $v_\\pi$.",
+      "Der Bellman-Optimalitätsgleichung für $v_*$.",
+      "Der Update-Regel für Monte Carlo Methoden.",
+      "Der Update-Regel für TD-Learning."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch4_q7_asynchronous_dp",
+    "type": "multiple-choice",
+    "question": "Was charakterisiert asynchrone DP-Algorithmen? [cite: 1256]",
+    "options": [
+      "Sie führen Backups für alle Zustände gleichzeitig in jedem Sweep durch.",
+      "Sie führen Backups für Zustände in beliebiger Reihenfolge durch und verwenden dabei möglicherweise veraltete Werte anderer Zustände.",
+      "Sie benötigen kein Umgebungsmodell.",
+      "Sie sind immer langsamer als synchrone DP-Methoden."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch4_q8_gpi",
+    "type": "yes-no",
+    "question": "Ist Generalized Policy Iteration (GPI) die allgemeine Idee von interagierenden Prozessen der Policy Evaluation und Policy Improvement? [cite: 1258]",
+    "options": ["Ja", "Nein"],
+    "answer": 0
+  },
+  {
+    "id": "ch4_q9_bootstrapping_dp",
+    "type": "yes-no",
+    "question": "Aktualisieren DP-Methoden Schätzungen von Werten basierend auf anderen Schätzungen (d.h. nutzen sie Bootstrapping)? [cite: 1262]",
+    "options": ["Ja", "Nein"],
+    "answer": 0
+  },
+  {
+    "id": "ch5_q1_mc_model",
+    "type": "yes-no",
+    "question": "Benötigen Monte Carlo (MC) Methoden ein vollständiges Modell der Umgebung, um Wertfunktionen zu schätzen? [cite: 1267]",
+    "options": ["Nein", "Ja"],
+    "answer": 0
+  },
+  {
+    "id": "ch5_q2_mc_episodes",
+    "type": "multiple-choice",
+    "question": "Auf welcher Art von Aufgaben werden Monte Carlo Methoden typischerweise definiert, um sicherzustellen, dass wohldefinierte Returns verfügbar sind? [cite: 1267]",
+    "options": [
+      "Nur auf kontinuierlichen Aufgaben.",
+      "Nur auf episodischen Aufgaben.",
+      "Sowohl auf episodischen als auch auf kontinuierlichen Aufgaben ohne Einschränkung.",
+      "Nur auf Aufgaben mit kleinen Zustandsräumen."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch5_q3_first_visit_mc",
+    "type": "multiple-choice",
+    "question": "Was schätzt die First-Visit MC Methode für $v_\\pi(s)$? [cite: 1268]",
+    "options": [
+      "Den Durchschnitt der Returns, die allen Besuchen von $s$ folgen.",
+      "Den Durchschnitt der Returns, die dem ersten Besuch von $s$ in jeder Episode folgen.",
+      "Den maximalen Return, der nach einem Besuch von $s$ beobachtet wurde.",
+      "Den Return der letzten Episode, in der $s$ besucht wurde."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch5_q4_mc_action_values",
+    "type": "yes-no",
+    "question": "Ist es für MC-Methoden, die ohne Modell arbeiten, besonders nützlich, Aktionswerte $q_\\pi(s,a)$ anstelle von Zustandswerten $v_\\pi(s)$ zu schätzen, um eine Policy abzuleiten? [cite: 1273]",
+    "options": ["Ja", "Nein"],
+    "answer": 0
+  },
+  {
+    "id": "ch5_q5_exploring_starts",
+    "type": "multiple-choice",
+    "question": "Was bedeutet die Annahme von \"Exploring Starts\" bei MC-Kontrollmethoden? [cite: 1274]",
+    "options": [
+      "Der Agent beginnt immer im selben Startzustand.",
+      "Jedes Zustands-Aktions-Paar hat eine Wahrscheinlichkeit größer Null, als Startpunkt einer Episode gewählt zu werden.",
+      "Der Agent führt in den ersten Schritten nur explorative Aktionen durch.",
+      "Die Startzustände werden basierend auf ihrer Unsicherheit gewählt."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch5_q6_on_policy_mc_control",
+    "type": "multiple-choice",
+    "question": "Wie stellt On-Policy Monte Carlo Control ohne Exploring Starts typischerweise sicher, dass weiterhin exploriert wird? [cite: 1279]",
+    "options": [
+      "Indem die Policy immer deterministisch gierig gemacht wird.",
+      "Indem eine $\\epsilon$-soft Policy (z.B. $\\epsilon$-greedy) verwendet wird, die sicherstellt, dass alle Aktionen mit einer gewissen Wahrscheinlichkeit gewählt werden.",
+      "Indem ein Umgebungsmodell gelernt und für die Planung genutzt wird.",
+      "Indem nur von den besten Episoden gelernt wird."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch5_q7_importance_sampling_purpose",
+    "type": "multiple-choice",
+    "question": "Wozu dient Importance Sampling bei Off-Policy Monte Carlo Methoden? [cite: 1282]",
+    "options": [
+      "Um die Varianz der Schätzungen zu erhöhen.",
+      "Um Wertfunktionen einer Zielpolicy $\\pi$ aus Episoden zu schätzen, die mit einer anderen Verhaltenspolicy $\\mu$ generiert wurden.",
+      "Um die Konvergenzgeschwindigkeit von On-Policy Methoden zu verbessern.",
+      "Um die Notwendigkeit von Exploration zu eliminieren."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch5_q8_weighted_importance_sampling",
+    "type": "yes-no",
+    "question": "Hat gewichtetes Importance Sampling im Vergleich zu gewöhnlichem Importance Sampling in der Praxis oft eine geringere Varianz? [cite: 1283]",
+    "options": ["Ja", "Nein"],
+    "answer": 0
+  },
+  {
+    "id": "ch5_q9_mc_bootstrap",
+    "type": "yes-no",
+    "question": "Verwenden Monte Carlo Methoden Bootstrapping, d.h. aktualisieren sie ihre Wertschätzungen basierend auf anderen Wertschätzungen? [cite: 1292]",
+    "options": ["Nein", "Ja"],
+    "answer": 0
+  },
+  {
+    "id": "ch6_q1_td_learning_combination",
+    "type": "multiple-choice",
+    "question": "Temporal-Difference (TD) Learning ist eine Kombination aus welchen beiden grundlegenden Ideen? [cite: 1297]",
+    "options": [
+      "Monte Carlo Methoden und Supervised Learning.",
+      "Monte Carlo Methoden und Dynamischer Programmierung.",
+      "Dynamischer Programmierung und Genetischen Algorithmen.",
+      "Policy Gradient Methoden und Wertbasierten Methoden."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch6_q2_td0_update_target",
+    "type": "multiple-choice",
+    "question": "Was ist das Target für das Update von $V(S_t)$ im TD(0)-Algorithmus? [cite: 1298]",
+    "options": [
+      "Der vollständige Return $G_t$.",
+      "$R_{t+1} + \\gamma V(S_{t+1})$.",
+      "$R_{t+1}$.",
+      "$\\max_a Q(S_{t+1}, a)$."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch6_q3_td_bootstrapping",
+    "type": "yes-no",
+    "question": "Nutzen TD-Methoden Bootstrapping, indem sie Schätzungen basierend auf anderen gelernten Schätzungen aktualisieren? [cite: 1298]",
+    "options": ["Ja", "Nein"],
+    "answer": 0
+  },
+  {
+    "id": "ch6_q4_td_advantage_mc_online",
+    "type": "yes-no",
+    "question": "Können TD-Methoden im Gegensatz zu MC-Methoden (die bis zum Episodenende warten müssen) online und inkrementell nach jedem Zeitschritt lernen? [cite: 1302]",
+    "options": ["Ja", "Nein"],
+    "answer": 0
+  },
+  {
+    "id": "ch6_q5_batch_td0_convergence",
+    "type": "multiple-choice",
+    "question": "Wozu konvergiert Batch TD(0) bei ausreichend kleinem $\\alpha$? [cite: 1307]",
+    "options": [
+      "Zu den Schätzungen, die den quadratischen Fehler auf dem Trainingsdatensatz minimieren.",
+      "Zu den Schätzungen, die exakt korrekt für das Maximum-Likelihood-Modell des Markov-Prozesses wären (Certainty-Equivalence Estimate).",
+      "Immer zur optimalen Wertfunktion $v_*$.",
+      "Zu denselben Werten wie Batch Monte Carlo."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch6_q6_sarsa_name",
+    "type": "multiple-choice",
+    "question": "Wofür stehen die Buchstaben im Namen des SARSA-Algorithmus? [cite: 1309]",
+    "options": [
+      "State, Action, Reward, State, Algorithm",
+      "State, Action, Reward, State, Action",
+      "Sample, Action, Return, State, Action",
+      "Stochastic, Action, Reward, Sample, Approximation"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch6_q7_sarsa_on_policy",
+    "type": "yes-no",
+    "question": "Ist SARSA ein On-Policy Algorithmus, d.h. lernt er die Aktions-Wertfunktion für die Policy, die er aktuell zur Aktionsauswahl verwendet? [cite: 1309]",
+    "options": ["Ja", "Nein"],
+    "answer": 0
+  },
+  {
+    "id": "ch6_q8_qlearning_off_policy",
+    "type": "yes-no",
+    "question": "Ist Q-Learning ein Off-Policy Algorithmus, d.h. kann es die optimale Aktions-Wertfunktion $q_*$ unabhängig von der zur Exploration verwendeten Policy lernen? [cite: 1311]",
+    "options": ["Ja", "Nein"],
+    "answer": 0
+  },
+  {
+    "id": "ch6_q9_qlearning_update_target",
+    "type": "multiple-choice",
+    "question": "Welchen Term verwendet Q-Learning in seinem Update-Target, der es von SARSA unterscheidet und Off-Policy Lernen ermöglicht? [cite: 1311]",
+    "options": [
+      "$Q(S_{t+1}, A_{t+1})$",
+      "$\\sum_a \\pi(a|S_{t+1})Q(S_{t+1}, a)$",
+      "$\\max_a Q(S_{t+1}, a)$",
+      "$V(S_{t+1})$"
+    ],
+    "answer": 2
+  },
+  {
+    "id": "ch6_q10_cliff_walking_sarsa_qlearning",
+    "type": "multiple-choice",
+    "question": "Im 'Cliff Walking' Beispiel lernt Q-Learning den optimalen (riskanten) Pfad, während SARSA einen längeren, aber sichereren Pfad lernt. Woran liegt das? [cite: 1312]",
+    "options": [
+      "Q-Learning verwendet eine höhere Lernrate.",
+      "SARSA ist ein Monte Carlo Algorithmus.",
+      "Q-Learning (off-policy) lernt über die gierige Policy, während SARSA (on-policy) die Effekte der $\\epsilon$-greedy Exploration in seine Wertschätzungen einbezieht.",
+      "SARSA konvergiert schneller zum Optimum."
+    ],
+    "answer": 2
+  },
+  {
+    "id": "ch1_q6_tictactoe_td_update",
+    "type": "multiple-choice",
+    "question": "Wie wird im Tic-Tac-Toe Beispiel die Wertschätzung eines Zustands $V(s)$ nach einem gierigen Zug zu $s'$ typischerweise aktualisiert (TD-Methode)? [cite: 1166]",
+    "options": [
+      "$V(s) \\leftarrow V(s')$",
+      "$V(s) \\leftarrow V(s) + \\alpha[V(s') - V(s)]$",
+      "$V(s) \\leftarrow \\alpha V(s')$",
+      "$V(s) \\leftarrow \\text{Durchschnitt aller vorherigen } V(s')$"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch3_q13_episodic_vs_continuing",
+    "type": "multiple-choice",
+    "question": "Was ist der Hauptunterschied zwischen episodischen und kontinuierlichen Aufgaben im RL? [cite: 1211]",
+    "options": [
+      "Episodische Aufgaben haben immer deterministische Übergänge.",
+      "Kontinuierliche Aufgaben haben keine klar definierten Endzustände oder natürlichen Unterbrechungen.",
+      "Episodische Aufgaben verwenden keinen Diskontierungsfaktor.",
+      "Kontinuierliche Aufgaben können nur mit modellbasierten Methoden gelöst werden."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "ch4_q10_dp_efficiency",
+    "type": "yes-no",
+    "question": "Sind DP-Methoden im Allgemeinen exponentiell schneller als eine direkte Suche im Raum aller möglichen Policies, um eine optimale Policy zu finden? [cite: 1260]",
+    "options": ["Ja", "Nein"],
+    "answer": 0
+  },
+  {
+    "id": "ch5_q10_mc_vs_dp_model",
+    "type": "yes-no",
+    "question": "Können Monte Carlo Methoden im Gegensatz zu DP-Methoden ohne ein Modell der Umgebungsdynamik lernen? [cite: 1292]",
+    "options": ["Ja", "Nein"],
+    "answer": 0
+  },
+  {
+    "id": "ch6_q11_td_vs_mc_efficiency",
+    "type": "multiple-choice",
+    "question": "Welcher der folgenden Punkte ist oft ein Vorteil von TD-Methoden gegenüber MC-Methoden bei stochastischen Aufgaben? [cite: 1302, 1303]",
+    "options": [
+      "TD-Methoden sind immer unverzerrt.",
+      "TD-Methoden haben typischerweise eine geringere Varianz und konvergieren oft schneller.",
+      "TD-Methoden benötigen keine Exploration.",
+      "MC-Methoden können für kontinuierliche Aufgaben ohne Modifikation verwendet werden."
+    ],
+    "answer": 1
   }
 ]
