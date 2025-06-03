@@ -1,6 +1,3 @@
-Okay, basierend auf den bereitgestellten Dateien erstelle ich ein passendes `README.md`.
-
-```markdown
 # Reinforcement Learning: Interaktive Infografik & Quiz
 
 Dieses Projekt präsentiert eine interaktive Webseite, die detaillierte Einblicke in die Kernkonzepte des Reinforcement Learning (RL) bietet. Die Seite ist als Infografik strukturiert und enthält ein Quiz zur Wissensüberprüfung. Die Inhalte sind sowohl auf Deutsch als auch auf Englisch verfügbar.
@@ -85,4 +82,3 @@ Da die Quizdaten (`quiz_data_*.json`) mit `fetch` geladen werden, kann es bei lo
 ## 📄 Lizenz
 
 Dieses Projekt dient Bildungszwecken. Der Inhalt basiert auf Standard-RL-Konzepten und Vorlesungsmaterialien. Der Code kann frei verwendet und modifiziert werden, vorzugsweise unter Nennung der Inspirationsquellen für die Inhalte. (Eine formale Lizenz wie MIT könnte hier noch ergänzt werden, falls gewünscht).
-```
