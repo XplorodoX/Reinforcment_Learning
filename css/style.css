@@ -185,3 +185,63 @@ h1, h2, h3, h4 {
     padding: 1rem;
     margin-top: 1rem;
 }
+
+.sub-concept-box {
+    background-color: #e6f7ff;
+    border: 1px solid #ade8f4;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+/* Styles for Quiz Review Section */
+.review-item {
+    background-color: #fff7e6; /* Light orange background for review items */
+    border: 1px solid #ffdcb0;   /* Orange border */
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.review-item-question {
+    font-weight: 600;
+    color: #995000; /* Darker orange/brown for question text */
+    margin-bottom: 0.75rem;
+}
+
+.review-item-answer {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.review-item-answer .label {
+    font-weight: 600;
+}
+
+.review-item-answer.user-wrong {
+    color: #c00; /* Red for user's wrong answer */
+}
+.review-item-answer.user-wrong .text {
+    text-decoration: line-through;
+}
+
+.review-item-answer.correct-ans {
+    color: #006400; /* Dark green for correct answer */
+}
+
+.review-item-explanation {
+    background-color: #f0f9ff; /* Light blue for explanation box */
+    border: 1px solid #bee1f4;
+    border-radius: 0.375rem;
+    padding: 0.75rem;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #022c43;
+}
+
+.review-item-explanation .label {
+    font-weight: 600;
+    color: #0056B3; /* Blue for explanation label */
+    display: block;
+    margin-bottom: 0.25rem;
+}

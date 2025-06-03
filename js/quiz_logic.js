@@ -1,16 +1,17 @@
 // js/quiz_logic.js
 let quizDataStore = {};
 let activeQuizQuestions = [];
-let currentQuizData = []; // This will hold the quiz data for the current language
+let currentQuizData = [];
+let incorrectlyAnswered = []; // Array to store incorrect answers
 
 let currentQuestionIndex = 0;
 let score = 0;
 let selectedOptionElement = null;
 let answerSubmitted = false;
-const MAX_QUIZ_QUESTIONS = 10; // You can adjust this
+// const MAX_QUIZ_QUESTIONS = 10; // Wird jetzt durch Dropdown gesteuert
 
-// DOM Elements (will be initialized in main.js or when this script is loaded and DOM is ready)
-let questionTextEl, optionsContainerEl, feedbackAreaEl, nextQuestionBtn, quizResultsAreaEl, scoreTextEl, restartQuizBtn, questionCounterEl, quizQuestionContainerEl, quizLoadingMessageEl, quizNavigationEl;
+// DOM Elements
+let questionTextEl, optionsContainerEl, feedbackAreaEl, nextQuestionBtn, quizResultsAreaEl, scoreTextEl, restartQuizBtn, questionCounterEl, quizQuestionContainerEl, quizLoadingMessageEl, quizNavigationEl, numQuestionsSelectEl, quizReviewContainerEl, quizReviewAreaEl;
 
 function initializeQuizDOMElements() {
     questionTextEl = document.getElementById('question-text');
@@ -24,6 +25,9 @@ function initializeQuizDOMElements() {
     quizQuestionContainerEl = document.getElementById('quiz-question-container');
     quizLoadingMessageEl = document.getElementById('quiz-loading-message');
     quizNavigationEl = document.getElementById('quiz-navigation');
+    numQuestionsSelectEl = document.getElementById('num-questions-select');
+    quizReviewContainerEl = document.getElementById('quiz-review-container');
+    quizReviewAreaEl = document.getElementById('quiz-review-area');
 }
 
 
@@ -32,10 +36,11 @@ async function loadQuizDataForLang(lang) {
         console.error("Quiz DOM elements not ready for loadQuizDataForLang");
         return false;
     }
-
     quizLoadingMessageEl.style.display = 'block';
     quizQuestionContainerEl.style.display = 'none';
     quizNavigationEl.style.display = 'none';
+    if (quizReviewContainerEl) quizReviewContainerEl.style.display = 'none';
+
 
     try {
         const response = await fetch(`quiz_data_${lang}.json`);
@@ -44,15 +49,14 @@ async function loadQuizDataForLang(lang) {
         }
         const data = await response.json();
         quizDataStore[lang] = data;
-        currentQuizData = data; // Set currentQuizData for the loaded language
+        currentQuizData = data;
 
         quizLoadingMessageEl.style.display = 'none';
-        quizQuestionContainerEl.style.display = 'block';
-        quizNavigationEl.style.display = 'flex';
+        // Do not show question container yet, initializeQuizSession will handle it
         return true;
     } catch (error) {
         console.error('Failed to load quiz data for language:', lang, error);
-        const langTranslations = translations[lang] || translations['de']; // Fallback
+        const langTranslations = translations[lang] || translations['de'];
         quizLoadingMessageEl.innerHTML = langTranslations.quizJsonLoading.replace("Lade", "Fehler beim Laden der") + ` (quiz_data_${lang}.json).`;
         quizQuestionContainerEl.style.display = 'none';
         quizNavigationEl.style.display = 'none';
@@ -70,28 +74,37 @@ function shuffleArray(array) {
 }
 
 function initializeQuizSession() {
+    const langTranslations = translations[currentLanguage] || translations['de'];
     if (!currentQuizData || currentQuizData.length === 0) {
-        const langTranslations = translations[currentLanguage] || translations['de'];
         displayQuizError(langTranslations.quizJsonLoading.replace("Lade", "Keine Quizdaten verfügbar für") + ` ${currentLanguage}.`);
         activeQuizQuestions = [];
         return;
     }
 
+    let numQuestionsToShow = numQuestionsSelectEl.value;
+    if (numQuestionsToShow === "all") {
+        numQuestionsToShow = currentQuizData.length;
+    } else {
+        numQuestionsToShow = parseInt(numQuestionsToShow, 10);
+    }
+
     let shuffledQuestions = [...currentQuizData];
     shuffleArray(shuffledQuestions);
-    activeQuizQuestions = shuffledQuestions.slice(0, Math.min(MAX_QUIZ_QUESTIONS, shuffledQuestions.length));
+    activeQuizQuestions = shuffledQuestions.slice(0, Math.min(numQuestionsToShow, shuffledQuestions.length));
 
     currentQuestionIndex = 0;
     score = 0;
+    incorrectlyAnswered = []; // Reset incorrect answers
 
     if (activeQuizQuestions.length > 0) {
-        quizResultsAreaEl.style.display = 'none'; // Hide results if restarting
-        quizQuestionContainerEl.style.display = 'block'; // Ensure question area is visible
-        quizNavigationEl.style.display = 'flex'; // Ensure navigation is visible
+        quizResultsAreaEl.style.display = 'none';
+        quizReviewContainerEl.style.display = 'none';
+        quizReviewAreaEl.innerHTML = ''; // Clear previous review
+        quizQuestionContainerEl.style.display = 'block';
+        quizNavigationEl.style.display = 'flex';
         loadQuestion();
     } else {
-        const langTranslations = translations[currentLanguage] || translations['de'];
-        displayQuizError(langTranslations.quizJsonLoading.replace("Lade", "Keine Quizfragen verfügbar in") + ` quiz_data_${currentLanguage}.json`);
+        displayQuizError(langTranslations.quizJsonLoading.replace("Lade", "Keine Quizfragen für die Auswahl verfügbar in") + ` quiz_data_${currentLanguage}.json`);
     }
 }
 
@@ -101,6 +114,7 @@ function displayQuizError(message) {
     quizLoadingMessageEl.style.display = 'block';
     quizQuestionContainerEl.style.display = 'none';
     quizNavigationEl.style.display = 'none';
+    if (quizReviewContainerEl) quizReviewContainerEl.style.display = 'none';
 }
 
 function loadQuestion() {
@@ -118,7 +132,6 @@ function loadQuestion() {
     if (quizQuestionContainerEl) quizQuestionContainerEl.style.display = 'block';
     if (quizNavigationEl) quizNavigationEl.style.display = 'flex';
 
-
     answerSubmitted = false;
     selectedOptionElement = null;
     const currentQuestionData = activeQuizQuestions[currentQuestionIndex];
@@ -130,7 +143,6 @@ function loadQuestion() {
         text: optionText,
         originalIndex: index
     }));
-
     shuffleArray(questionOptions);
 
     questionOptions.forEach((optionObj) => {
@@ -149,7 +161,6 @@ function loadQuestion() {
     questionCounterEl.textContent = `${langTranslations.quiz_questionCounterPrefix} ${currentQuestionIndex + 1} ${langTranslations.quiz_questionCounterOf} ${activeQuizQuestions.length}`;
     nextQuestionBtn.textContent = langTranslations.quiz_nextButton;
 
-
     if (window.MathJax && window.MathJax.typesetPromise) {
         window.MathJax.typesetPromise([questionTextEl, optionsContainerEl]).catch(function (err) { console.error('MathJax typesetting error:', err); });
     }
@@ -157,15 +168,12 @@ function loadQuestion() {
 
 function selectOption(event) {
     if (answerSubmitted) return;
-
     const currentlySelected = optionsContainerEl.querySelector('.quiz-option.selected');
     if (currentlySelected) {
         currentlySelected.classList.remove('selected');
     }
-
     selectedOptionElement = event.target.closest('.quiz-option');
     selectedOptionElement.classList.add('selected');
-
     submitAnswer();
 }
 
@@ -175,30 +183,34 @@ function submitAnswer() {
     const langTranslations = translations[currentLanguage] || translations['de'];
 
     const selectedOriginalIndex = parseInt(selectedOptionElement.dataset.originalIndex);
-    const correctAnswerOriginalIndex = activeQuizQuestions[currentQuestionIndex].answer;
+    const currentQuestionData = activeQuizQuestions[currentQuestionIndex];
+    const correctAnswerOriginalIndex = currentQuestionData.answer;
 
     optionsContainerEl.childNodes.forEach(buttonEl => {
         buttonEl.disabled = true;
         buttonEl.classList.remove('selected');
         if (parseInt(buttonEl.dataset.originalIndex) === correctAnswerOriginalIndex) {
-            // Highlight correct answer only if the selected one was wrong
             if (selectedOriginalIndex !== correctAnswerOriginalIndex) {
                  buttonEl.classList.add('correct');
             }
         }
     });
 
-
     if (selectedOriginalIndex === correctAnswerOriginalIndex) {
         score++;
         feedbackAreaEl.textContent = langTranslations.quiz_feedbackCorrect;
         feedbackAreaEl.className = 'quiz-feedback feedback-correct';
-        selectedOptionElement.classList.add('correct'); // Also mark the selected one as correct
+        selectedOptionElement.classList.add('correct');
     } else {
-        const correctOptionText = activeQuizQuestions[currentQuestionIndex].options[correctAnswerOriginalIndex];
+        const correctOptionText = currentQuestionData.options[correctAnswerOriginalIndex];
         feedbackAreaEl.innerHTML = `${langTranslations.quiz_feedbackIncorrectPrefix} "${correctOptionText}"`;
         feedbackAreaEl.className = 'quiz-feedback feedback-incorrect';
         selectedOptionElement.classList.add('incorrect');
+        incorrectlyAnswered.push({
+            questionData: currentQuestionData,
+            userAnswerIndex: selectedOriginalIndex,
+            correctAnswerIndex: correctAnswerOriginalIndex
+        });
     }
     feedbackAreaEl.style.display = 'block';
     if (window.MathJax && window.MathJax.typesetPromise) {
@@ -214,6 +226,56 @@ function submitAnswer() {
     }
 }
 
+function displayIncorrectReview() {
+    const langTranslations = translations[currentLanguage] || translations['de'];
+    quizReviewAreaEl.innerHTML = ''; // Clear previous reviews
+
+    if (incorrectlyAnswered.length > 0) {
+        quizReviewContainerEl.style.display = 'block';
+        const reviewTitleEl = quizReviewContainerEl.querySelector('h4[data-i18n="quiz_reviewTitle"]');
+        if(reviewTitleEl) reviewTitleEl.textContent = langTranslations.quiz_reviewTitle;
+
+
+        incorrectlyAnswered.forEach(item => {
+            const reviewItemEl = document.createElement('div');
+            reviewItemEl.classList.add('review-item');
+
+            const questionEl = document.createElement('p');
+            questionEl.classList.add('review-item-question');
+            questionEl.innerHTML = `<strong class="label">${langTranslations.quiz_reviewQuestion}</strong> ${item.questionData.question}`;
+            reviewItemEl.appendChild(questionEl);
+
+            const userAnswerEl = document.createElement('p');
+            userAnswerEl.classList.add('review-item-answer', 'user-wrong');
+            const userAnswerText = item.questionData.options[item.userAnswerIndex];
+            userAnswerEl.innerHTML = `<span class="label">${langTranslations.quiz_reviewYourAnswer}</span> <span class="text">"${userAnswerText}"</span> <span class="font-semibold">${langTranslations.quiz_reviewIncorrectTag}</span>`;
+            reviewItemEl.appendChild(userAnswerEl);
+
+            const correctAnswerEl = document.createElement('p');
+            correctAnswerEl.classList.add('review-item-answer', 'correct-ans');
+            const correctAnswerText = item.questionData.options[item.correctAnswerIndex];
+            correctAnswerEl.innerHTML = `<span class="label">${langTranslations.quiz_reviewCorrectAnswer}</span> "${correctAnswerText}"`;
+            reviewItemEl.appendChild(correctAnswerEl);
+
+            if (item.questionData.explanation) {
+                const explanationEl = document.createElement('div');
+                explanationEl.classList.add('review-item-explanation');
+                explanationEl.innerHTML = `<span class="label">${langTranslations.quiz_reviewExplanation}</span> ${item.questionData.explanation}`;
+                reviewItemEl.appendChild(explanationEl);
+            }
+            quizReviewAreaEl.appendChild(reviewItemEl);
+        });
+
+        if (window.MathJax && window.MathJax.typesetPromise) {
+            window.MathJax.typesetPromise([quizReviewAreaEl]).catch(function (err) { console.error('MathJax typeset error in review:', err); });
+        }
+
+    } else {
+        quizReviewContainerEl.style.display = 'none';
+    }
+}
+
+
 function showResults() {
     const langTranslations = translations[currentLanguage] || translations['de'];
     if (quizQuestionContainerEl) quizQuestionContainerEl.style.display = 'none';
@@ -221,18 +283,19 @@ function showResults() {
     if (quizNavigationEl) quizNavigationEl.style.display = 'none';
     if (quizResultsAreaEl) quizResultsAreaEl.style.display = 'block';
 
-    const scoreSuffix = score === 1 ? langTranslations.quiz_scoreSuffix_singular : langTranslations.quiz_scoreSuffix_plural;
     if (activeQuizQuestions && activeQuizQuestions.length > 0) {
         scoreTextEl.textContent = `${score} ${langTranslations.quiz_scoreOutOf} ${activeQuizQuestions.length} (${((score / activeQuizQuestions.length) * 100).toFixed(0)}%)`;
     } else {
-        scoreTextEl.textContent = "N/A";
+        scoreTextEl.textContent = "N/A"; // Should not happen if quiz started
     }
-     // Ensure i18n for title and button in results area is applied
+
     const finishedTitleEl = quizResultsAreaEl.querySelector('h3[data-i18n="quiz_finishedTitle"]');
     if (finishedTitleEl) finishedTitleEl.textContent = langTranslations.quiz_finishedTitle;
     const scorePrefixEl = quizResultsAreaEl.querySelector('span[data-i18n="quiz_scorePrefix"]');
     if (scorePrefixEl) scorePrefixEl.textContent = langTranslations.quiz_scorePrefix;
     if (restartQuizBtn) restartQuizBtn.textContent = langTranslations.quiz_restartButton;
+
+    displayIncorrectReview(); // Display the review section
 }
 
 function setupQuizEventListeners() {
@@ -246,10 +309,14 @@ function setupQuizEventListeners() {
             }
         });
     }
-
     if (restartQuizBtn) {
         restartQuizBtn.addEventListener('click', () => {
             initializeQuizSession();
+        });
+    }
+    if (numQuestionsSelectEl) { // Add event listener for question number change
+        numQuestionsSelectEl.addEventListener('change', () => {
+            initializeQuizSession(); // Restart quiz with new setting
         });
     }
 }
