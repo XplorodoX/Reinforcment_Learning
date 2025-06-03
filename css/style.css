@@ -1,247 +1,362 @@
+/* Globale Stile am Anfang der Datei hinzufügen/anpassen */
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #e0f2fe; /* Light blue background */
+    background-color: #f0f9ff; /* Helleres Blau für den Hintergrund */
+    color: #334155; /* Standardtextfarbe (Slate 600) */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Für Dark Mode Übergänge */
 }
-.chart-container {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    height: 300px;
-    max-height: 400px;
+
+/* Dark Mode Stile (wenn du es implementierst) */
+.dark body {
+    background-color: #0f172a; /* Slate 900 */
+    color: #cbd5e1; /* Slate 300 */
 }
-@media (min-width: 768px) {
-    .chart-container {
-        height: 350px;
-    }
+
+.dark .bg-white { /* Standard-Kartenhintergrund im Dark Mode anpassen */
+    background-color: #1e293b; /* Slate 800 */
 }
-.stat-card {
-    background-color: #ffffff;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    padding: 1.5rem;
-    text-align: center;
+.dark .text-gray-700, .dark .text-slate-700 {
+    color: #94a3b8; /* Slate 400 */
 }
-.stat-value {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #0056B3;
+.dark .text-gray-800 {
+    color: #e2e8f0; /* Slate 200 */
 }
-.stat-label {
-    font-size: 1rem;
-    color: #007BFF;
+.dark .border-blue-200 {
+    border-color: #38bdf8; /* Sky 500 */
 }
-.concept-box {
-    background-color: #caf0f8;
-    border: 1px solid #90e0ef;
-    border-radius: 0.5rem;
+.dark .border-indigo-200 {
+    border-color: #818cf8; /* Indigo 400 */
+}
+.dark .border-yellow-300 {
+    border-color: #facc15; /* Yellow 400 */
+}
+/* ... weitere Anpassungen für Dark Mode für spezifische Farben ... */
+
+
+h1,h2,h3,h4,h5,h6 { /* Allgemeine Überschriftenstile */
+    color: #1e3a8a; /* Dunkleres Blau (Blue 800) */
+    font-weight: 600; /* Etwas dicker */
+}
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+    color: #60a5fa; /* Helleres Blau für Dark Mode (Blue 400) */
+}
+
+
+/* Modernisierte Boxen und Elemente */
+.modern-concept-box {
+    background-color: #ffffff; /* Weiß */
+    /* border: 1px solid #e2e8f0; Slate 200 */
+    border-radius: 0.75rem; /* Etwas größerer Radius */
     padding: 1.5rem;
     margin-bottom: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05); /* Subtilerer Schatten */
+    transition: box-shadow 0.3s ease;
 }
-.flow-step {
-    background-color: #ffffff;
-    border: 2px solid #007BFF;
+.dark .modern-concept-box {
+    background-color: #1e293b; /* Slate 800 */
+    /* border-color: #334155; Slate 600 */
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.2), 0 2px 4px -2px rgba(0,0,0,0.2);
+}
+.modern-concept-box:hover {
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.07), 0 4px 6px -4px rgba(0,0,0,0.07);
+}
+.dark .modern-concept-box:hover {
+     box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3), 0 4px 6px -4px rgba(0,0,0,0.3);
+}
+
+
+.modern-flow-step {
+    background-color: #f8fafc; /* Slate 50 */
+    border: 1px solid #93c5fd; /* Blue 300 */
     border-radius: 0.5rem;
     padding: 1rem;
     text-align: center;
     margin-bottom: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.03);
+    color: #374151; /* Gray 700 */
 }
-.flow-arrow {
+.dark .modern-flow-step {
+    background-color: #334155; /* Slate 600 */
+    border-color: #3b82f6; /* Blue 500 */
+    color: #d1d5db; /* Gray 300 */
+}
+
+.modern-flow-arrow {
     font-size: 1.5rem;
-    color: #007BFF;
+    color: #3b82f6; /* Blue 500 */
     margin: 0.25rem 0;
     text-align: center;
 }
-h1, h2, h3, h4 {
-    color: #0056B3;
+.dark .modern-flow-arrow {
+    color: #60a5fa; /* Blue 400 */
 }
-.math-formula {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.05em;
-    background-color: #f0f9ff;
-    padding: 0.2em 0.4em;
-    border-radius: 0.25rem;
-    color: #022c43;
-    display: inline-block;
-}
-.equation-block {
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    padding: 1rem;
-    border-radius: 0.25rem;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-    overflow-x: auto;
-}
-.explanation-point {
-    margin-bottom: 0.75rem;
-    padding-left: 1rem;
-    position: relative;
-}
-.explanation-point::before {
-    content: "🔹";
-    position: absolute;
-    left: -0.25rem;
-    color: #007BFF;
-}
-.quiz-container {
+
+
+.modern-stat-card {
     background-color: #ffffff;
     border-radius: 0.75rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    padding: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
+    padding: 1.5rem;
+    text-align: center;
 }
-.quiz-question {
-    font-size: 1.25rem;
+.dark .modern-stat-card {
+    background-color: #1e293b; /* Slate 800 */
+}
+
+.modern-stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2563eb; /* Blue 600 */
+}
+.dark .modern-stat-value {
+    color: #60a5fa; /* Blue 400 */
+}
+
+.modern-stat-label {
+    font-size: 1rem;
+    color: #3b82f6; /* Blue 500 */
+    font-weight: 500;
+}
+.dark .modern-stat-label {
+    color: #93c5fd; /* Blue 300 */
+}
+
+.modern-explanation-point::before {
+    content: "🔹"; /* Beibehaltung oder durch Tailwind SVG Icon ersetzen */
+    position: absolute;
+    left: -0.25rem;
+    color: #3b82f6; /* Blue 500 */
+}
+.dark .modern-explanation-point::before {
+    color: #60a5fa; /* Blue 400 */
+}
+
+.equation-block {
+    background-color: #f8fafc; /* Slate 50 */
+    border: 1px solid #e5e7eb; /* Gray 200 */
+    padding: 1.25rem; /* Etwas mehr Padding */
+    border-radius: 0.5rem;
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+    overflow-x: auto;
+    color: #1f2937; /* Gray 800 */
+}
+.dark .equation-block {
+    background-color: #334155; /* Slate 600 */
+    border-color: #4b5563; /* Gray 500 */
+    color: #f3f4f6; /* Gray 100 */
+}
+
+
+/* Quiz Modernisierung */
+.modern-quiz-container {
+    background-color: #ffffff;
+    border-radius: 0.75rem; /* Tailwind lg */
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.07), 0 4px 6px -4px rgba(0,0,0,0.07); /* Angepasster Schatten */
+    padding: 2rem 2.5rem; /* Mehr Padding */
+}
+.dark .modern-quiz-container {
+    background-color: #1e293b; /* Slate 800 */
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3), 0 4px 6px -4px rgba(0,0,0,0.3);
+}
+
+.modern-quiz-question {
+    font-size: 1.375rem; /* Etwas größer */
     font-weight: 600;
-    margin-bottom: 1.5rem;
-    color: #0056B3;
+    margin-bottom: 2rem; /* Mehr Abstand */
+    color: #1e3a8a; /* Blue 800 */
 }
-.quiz-option {
+.dark .modern-quiz-question {
+    color: #93c5fd; /* Blue 300 */
+}
+
+.quiz-option { /* Beibehaltung der bestehenden quiz-option Logik für Funktionalität */
     display: block;
     width: 100%;
-    background-color: #f0f9ff;
-    border: 1px solid #90e0ef;
-    border-radius: 0.375rem;
-    padding: 0.75rem 1rem;
+    background-color: #f0f9ff; /* Hellblau, kann bleiben oder angepasst werden */
+    border: 1px solid #bee3f8; /* Helleres Blau */
+    border-radius: 0.5rem; /* Etwas runder */
+    padding: 0.875rem 1.25rem; /* Mehr Padding */
     margin-bottom: 0.75rem;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.1s ease-out;
     text-align: left;
+    color: #1e3a8a; /* Dunkelblau für Text */
 }
+.dark .quiz-option {
+    background-color: #374151; /* Gray 700 */
+    border-color: #4b5563; /* Gray 600 */
+    color: #e5e7eb; /* Gray 200 */
+}
+
 .quiz-option:hover {
-    background-color: #caf0f8;
-    border-color: #007BFF;
+    background-color: #e0f2fe; /* Helleres Blau */
+    border-color: #3b82f6; /* Blau 500 */
+    transform: translateY(-2px); /* Leichter Anhebe-Effekt */
 }
+.dark .quiz-option:hover {
+    background-color: #4b5563; /* Gray 600 */
+    border-color: #60a5fa; /* Blue 400 */
+}
+
 .quiz-option.selected {
-    background-color: #007BFF !important;
+    background-color: #2563eb !important; /* kräftiges Blau */
     color: white !important;
-    border-color: #0056B3 !important;
+    border-color: #1d4ed8 !important; /* Dunkleres kräftiges Blau */
 }
- .quiz-option.correct {
-    background-color: #d1fae5 !important;
+.dark .quiz-option.selected {
+    background-color: #3b82f6 !important; /* Blue 500 */
+    border-color: #2563eb !important; /* Blue 600 */
+}
+
+.quiz-option.correct {
+    background-color: #d1fae5 !important; /* Grün für richtig */
     color: #065f46 !important;
     border-color: #6ee7b7 !important;
 }
+.dark .quiz-option.correct {
+    background-color: #10b981 !important; /* Emerald 500 */
+    color: #f0fdf4 !important; /* Green 50 */
+    border-color: #34d399 !important; /* Emerald 400 */
+}
+
 .quiz-option.incorrect {
-    background-color: #fee2e2 !important;
+    background-color: #fee2e2 !important; /* Rot für falsch */
     color: #991b1b !important;
     border-color: #fca5a5 !important;
 }
-.quiz-feedback {
-    margin-top: 1rem;
-    padding: 0.75rem;
-    border-radius: 0.375rem;
-    font-weight: 500;
+.dark .quiz-option.incorrect {
+    background-color: #ef4444 !important; /* Red 500 */
+    color: #fef2f2 !important; /* Red 50 */
+    border-color: #f87171 !important; /* Red 400 */
 }
-.feedback-correct {
-    background-color: #d1fae5;
-    color: #065f46;
-    border: 1px solid #6ee7b7;
-}
-.feedback-incorrect {
-    background-color: #fee2e2;
-    color: #991b1b;
-    border: 1px solid #fca5a5;
-}
-.quiz-navigation button {
-    background-color: #007BFF;
-    color: white;
-    padding: 0.5rem 1.5rem;
-    border-radius: 0.375rem;
-    font-weight: 600;
-    transition: background-color 0.2s;
-}
-.quiz-navigation button:hover {
-    background-color: #0056B3;
-}
-.quiz-navigation button:disabled {
-    background-color: #a0aec0;
-    cursor: not-allowed;
-}
+
+/* Modernisierte Buttons */
 .lang-btn {
     padding: 0.5rem 1rem;
     border-radius: 0.375rem;
-    font-size: 0.875rem; /* text-sm */
-    font-weight: 500; /* font-medium */
-    transition: background-color 0.2s;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
 }
 .lang-btn.active {
-    background-color: #0056B3;
+    background-color: #1e40af; /* Blue 800 */
     color: white;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+.dark .lang-btn.active {
+    background-color: #2563eb; /* Blue 600 */
 }
 .lang-btn:not(.active) {
-    background-color: #007BFF;
+    background-color: #3b82f6; /* Blue 500 */
     color: white;
 }
- .lang-btn:not(.active):hover {
-    background-color: #0069d9;
+.dark .lang-btn:not(.active) {
+    background-color: #374151; /* Slate 600 */
+    color: #e5e7eb; /* Slate 200 */
 }
-.sub-concept-box {
-    background-color: #e6f7ff;
-    border: 1px solid #ade8f4;
-    border-radius: 0.375rem;
-    padding: 1rem;
-    margin-top: 1rem;
+.lang-btn:not(.active):hover {
+    background-color: #2563eb; /* Blue 600 */
 }
-
-.sub-concept-box {
-    background-color: #e6f7ff;
-    border: 1px solid #ade8f4;
-    border-radius: 0.375rem;
-    padding: 1rem;
-    margin-top: 1rem;
+.dark .lang-btn:not(.active):hover {
+    background-color: #4b5563; /* Slate 500 */
 }
 
-/* Styles for Quiz Review Section */
-.review-item {
-    background-color: #fff7e6; /* Light orange background for review items */
-    border: 1px solid #ffdcb0;   /* Orange border */
+.modern-button {
+    background-color: #3b82f6; /* Blue 500 */
+    color: white;
+    padding: 0.625rem 1.5rem; /* Etwas mehr Padding */
+    border-radius: 0.5rem; /* Runder */
+    font-weight: 600;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+}
+.modern-button:hover {
+    background-color: #2563eb; /* Blue 600 */
+    transform: translateY(-1px);
+}
+.modern-button:disabled {
+    background-color: #9ca3af; /* Gray 400 */
+    cursor: not-allowed;
+    transform: translateY(0);
+}
+.dark .modern-button {
+    background-color: #2563eb; /* Blue 600 */
+}
+.dark .modern-button:hover {
+    background-color: #1d4ed8; /* Blue 700 */
+}
+.dark .modern-button:disabled {
+    background-color: #4b5563; /* Gray 600 */
+}
+
+
+.modern-button-green {
+    background-color: #10b981; /* Emerald 500 */
+    color: white;
+    padding: 0.625rem 1.5rem;
     border-radius: 0.5rem;
-    padding: 1.5rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.review-item-question {
     font-weight: 600;
-    color: #995000; /* Darker orange/brown for question text */
-    margin-bottom: 0.75rem;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+}
+.modern-button-green:hover {
+    background-color: #059669; /* Emerald 600 */
+    transform: translateY(-1px);
+}
+.dark .modern-button-green {
+    background-color: #059669; /* Emerald 600 */
+}
+.dark .modern-button-green:hover {
+    background-color: #047857; /* Emerald 700 */
 }
 
-.review-item-answer {
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
+
+/* Styles for Quiz Review Section - Anpassungen für Dark Mode */
+.dark .review-item {
+    background-color: #2c1d08; /* Dunkleres Orange/Braun-Basis für Dark Mode */
+    border-color: #78350f;   /* Orange 700 */
+}
+.dark .review-item-question {
+    color: #f59e0b; /* Amber 500 */
+}
+.dark .review-item-answer.user-wrong {
+    color: #f87171; /* Red 400 */
+}
+.dark .review-item-answer.correct-ans {
+    color: #34d399; /* Emerald 400 */
+}
+.dark .review-item-explanation {
+    background-color: #334155; /* Slate 700 */
+    border-color: #4b5563;   /* Slate 600 */
+    color: #cbd5e1; /* Slate 300 */
+}
+.dark .review-item-explanation .label {
+    color: #60a5fa; /* Blue 400 */
 }
 
-.review-item-answer .label {
-    font-weight: 600;
+/* Chart Container - Basis bleibt, da Tailwind responsive Höhen hat */
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px; /* Bleibt für Lesbarkeit */
+    margin-left: auto;
+    margin-right: auto;
+    height: 300px; /* Mobile Höhe */
+    max-height: 350px; /* Maximale mobile Höhe */
+    background-color: #fff; /* Hintergrund für Chart, falls benötigt */
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
+}
+.dark .chart-container {
+    background-color: #1e293b; /* Slate 800 */
 }
 
-.review-item-answer.user-wrong {
-    color: #c00; /* Red for user's wrong answer */
-}
-.review-item-answer.user-wrong .text {
-    text-decoration: line-through;
-}
-
-.review-item-answer.correct-ans {
-    color: #006400; /* Dark green for correct answer */
-}
-
-.review-item-explanation {
-    background-color: #f0f9ff; /* Light blue for explanation box */
-    border: 1px solid #bee1f4;
-    border-radius: 0.375rem;
-    padding: 0.75rem;
-    margin-top: 1rem;
-    font-size: 0.9rem;
-    color: #022c43;
-}
-
-.review-item-explanation .label {
-    font-weight: 600;
-    color: #0056B3; /* Blue for explanation label */
-    display: block;
-    margin-bottom: 0.25rem;
+@media (min-width: 768px) { /* md Breakpoint */
+    .chart-container {
+        height: 350px;
+        max-height: 400px;
+    }
 }
