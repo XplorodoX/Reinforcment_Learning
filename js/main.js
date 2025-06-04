@@ -35,6 +35,12 @@ async function setLanguage(lang) {
     document.getElementById('lang-en-btn').classList.toggle('active', lang === 'en');
 
     updateChartLanguage();
+    updateTimerDisplay();
+
+    if (resultsAreaVisible && timeTakenTextEl) {
+        const langTranslations = translations[lang] || translations['de'];
+        timeTakenTextEl.textContent = `${langTranslations.quiz_timeTakenPrefix}${formatTime(elapsedSeconds)}`;
+    }
 
     const resultsAreaVisible = quizResultsAreaEl && quizResultsAreaEl.style.display !== 'none';
 

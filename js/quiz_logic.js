@@ -11,13 +11,17 @@ let answerSubmitted = false;
 // const MAX_QUIZ_QUESTIONS = 10; // Wird jetzt durch Dropdown gesteuert
 
 // DOM Elements
-let questionTextEl, optionsContainerEl, feedbackAreaEl, nextQuestionBtn, quizResultsAreaEl, scoreTextEl, restartQuizBtn, questionCounterEl, quizQuestionContainerEl, quizLoadingMessageEl, quizNavigationEl, numQuestionsSelectEl, quizReviewContainerEl, quizReviewAreaEl;
+let questionTextEl, optionsContainerEl, feedbackAreaEl, nextQuestionBtn, skipQuestionBtn, quizResultsAreaEl, scoreTextEl, restartQuizBtn, questionCounterEl, quizQuestionContainerEl, quizLoadingMessageEl, quizNavigationEl, numQuestionsSelectEl, quizReviewContainerEl, quizReviewAreaEl, quizProgressEl, quizTimerEl, timeTakenTextEl;
+
+let timerInterval = null;
+let elapsedSeconds = 0;
 
 function initializeQuizDOMElements() {
     questionTextEl = document.getElementById('question-text');
     optionsContainerEl = document.getElementById('options-container');
     feedbackAreaEl = document.getElementById('quiz-feedback-area');
     nextQuestionBtn = document.getElementById('next-question-btn');
+    skipQuestionBtn = document.getElementById('skip-question-btn');
     quizResultsAreaEl = document.getElementById('quiz-results-area');
     scoreTextEl = document.getElementById('score-text');
     restartQuizBtn = document.getElementById('restart-quiz-btn');
@@ -28,6 +32,22 @@ function initializeQuizDOMElements() {
     numQuestionsSelectEl = document.getElementById('num-questions-select');
     quizReviewContainerEl = document.getElementById('quiz-review-container');
     quizReviewAreaEl = document.getElementById('quiz-review-area');
+    quizProgressEl = document.getElementById('quiz-progress');
+    quizTimerEl = document.getElementById('quiz-timer');
+    timeTakenTextEl = document.getElementById('time-taken-text');
+}
+
+function formatTime(totalSeconds) {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${String(seconds).padStart(2, '0')}`;
+}
+
+function updateTimerDisplay() {
+    if (quizTimerEl) {
+        const langTrans = translations[currentLanguage] || translations['de'];
+        quizTimerEl.textContent = `${langTrans.quiz_timeLabel}: ${formatTime(elapsedSeconds)}`;
+    }
 }
 
 
@@ -95,6 +115,21 @@ function initializeQuizSession() {
     currentQuestionIndex = 0;
     score = 0;
     incorrectlyAnswered = []; // Reset incorrect answers
+    if (quizProgressEl) {
+        quizProgressEl.style.width = '0%';
+    }
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
+    elapsedSeconds = 0;
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+        elapsedSeconds++;
+        updateTimerDisplay();
+    }, 1000);
+    if (timeTakenTextEl) {
+        timeTakenTextEl.textContent = '';
+    }
 
     if (activeQuizQuestions.length > 0) {
         quizResultsAreaEl.style.display = 'none';
@@ -160,6 +195,11 @@ function loadQuestion() {
     nextQuestionBtn.classList.remove('opacity-100');
     questionCounterEl.textContent = `${langTranslations.quiz_questionCounterPrefix} ${currentQuestionIndex + 1} ${langTranslations.quiz_questionCounterOf} ${activeQuizQuestions.length}`;
     nextQuestionBtn.textContent = langTranslations.quiz_nextButton;
+
+    if (quizProgressEl) {
+        const progressPercent = (currentQuestionIndex / activeQuizQuestions.length) * 100;
+        quizProgressEl.style.width = `${progressPercent}%`;
+    }
 
     if (window.MathJax && window.MathJax.typesetPromise) {
         window.MathJax.typesetPromise([questionTextEl, optionsContainerEl]).catch(function (err) { console.error('MathJax typesetting error:', err); });
@@ -283,6 +323,19 @@ function showResults() {
     if (quizNavigationEl) quizNavigationEl.style.display = 'none';
     if (quizResultsAreaEl) quizResultsAreaEl.style.display = 'block';
 
+    if (quizProgressEl) {
+        quizProgressEl.style.width = '100%';
+    }
+
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+
+    if (timeTakenTextEl) {
+        timeTakenTextEl.textContent = `${langTranslations.quiz_timeTakenPrefix}${formatTime(elapsedSeconds)}`;
+    }
+
     if (activeQuizQuestions && activeQuizQuestions.length > 0) {
         scoreTextEl.textContent = `${score} ${langTranslations.quiz_scoreOutOf} ${activeQuizQuestions.length} (${((score / activeQuizQuestions.length) * 100).toFixed(0)}%)`;
     } else {
@@ -301,6 +354,21 @@ function showResults() {
 function setupQuizEventListeners() {
     if (nextQuestionBtn) {
         nextQuestionBtn.addEventListener('click', () => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < activeQuizQuestions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        });
+    }
+    if (skipQuestionBtn) {
+        skipQuestionBtn.addEventListener('click', () => {
+            incorrectlyAnswered.push({
+                questionData: activeQuizQuestions[currentQuestionIndex],
+                userAnswerIndex: null,
+                correctAnswerIndex: activeQuizQuestions[currentQuestionIndex].answer
+            });
             currentQuestionIndex++;
             if (currentQuestionIndex < activeQuizQuestions.length) {
                 loadQuestion();

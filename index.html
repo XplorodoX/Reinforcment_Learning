@@ -326,17 +326,25 @@
                 <div id="quiz-loading-message" class="text-center text-gray-600" data-i18n="quizJsonLoading">Lade Quizdaten...</div>
                 <div id="quiz-question-container" style="display:none;">
                     <p class="quiz-question" id="question-text"></p>
+                    <div id="quiz-timer" class="text-right text-sm text-gray-600"></div>
+                    <div id="quiz-progress-wrapper" class="w-full bg-gray-200 h-2 rounded-full my-2">
+                        <div id="quiz-progress" class="bg-blue-500 h-full rounded-full" style="width:0%"></div>
+                    </div>
                     <div id="options-container">
                         </div>
                 </div>
                 <div id="quiz-feedback-area" class="quiz-feedback" style="display: none;"></div>
                 <div id="quiz-navigation" class="quiz-navigation mt-6 flex justify-between items-center" style="display:none;">
                     <span id="question-counter" class="text-sm text-gray-600"></span>
-                    <button id="next-question-btn" class="opacity-50 cursor-not-allowed" disabled data-i18n="quiz_nextButton">Nächste Frage</button>
+                    <div class="space-x-2">
+                        <button id="skip-question-btn" class="quiz-skip-button" data-i18n="quiz_skipButton">Überspringen</button>
+                        <button id="next-question-btn" class="opacity-50 cursor-not-allowed" disabled data-i18n="quiz_nextButton">Nächste Frage</button>
+                    </div>
                 </div>
                 <div id="quiz-results-area" class="mt-6" style="display: none;">
                     <h3 class="text-2xl font-semibold text-center text-blue-600" data-i18n="quiz_finishedTitle">Quiz beendet!</h3>
                     <p class="text-lg text-center mt-2"><span data-i18n="quiz_scorePrefix">Dein Ergebnis:</span> <span id="score-text" class="font-bold"></span></p>
+                    <p id="time-taken-text" class="text-center mt-2"></p>
                     
                     <div id="quiz-review-container" class="mt-6" style="display: none;">
                         <h4 class="text-xl font-semibold text-center text-blue-600 mb-4" data-i18n="quiz_reviewTitle">Fehleranalyse</h4>
