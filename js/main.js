@@ -1,5 +1,19 @@
 // js/main.js
-let currentLanguage = 'de'; // Default language
+const browserLang = (navigator.languages && navigator.languages[0]) || navigator.language || 'en';
+let currentLanguage = browserLang.toLowerCase().startsWith('de') ? 'de' : 'en';
+let isDarkMode = false;
+
+function applyDarkMode(state) {
+    document.body.classList.toggle('dark-mode', state);
+    const btn = document.getElementById('dark-mode-toggle');
+    if (btn) btn.textContent = state ? '☀️' : '🌙';
+}
+
+function toggleDarkMode() {
+    isDarkMode = !isDarkMode;
+    localStorage.setItem('darkMode', isDarkMode ? 'true' : 'false');
+    applyDarkMode(isDarkMode);
+}
 
 async function setLanguage(lang) {
     const previousLang = currentLanguage;
@@ -36,24 +50,14 @@ async function setLanguage(lang) {
 
     updateChartLanguage();
 
-    const resultsAreaVisible = quizResultsAreaEl && quizResultsAreaEl.style.display !== 'none';
-
     if (quizDataLoadedSuccessfully) {
-        const quizSection = document.getElementById('quiz');
-        // Check if quiz section itself is visible; useful if whole sections can be hidden/shown by other logic
-        const isQuizSectionCurrentlyRendered = window.getComputedStyle(quizSection).display !== 'none';
-
-        if (isQuizSectionCurrentlyRendered && !resultsAreaVisible) {
-             initializeQuizSession(); 
-        } else if (resultsAreaVisible) {
-            showResults(); // Re-render results and review with new language
-        }
+        resetQuizUI();
     } else if (lang !== previousLang) {
         const langTranslations = translations[lang] || translations['de'];
         displayQuizError(langTranslations.quizJsonLoading.replace("Lade", "Fehler beim Laden der") + ` quiz_data_${lang}.json. Versuche ${previousLang}...`);
         if (quizDataStore[previousLang]){
             currentQuizData = quizDataStore[previousLang];
-            initializeQuizSession();
+            resetQuizUI();
         }
     }
 
@@ -69,6 +73,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('lang-de-btn').addEventListener('click', () => setLanguage('de'));
     document.getElementById('lang-en-btn').addEventListener('click', () => setLanguage('en'));
+
+    const storedDark = localStorage.getItem('darkMode');
+    isDarkMode = storedDark === 'true';
+    applyDarkMode(isDarkMode);
+    document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
 
     initializeChart(); 
 

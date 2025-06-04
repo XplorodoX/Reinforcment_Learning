@@ -17,9 +17,12 @@ Dieses Projekt präsentiert eine interaktive Webseite, die detaillierte Einblick
     * Anzahl der Fragen wählbar (5, 10, 15, Alle).
     * Sofortiges Feedback zu Antworten.
     * Anzeige der korrekten Antwort bei falscher Auswahl.
-    * Ergebnisanzeige am Ende des Quiz.
+    * Ergebnisanzeige am Ende des Quiz samt benötigter Zeit.
+    * Sofortige Erläuterungen nach falschen Antworten, sofern verfügbar.
     * Möglichkeit zur Überprüfung falsch beantworteter Fragen mit Erklärungen (sofern in den Quizdaten vorhanden).
+    * Fortschrittsanzeige mit Timer.
 * **Zweisprachigkeit:**
+    * Automatische Anpassung an die Browsersprache (Deutsch bei deutschen Einstellungen, sonst Englisch).
     * Einfacher Wechsel zwischen Deutsch (DE) und Englisch (EN).
     * Alle Texte, Beschriftungen und Quizfragen werden entsprechend angepasst.
 * **Visualisierungen:**
@@ -27,6 +30,7 @@ Dieses Projekt präsentiert eine interaktive Webseite, die detaillierte Einblick
     * Mathematische Formeln und Gleichungen werden mit MathJax elegant dargestellt.
 * **Responsive Design:**
     * Gestaltet mit Tailwind CSS für eine gute Darstellung auf verschiedenen Bildschirmgrößen.
+    * Umschaltbarer Dark-Mode für angenehmes Lesen bei Nacht.
 
 ## 🛠️ Verwendete Technologien
 
@@ -73,7 +77,7 @@ Da die Quizdaten (`quiz_data_*.json`) mit `fetch` geladen werden, kann es bei lo
 ## 📖 Nutzung
 
 * **Sprache wechseln:** Klicke auf die "Deutsch" oder "English" Buttons oben rechts, um die Sprache der gesamten Seite inklusive des Quiz zu ändern.
-* **Quiz starten:** Wähle die gewünschte Anzahl an Fragen aus dem Dropdown-Menü im Quiz-Bereich. Das Quiz startet dann automatisch.
+* **Quiz starten:** Wähle die gewünschte Anzahl an Fragen aus dem Dropdown-Menü und klicke anschließend auf "Quiz starten".
 * **Quiz spielen:** Lies die Frage und wähle eine der angebotenen Optionen aus. Du erhältst sofort Feedback. Klicke auf "Nächste Frage", um fortzufahren.
 * **Ergebnisse ansehen:** Nach der letzten Frage werden deine Ergebnisse angezeigt.
 * **Fehleranalyse:** Wenn du Fragen falsch beantwortet hast, erscheint ein Bereich zur Fehleranalyse, in dem deine falsche Antwort, die richtige Antwort und ggf. eine Erklärung angezeigt werden.

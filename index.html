@@ -26,6 +26,7 @@
     <div class="fixed top-4 right-4 z-50 space-x-2">
         <button id="lang-de-btn" data-lang="de" class="lang-btn">Deutsch</button>
         <button id="lang-en-btn" data-lang="en" class="lang-btn">English</button>
+        <button id="dark-mode-toggle" class="lang-btn" title="Toggle dark mode">🌙</button>
     </div>
 
     <header class="bg-blue-600 text-white p-6 shadow-lg">
@@ -320,6 +321,9 @@
                     <option value="15">15</option>
                     <option value="all" data-i18n="quiz_numQuestionsAll">Alle</option>
                 </select>
+                <div class="mt-4">
+                    <button id="start-quiz-btn" class="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-md font-semibold" data-i18n="quiz_startButton">Quiz starten</button>
+                </div>
             </div>
 
             <div id="quiz-area" class="quiz-container max-w-2xl mx-auto">
@@ -335,11 +339,13 @@
                 <div id="quiz-feedback-area" class="quiz-feedback" style="display: none;"></div>
                 <div id="quiz-navigation" class="quiz-navigation mt-6 flex justify-between items-center" style="display:none;">
                     <span id="question-counter" class="text-sm text-gray-600"></span>
+                    <span id="quiz-timer" class="text-sm text-gray-600"></span>
                     <button id="next-question-btn" class="opacity-50 cursor-not-allowed" disabled data-i18n="quiz_nextButton">Nächste Frage</button>
                 </div>
                 <div id="quiz-results-area" class="mt-6" style="display: none;">
                     <h3 class="text-2xl font-semibold text-center text-blue-600" data-i18n="quiz_finishedTitle">Quiz beendet!</h3>
                     <p class="text-lg text-center mt-2"><span data-i18n="quiz_scorePrefix">Dein Ergebnis:</span> <span id="score-text" class="font-bold"></span></p>
+                    <p id="final-time-wrapper" class="text-lg text-center mt-2" style="display:none;"><span data-i18n="quiz_finalTimeLabel">Benötigte Zeit:</span> <span id="final-time" class="font-bold"></span></p>
                     
                     <div id="quiz-review-container" class="mt-6" style="display: none;">
                         <h4 class="text-xl font-semibold text-center text-blue-600 mb-4" data-i18n="quiz_reviewTitle">Fehleranalyse</h4>
