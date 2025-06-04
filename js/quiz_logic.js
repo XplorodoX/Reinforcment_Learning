@@ -112,28 +112,53 @@ function stopQuizTimer() {
 }
 
 async function fetchLLMExplanation(questionText, correctAnswerText, lang) {
-    const apiKey = localStorage.getItem('openaiApiKey');
-    if (!apiKey) throw new Error('API key missing');
+    const openaiKey = localStorage.getItem('openaiApiKey');
+    const githubPat = localStorage.getItem('githubPat');
+
+    if (!openaiKey && !githubPat) throw new Error('API key missing');
+
     const systemPrompt = lang === 'de'
         ? 'Du bist ein Tutor für Reinforcement Learning. Erkläre kurz, warum die gegebene Antwort korrekt ist.'
         : 'You are a reinforcement learning tutor. Briefly explain why the given answer is correct.';
     const userPrompt = `${questionText}\nKorrekte Antwort: ${correctAnswerText}`;
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`
-        },
-        body: JSON.stringify({
-            model: 'gpt-3.5-turbo',
-            messages: [
-                { role: 'system', content: systemPrompt },
-                { role: 'user', content: userPrompt }
-            ],
-            max_tokens: 120,
-            temperature: 0.7
-        })
-    });
+
+    let response;
+    if (githubPat) {
+        response = await fetch('https://models.github.ai/inference/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${githubPat}`
+            },
+            body: JSON.stringify({
+                model: 'openai/gpt-4.1-nano',
+                temperature: 1.0,
+                top_p: 1.0,
+                messages: [
+                    { role: 'system', content: systemPrompt },
+                    { role: 'user', content: userPrompt }
+                ]
+            })
+        });
+    } else {
+        response = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${openaiKey}`
+            },
+            body: JSON.stringify({
+                model: 'gpt-3.5-turbo',
+                messages: [
+                    { role: 'system', content: systemPrompt },
+                    { role: 'user', content: userPrompt }
+                ],
+                max_tokens: 120,
+                temperature: 0.7
+            })
+        });
+    }
+
     if (!response.ok) throw new Error('LLM request failed');
     const data = await response.json();
     return data.choices[0].message.content.trim();
