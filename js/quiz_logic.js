@@ -13,7 +13,7 @@ let quizStartTime = null;
 // const MAX_QUIZ_QUESTIONS = 10; // Wird jetzt durch Dropdown gesteuert
 
 // DOM Elements
-let questionTextEl, optionsContainerEl, feedbackAreaEl, nextQuestionBtn, quizResultsAreaEl, scoreTextEl, restartQuizBtn, questionCounterEl, quizQuestionContainerEl, quizLoadingMessageEl, quizNavigationEl, numQuestionsSelectEl, quizReviewContainerEl, quizReviewAreaEl, quizProgressEl, timerDisplayEl, finalTimeEl, finalTimeWrapperEl, startScreenEl, startQuizBtn;
+let questionTextEl, optionsContainerEl, feedbackAreaEl, nextQuestionBtn, quizResultsAreaEl, scoreTextEl, restartQuizBtn, questionCounterEl, quizQuestionContainerEl, quizLoadingMessageEl, quizNavigationEl, numQuestionsSelectEl, quizReviewContainerEl, quizReviewAreaEl, quizProgressEl, timerDisplayEl, finalTimeEl, finalTimeWrapperEl, startScreenEl, startQuizBtn, explainAnswerBtn, explanationOutputEl;
 
 function initializeQuizDOMElements() {
     questionTextEl = document.getElementById('question-text');
@@ -36,6 +36,8 @@ function initializeQuizDOMElements() {
     finalTimeWrapperEl = document.getElementById('final-time-wrapper');
     startScreenEl = document.getElementById('quiz-start-screen');
     startQuizBtn = document.getElementById('start-quiz-btn');
+    explainAnswerBtn = document.getElementById('explain-answer-btn');
+    explanationOutputEl = document.getElementById('explanation-output');
 }
 
 
@@ -107,6 +109,34 @@ function updateQuizTimer() {
 function stopQuizTimer() {
     if (quizTimerInterval) clearInterval(quizTimerInterval);
     quizTimerInterval = null;
+}
+
+async function fetchLLMExplanation(questionText, correctAnswerText, lang) {
+    const apiKey = localStorage.getItem('openaiApiKey');
+    if (!apiKey) throw new Error('API key missing');
+    const systemPrompt = lang === 'de'
+        ? 'Du bist ein Tutor für Reinforcement Learning. Erkläre kurz, warum die gegebene Antwort korrekt ist.'
+        : 'You are a reinforcement learning tutor. Briefly explain why the given answer is correct.';
+    const userPrompt = `${questionText}\nKorrekte Antwort: ${correctAnswerText}`;
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+            model: 'gpt-3.5-turbo',
+            messages: [
+                { role: 'system', content: systemPrompt },
+                { role: 'user', content: userPrompt }
+            ],
+            max_tokens: 120,
+            temperature: 0.7
+        })
+    });
+    if (!response.ok) throw new Error('LLM request failed');
+    const data = await response.json();
+    return data.choices[0].message.content.trim();
 }
 
 function showStartScreen() {
@@ -183,6 +213,8 @@ function loadQuestion() {
     if (quizLoadingMessageEl) quizLoadingMessageEl.style.display = 'none';
     if (quizQuestionContainerEl) quizQuestionContainerEl.style.display = 'block';
     if (quizNavigationEl) quizNavigationEl.style.display = 'flex';
+    if (explainAnswerBtn) explainAnswerBtn.style.display = 'none';
+    if (explanationOutputEl) { explanationOutputEl.style.display = 'none'; explanationOutputEl.innerHTML = ''; }
 
     answerSubmitted = false;
     selectedOptionElement = null;
@@ -276,6 +308,7 @@ function submitAnswer() {
         });
     }
     feedbackAreaEl.style.display = 'block';
+    if (explainAnswerBtn) explainAnswerBtn.style.display = 'inline-block';
     if (window.MathJax && window.MathJax.typesetPromise) {
         window.MathJax.typesetPromise([feedbackAreaEl]).catch(function (err) { console.error('MathJax typesetting error:', err); });
     }
@@ -343,6 +376,8 @@ function showResults() {
     const langTranslations = translations[currentLanguage] || translations['de'];
     if (quizQuestionContainerEl) quizQuestionContainerEl.style.display = 'none';
     if (feedbackAreaEl) feedbackAreaEl.style.display = 'none';
+    if (explainAnswerBtn) explainAnswerBtn.style.display = 'none';
+    if (explanationOutputEl) explanationOutputEl.style.display = 'none';
     if (quizNavigationEl) quizNavigationEl.style.display = 'none';
     if (quizResultsAreaEl) quizResultsAreaEl.style.display = 'block';
 
@@ -388,6 +423,27 @@ function setupQuizEventListeners() {
     if (restartQuizBtn) {
         restartQuizBtn.addEventListener('click', () => {
             showStartScreen();
+        });
+    }
+    if (explainAnswerBtn) {
+        explainAnswerBtn.addEventListener('click', async () => {
+            if (!explanationOutputEl) return;
+            const langTranslations = translations[currentLanguage] || translations['de'];
+            explanationOutputEl.style.display = 'block';
+            explanationOutputEl.textContent = langTranslations.quiz_explanationLoading;
+            const qData = activeQuizQuestions[currentQuestionIndex];
+            const question = qData.question;
+            const correctAnswerText = qData.options[qData.answer];
+            try {
+                const expl = await fetchLLMExplanation(question, correctAnswerText, currentLanguage);
+                explanationOutputEl.textContent = expl;
+                if (window.MathJax && window.MathJax.typesetPromise) {
+                    window.MathJax.typesetPromise([explanationOutputEl]).catch(err => console.error('MathJax explanation error:', err));
+                }
+            } catch (err) {
+                console.error('LLM explanation error:', err);
+                explanationOutputEl.textContent = langTranslations.quiz_explanationError;
+            }
         });
     }
     if (startQuizBtn) {
