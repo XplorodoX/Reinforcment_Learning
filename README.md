@@ -82,7 +82,8 @@ Da die Quizdaten (`quiz_data_*.json`) mit `fetch` geladen werden, kann es bei lo
 * **Ergebnisse ansehen:** Nach der letzten Frage werden deine Ergebnisse angezeigt.
 * **Fehleranalyse:** Wenn du Fragen falsch beantwortet hast, erscheint ein Bereich zur Fehleranalyse, in dem deine falsche Antwort, die richtige Antwort und ggf. eine Erklärung angezeigt werden.
 * **Diagramm ansehen:** Scrolle zum Bereich "Modellfreie Vorhersage", um das Diagramm zu sehen, das MC- und TD-Methoden vergleicht. Die Beschriftungen des Diagramms ändern sich ebenfalls mit der Sprachauswahl.
-* **LLM-Erklärungen aktivieren:** Gib ein GitHub Personal Access Token mit `models:read`-Rechten in das entsprechende Feld auf der Seite ein. Der Token wird lokal im Browser gespeichert und ermöglicht anschließend den Aufruf des Buttons "Erklärung generieren".
+* **Einstellungen:** Über den Button "Einstellungen" oben rechts öffnest du einen Bereich, in dem du ein GitHub Personal Access Token hinterlegen kannst. Der Token wird im Browser (localStorage) gespeichert und muss somit nur einmal eingegeben werden.
+* **LLM-Erklärungen aktivieren:** Nachdem ein Token hinterlegt wurde, kannst du im Quiz auf "Erklärung generieren" klicken, um eine kurze Erläuterung zur richtigen Antwort zu erhalten.
 
 ## 📄 Lizenz
 

@@ -2,6 +2,7 @@
 let currentLanguage = 'de'; // Default language
 let isDarkMode = false;
 let githubPatInput, githubPatSaveBtn, githubPatSavedMsg;
+let settingsVisible = false;
 
 function applyDarkMode(state) {
     document.body.classList.toggle('dark-mode', state);
@@ -13,6 +14,14 @@ function toggleDarkMode() {
     isDarkMode = !isDarkMode;
     localStorage.setItem('darkMode', isDarkMode ? 'true' : 'false');
     applyDarkMode(isDarkMode);
+}
+
+function toggleSettings() {
+    settingsVisible = !settingsVisible;
+    const settingsSection = document.getElementById('settings');
+    if (settingsSection) {
+        settingsSection.style.display = settingsVisible ? 'block' : 'none';
+    }
 }
 
 function initializePatElements() {
@@ -131,6 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
     isDarkMode = storedDark === 'true';
     applyDarkMode(isDarkMode);
     document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
+    const settingsToggleBtn = document.getElementById('settings-toggle');
+    if (settingsToggleBtn) settingsToggleBtn.addEventListener('click', toggleSettings);
 
     initializeChart();
 
