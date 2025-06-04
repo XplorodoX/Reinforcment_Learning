@@ -30,7 +30,7 @@ Dieses Projekt präsentiert eine interaktive Webseite, die detaillierte Einblick
     * Mathematische Formeln und Gleichungen werden mit MathJax elegant dargestellt.
 * **Responsive Design:**
     * Gestaltet mit Tailwind CSS für eine gute Darstellung auf verschiedenen Bildschirmgrößen.
-    * Umschaltbarer Dark-Mode für angenehmes Lesen bei Nacht.
+    * Umschaltbarer Dark-Mode mit verbesserten Farben für gute Lesbarkeit bei Nacht.
 
 ## 🛠️ Verwendete Technologien
 
