@@ -170,6 +170,7 @@ const translations = {
         tooltip_init_sensitive_td: "Empfindlich",
         quiz_numQuestionsLabel: "Anzahl der Fragen:",
         quiz_numQuestionsAll: "Alle",
+        quiz_startButton: "Quiz starten",
         quiz_reviewTitle: "Fehleranalyse",
         quiz_reviewQuestion: "Frage:",
         quiz_reviewYourAnswer: "Deine Antwort:",
@@ -359,6 +360,7 @@ const translations = {
                 // ... (alle bisherigen englischen Übersetzungen) ...
         quiz_numQuestionsLabel: "Number of Questions:",
         quiz_numQuestionsAll: "All",
+        quiz_startButton: "Start Quiz",
         quiz_reviewTitle: "Incorrect Answers Review",
         quiz_reviewQuestion: "Question:",
         quiz_reviewYourAnswer: "Your Answer:",
