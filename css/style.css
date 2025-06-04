@@ -260,3 +260,41 @@ h1, h2, h3, h4 {
     width: 0%;
     transition: width 0.3s ease;
 }
+
+/* Inline explanation after questions */
+.quiz-explanation {
+    background-color: #f0f9ff;
+    border: 1px solid #bee1f4;
+    border-radius: 0.375rem;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #022c43;
+}
+
+/* Dark mode styling */
+body.dark-mode {
+    background-color: #1f2937;
+    color: #f9fafb;
+}
+body.dark-mode header,
+body.dark-mode footer {
+    background-color: #1e3a8a;
+}
+body.dark-mode section {
+    background-color: #374151;
+}
+body.dark-mode .quiz-option {
+    background-color: #2d3748;
+    border-color: #4b5563;
+    color: #e5e7eb;
+}
+body.dark-mode .quiz-option:hover {
+    background-color: #4b5563;
+}
+body.dark-mode .quiz-navigation button {
+    background-color: #2563eb;
+}
+body.dark-mode .quiz-navigation button:hover {
+    background-color: #1e40af;
+}
