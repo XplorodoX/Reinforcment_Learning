@@ -296,6 +296,7 @@ function submitAnswer() {
         feedbackAreaEl.textContent = langTranslations.quiz_feedbackCorrect;
         feedbackAreaEl.className = 'quiz-feedback feedback-correct';
         selectedOptionElement.classList.add('correct');
+        if (explainAnswerBtn) explainAnswerBtn.style.display = 'inline-block';
     } else {
         const correctOptionText = currentQuestionData.options[correctAnswerOriginalIndex];
         feedbackAreaEl.innerHTML = `${langTranslations.quiz_feedbackIncorrectPrefix} "${correctOptionText}"`;
@@ -312,9 +313,27 @@ function submitAnswer() {
             userAnswerIndex: selectedOriginalIndex,
             correctAnswerIndex: correctAnswerOriginalIndex
         });
+
+        if (explainAnswerBtn) explainAnswerBtn.style.display = 'none';
+        if (explanationOutputEl) {
+            explanationOutputEl.style.display = 'block';
+            explanationOutputEl.textContent = langTranslations.quiz_explanationLoading;
+            const question = currentQuestionData.question;
+            const correctAnswerText = currentQuestionData.options[correctAnswerOriginalIndex];
+            fetchLLMExplanation(question, correctAnswerText, currentLanguage)
+                .then(expl => {
+                    explanationOutputEl.textContent = expl;
+                    if (window.MathJax && window.MathJax.typesetPromise) {
+                        window.MathJax.typesetPromise([explanationOutputEl]).catch(err => console.error('MathJax explanation error:', err));
+                    }
+                })
+                .catch(err => {
+                    console.error('LLM explanation error:', err);
+                    explanationOutputEl.textContent = langTranslations.quiz_explanationError;
+                });
+        }
     }
     feedbackAreaEl.style.display = 'block';
-    if (explainAnswerBtn) explainAnswerBtn.style.display = 'inline-block';
     if (window.MathJax && window.MathJax.typesetPromise) {
         window.MathJax.typesetPromise([feedbackAreaEl]).catch(function (err) { console.error('MathJax typesetting error:', err); });
     }
