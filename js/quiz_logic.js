@@ -11,7 +11,7 @@ let answerSubmitted = false;
 // const MAX_QUIZ_QUESTIONS = 10; // Wird jetzt durch Dropdown gesteuert
 
 // DOM Elements
-let questionTextEl, optionsContainerEl, feedbackAreaEl, nextQuestionBtn, quizResultsAreaEl, scoreTextEl, restartQuizBtn, questionCounterEl, quizQuestionContainerEl, quizLoadingMessageEl, quizNavigationEl, numQuestionsSelectEl, quizReviewContainerEl, quizReviewAreaEl;
+let questionTextEl, optionsContainerEl, feedbackAreaEl, nextQuestionBtn, quizResultsAreaEl, scoreTextEl, restartQuizBtn, questionCounterEl, quizQuestionContainerEl, quizLoadingMessageEl, quizNavigationEl, numQuestionsSelectEl, quizReviewContainerEl, quizReviewAreaEl, quizProgressEl;
 
 function initializeQuizDOMElements() {
     questionTextEl = document.getElementById('question-text');
@@ -28,6 +28,7 @@ function initializeQuizDOMElements() {
     numQuestionsSelectEl = document.getElementById('num-questions-select');
     quizReviewContainerEl = document.getElementById('quiz-review-container');
     quizReviewAreaEl = document.getElementById('quiz-review-area');
+    quizProgressEl = document.getElementById('quiz-progress');
 }
 
 
@@ -95,6 +96,9 @@ function initializeQuizSession() {
     currentQuestionIndex = 0;
     score = 0;
     incorrectlyAnswered = []; // Reset incorrect answers
+    if (quizProgressEl) {
+        quizProgressEl.style.width = '0%';
+    }
 
     if (activeQuizQuestions.length > 0) {
         quizResultsAreaEl.style.display = 'none';
@@ -160,6 +164,11 @@ function loadQuestion() {
     nextQuestionBtn.classList.remove('opacity-100');
     questionCounterEl.textContent = `${langTranslations.quiz_questionCounterPrefix} ${currentQuestionIndex + 1} ${langTranslations.quiz_questionCounterOf} ${activeQuizQuestions.length}`;
     nextQuestionBtn.textContent = langTranslations.quiz_nextButton;
+
+    if (quizProgressEl) {
+        const progressPercent = (currentQuestionIndex / activeQuizQuestions.length) * 100;
+        quizProgressEl.style.width = `${progressPercent}%`;
+    }
 
     if (window.MathJax && window.MathJax.typesetPromise) {
         window.MathJax.typesetPromise([questionTextEl, optionsContainerEl]).catch(function (err) { console.error('MathJax typesetting error:', err); });
@@ -282,6 +291,10 @@ function showResults() {
     if (feedbackAreaEl) feedbackAreaEl.style.display = 'none';
     if (quizNavigationEl) quizNavigationEl.style.display = 'none';
     if (quizResultsAreaEl) quizResultsAreaEl.style.display = 'block';
+
+    if (quizProgressEl) {
+        quizProgressEl.style.width = '100%';
+    }
 
     if (activeQuizQuestions && activeQuizQuestions.length > 0) {
         scoreTextEl.textContent = `${score} ${langTranslations.quiz_scoreOutOf} ${activeQuizQuestions.length} (${((score / activeQuizQuestions.length) * 100).toFixed(0)}%)`;
