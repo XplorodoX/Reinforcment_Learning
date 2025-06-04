@@ -113,7 +113,7 @@ function stopQuizTimer() {
 
 async function fetchLLMExplanation(questionText, correctAnswerText, lang) {
     const openaiKey = localStorage.getItem('openaiApiKey');
-    const githubPat = localStorage.getItem('githubPat');
+    const githubPat = localStorage.getItem('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');
 
     if (!openaiKey && !githubPat) throw new Error('API key missing');
 
