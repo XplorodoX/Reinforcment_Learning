@@ -21,7 +21,7 @@ Dieses Projekt präsentiert eine interaktive Webseite, die detaillierte Einblick
     * Sofortige Erläuterungen nach falschen Antworten, sofern verfügbar.
     * Möglichkeit zur Überprüfung falsch beantworteter Fragen mit Erklärungen (sofern in den Quizdaten vorhanden).
     * Fortschrittsanzeige mit Timer.
-    * Optional: Generiere auf Knopfdruck eine LLM-basierte Erklärung zur richtigen Antwort (benötigt eigenen OpenAI API Key oder GitHub PAT).
+    * Optional: Generiere auf Knopfdruck eine LLM-basierte Erklärung zur richtigen Antwort (benötigt ein GitHub PAT).
 * **Zweisprachigkeit:**
     * Einfacher Wechsel zwischen Deutsch (DE) und Englisch (EN).
     * Alle Texte, Beschriftungen und Quizfragen werden entsprechend angepasst.
@@ -82,7 +82,7 @@ Da die Quizdaten (`quiz_data_*.json`) mit `fetch` geladen werden, kann es bei lo
 * **Ergebnisse ansehen:** Nach der letzten Frage werden deine Ergebnisse angezeigt.
 * **Fehleranalyse:** Wenn du Fragen falsch beantwortet hast, erscheint ein Bereich zur Fehleranalyse, in dem deine falsche Antwort, die richtige Antwort und ggf. eine Erklärung angezeigt werden.
 * **Diagramm ansehen:** Scrolle zum Bereich "Modellfreie Vorhersage", um das Diagramm zu sehen, das MC- und TD-Methoden vergleicht. Die Beschriftungen des Diagramms ändern sich ebenfalls mit der Sprachauswahl.
-* **LLM-Erklärungen aktivieren:** Speichere entweder deinen OpenAI API Key (`localStorage.setItem('openaiApiKey', 'sk-...')`) oder ein GitHub Personal Access Token mit `models:read`-Rechten (`localStorage.setItem('githubPat', 'ghp_...')`) im Browser. Danach kannst du über den Button "Erklärung generieren" eine kurze Begründung abrufen.
+* **LLM-Erklärungen aktivieren:** Speichere ein GitHub Personal Access Token mit `models:read`-Rechten im Browser (`localStorage.setItem('githubPat', 'ghp_...')`). Danach kannst du über den Button "Erklärung generieren" eine kurze Begründung abrufen.
 
 ## 📄 Lizenz
 
