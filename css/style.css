@@ -245,3 +245,18 @@ h1, h2, h3, h4 {
     display: block;
     margin-bottom: 0.25rem;
 }
+
+/* Quiz progress bar */
+#quiz-progress-wrapper {
+    background-color: #e5e7eb; /* Tailwind's gray-200 */
+    border-radius: 0.25rem;
+    height: 0.5rem;
+    overflow: hidden;
+}
+
+#quiz-progress {
+    background-color: #3b82f6; /* Tailwind blue-500 */
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease;
+}
