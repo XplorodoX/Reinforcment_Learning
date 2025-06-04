@@ -115,7 +115,7 @@ async function fetchLLMExplanation(questionText, correctAnswerText, lang) {
     const openaiKey = localStorage.getItem('openaiApiKey');
     const githubPat = localStorage.getItem('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');
 
-    if (!openaiKey && !githubPat) throw new Error('API key missing');
+    if (!githubPat) throw new Error('API key missing');
 
     const systemPrompt = lang === 'de'
         ? 'Du bist ein Tutor für Reinforcement Learning. Erkläre kurz, warum die gegebene Antwort korrekt ist.'
