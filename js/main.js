@@ -57,7 +57,7 @@ async function setLanguage(lang) {
         const isQuizSectionCurrentlyRendered = window.getComputedStyle(quizSection).display !== 'none';
 
         if (isQuizSectionCurrentlyRendered && !resultsAreaVisible) {
-             initializeQuizSession(); 
+             showStartScreen();
         } else if (resultsAreaVisible) {
             showResults(); // Re-render results and review with new language
         }
@@ -66,7 +66,7 @@ async function setLanguage(lang) {
         displayQuizError(langTranslations.quizJsonLoading.replace("Lade", "Fehler beim Laden der") + ` quiz_data_${lang}.json. Versuche ${previousLang}...`);
         if (quizDataStore[previousLang]){
             currentQuizData = quizDataStore[previousLang];
-            initializeQuizSession();
+            showStartScreen();
         }
     }
 
