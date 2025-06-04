@@ -1,5 +1,6 @@
 // js/main.js
-let currentLanguage = 'de'; // Default language
+const browserLang = (navigator.languages && navigator.languages[0]) || navigator.language || 'en';
+let currentLanguage = browserLang.toLowerCase().startsWith('de') ? 'de' : 'en';
 let isDarkMode = false;
 
 function applyDarkMode(state) {

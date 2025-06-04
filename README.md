@@ -22,6 +22,7 @@ Dieses Projekt präsentiert eine interaktive Webseite, die detaillierte Einblick
     * Möglichkeit zur Überprüfung falsch beantworteter Fragen mit Erklärungen (sofern in den Quizdaten vorhanden).
     * Fortschrittsanzeige mit Timer.
 * **Zweisprachigkeit:**
+    * Automatische Anpassung an die Browsersprache (Deutsch bei deutschen Einstellungen, sonst Englisch).
     * Einfacher Wechsel zwischen Deutsch (DE) und Englisch (EN).
     * Alle Texte, Beschriftungen und Quizfragen werden entsprechend angepasst.
 * **Visualisierungen:**
