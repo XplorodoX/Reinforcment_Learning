@@ -1,6 +1,7 @@
 // js/main.js
 let currentLanguage = 'de'; // Default language
 let isDarkMode = false;
+let githubPatInput, githubPatSaveBtn, githubPatSavedMsg;
 
 function applyDarkMode(state) {
     document.body.classList.toggle('dark-mode', state);
@@ -12,6 +13,35 @@ function toggleDarkMode() {
     isDarkMode = !isDarkMode;
     localStorage.setItem('darkMode', isDarkMode ? 'true' : 'false');
     applyDarkMode(isDarkMode);
+}
+
+function initializePatElements() {
+    githubPatInput = document.getElementById('github-pat-input');
+    githubPatSaveBtn = document.getElementById('github-pat-save-btn');
+    githubPatSavedMsg = document.getElementById('github-pat-saved');
+
+    if (githubPatSaveBtn && githubPatInput) {
+        githubPatSaveBtn.addEventListener('click', () => {
+            const token = githubPatInput.value.trim();
+            if (token) {
+                localStorage.setItem('githubPat', token);
+                if (githubPatSavedMsg) {
+                    githubPatSavedMsg.style.display = 'inline';
+                    const langTranslations = translations[currentLanguage] || translations['de'];
+                    githubPatSavedMsg.textContent = langTranslations.githubPatSaved;
+                }
+            } else {
+                localStorage.removeItem('githubPat');
+                if (githubPatSavedMsg) githubPatSavedMsg.style.display = 'none';
+            }
+        });
+    }
+
+    const stored = localStorage.getItem('githubPat');
+    if (stored && githubPatInput) {
+        githubPatInput.value = stored;
+        if (githubPatSavedMsg) githubPatSavedMsg.style.display = 'inline';
+    }
 }
 
 async function setLanguage(lang) {
@@ -43,6 +73,19 @@ async function setLanguage(lang) {
     });
 
     document.title = (translations[lang] && translations[lang].pageTitle) || "Reinforcement Learning Infographic";
+
+    if (githubPatInput) {
+        const langTranslations = translations[lang] || translations['de'];
+        githubPatInput.placeholder = langTranslations.githubPatPlaceholder;
+    }
+    if (githubPatSaveBtn) {
+        const langTranslations = translations[lang] || translations['de'];
+        githubPatSaveBtn.textContent = langTranslations.githubPatSaveButton;
+    }
+    if (githubPatSavedMsg) {
+        const langTranslations = translations[lang] || translations['de'];
+        githubPatSavedMsg.textContent = langTranslations.githubPatSaved;
+    }
 
     document.getElementById('lang-de-btn').classList.toggle('active', lang === 'de');
     document.getElementById('lang-en-btn').classList.toggle('active', lang === 'en');
@@ -79,6 +122,7 @@ async function setLanguage(lang) {
 document.addEventListener('DOMContentLoaded', () => {
     initializeQuizDOMElements(); // Initialize all quiz related DOM elements
     setupQuizEventListeners();   // Setup event listeners for quiz buttons and select
+    initializePatElements();
 
     document.getElementById('lang-de-btn').addEventListener('click', () => setLanguage('de'));
     document.getElementById('lang-en-btn').addEventListener('click', () => setLanguage('en'));
@@ -88,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
     applyDarkMode(isDarkMode);
     document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
 
-    initializeChart(); 
+    initializeChart();
 
     setLanguage(currentLanguage); // Initial language setting and quiz setup
 });
