@@ -8,10 +8,12 @@ let currentQuestionIndex = 0;
 let score = 0;
 let selectedOptionElement = null;
 let answerSubmitted = false;
+let quizTimerInterval = null;
+let quizStartTime = null;
 // const MAX_QUIZ_QUESTIONS = 10; // Wird jetzt durch Dropdown gesteuert
 
 // DOM Elements
-let questionTextEl, optionsContainerEl, feedbackAreaEl, nextQuestionBtn, quizResultsAreaEl, scoreTextEl, restartQuizBtn, questionCounterEl, quizQuestionContainerEl, quizLoadingMessageEl, quizNavigationEl, numQuestionsSelectEl, quizReviewContainerEl, quizReviewAreaEl, quizProgressEl;
+let questionTextEl, optionsContainerEl, feedbackAreaEl, nextQuestionBtn, quizResultsAreaEl, scoreTextEl, restartQuizBtn, questionCounterEl, quizQuestionContainerEl, quizLoadingMessageEl, quizNavigationEl, numQuestionsSelectEl, quizReviewContainerEl, quizReviewAreaEl, quizProgressEl, timerDisplayEl, finalTimeEl, finalTimeWrapperEl;
 
 function initializeQuizDOMElements() {
     questionTextEl = document.getElementById('question-text');
@@ -29,6 +31,9 @@ function initializeQuizDOMElements() {
     quizReviewContainerEl = document.getElementById('quiz-review-container');
     quizReviewAreaEl = document.getElementById('quiz-review-area');
     quizProgressEl = document.getElementById('quiz-progress');
+    timerDisplayEl = document.getElementById('quiz-timer');
+    finalTimeEl = document.getElementById('final-time');
+    finalTimeWrapperEl = document.getElementById('final-time-wrapper');
 }
 
 
@@ -74,6 +79,34 @@ function shuffleArray(array) {
     }
 }
 
+function formatTime(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+}
+
+function startQuizTimer() {
+    if (!timerDisplayEl) return;
+    quizStartTime = Date.now();
+    timerDisplayEl.style.display = 'inline';
+    updateQuizTimer();
+    if (quizTimerInterval) clearInterval(quizTimerInterval);
+    quizTimerInterval = setInterval(updateQuizTimer, 1000);
+}
+
+function updateQuizTimer() {
+    if (!timerDisplayEl || quizStartTime === null) return;
+    const elapsed = Date.now() - quizStartTime;
+    const langTranslations = translations[currentLanguage] || translations['de'];
+    timerDisplayEl.textContent = `${langTranslations.quiz_timerLabel} ${formatTime(elapsed)}`;
+}
+
+function stopQuizTimer() {
+    if (quizTimerInterval) clearInterval(quizTimerInterval);
+    quizTimerInterval = null;
+}
+
 function initializeQuizSession() {
     const langTranslations = translations[currentLanguage] || translations['de'];
     if (!currentQuizData || currentQuizData.length === 0) {
@@ -99,6 +132,8 @@ function initializeQuizSession() {
     if (quizProgressEl) {
         quizProgressEl.style.width = '0%';
     }
+    if (finalTimeWrapperEl) finalTimeWrapperEl.style.display = 'none';
+    startQuizTimer();
 
     if (activeQuizQuestions.length > 0) {
         quizResultsAreaEl.style.display = 'none';
@@ -213,6 +248,12 @@ function submitAnswer() {
     } else {
         const correctOptionText = currentQuestionData.options[correctAnswerOriginalIndex];
         feedbackAreaEl.innerHTML = `${langTranslations.quiz_feedbackIncorrectPrefix} "${correctOptionText}"`;
+        if (currentQuestionData.explanation) {
+            const explDiv = document.createElement('div');
+            explDiv.classList.add('quiz-explanation');
+            explDiv.innerHTML = `<span class="label">${langTranslations.quiz_reviewExplanation}</span> ${currentQuestionData.explanation}`;
+            feedbackAreaEl.appendChild(explDiv);
+        }
         feedbackAreaEl.className = 'quiz-feedback feedback-incorrect';
         selectedOptionElement.classList.add('incorrect');
         incorrectlyAnswered.push({
@@ -291,6 +332,15 @@ function showResults() {
     if (feedbackAreaEl) feedbackAreaEl.style.display = 'none';
     if (quizNavigationEl) quizNavigationEl.style.display = 'none';
     if (quizResultsAreaEl) quizResultsAreaEl.style.display = 'block';
+
+    stopQuizTimer();
+    if (finalTimeWrapperEl && quizStartTime !== null) {
+        const elapsed = Date.now() - quizStartTime;
+        finalTimeEl.textContent = formatTime(elapsed);
+        const labelEl = finalTimeWrapperEl.querySelector('[data-i18n="quiz_finalTimeLabel"]');
+        if (labelEl) labelEl.textContent = langTranslations.quiz_finalTimeLabel;
+        finalTimeWrapperEl.style.display = 'block';
+    }
 
     if (quizProgressEl) {
         quizProgressEl.style.width = '100%';

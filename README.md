@@ -17,8 +17,10 @@ Dieses Projekt präsentiert eine interaktive Webseite, die detaillierte Einblick
     * Anzahl der Fragen wählbar (5, 10, 15, Alle).
     * Sofortiges Feedback zu Antworten.
     * Anzeige der korrekten Antwort bei falscher Auswahl.
-    * Ergebnisanzeige am Ende des Quiz.
+    * Ergebnisanzeige am Ende des Quiz samt benötigter Zeit.
+    * Sofortige Erläuterungen nach falschen Antworten, sofern verfügbar.
     * Möglichkeit zur Überprüfung falsch beantworteter Fragen mit Erklärungen (sofern in den Quizdaten vorhanden).
+    * Fortschrittsanzeige mit Timer.
 * **Zweisprachigkeit:**
     * Einfacher Wechsel zwischen Deutsch (DE) und Englisch (EN).
     * Alle Texte, Beschriftungen und Quizfragen werden entsprechend angepasst.
@@ -27,6 +29,7 @@ Dieses Projekt präsentiert eine interaktive Webseite, die detaillierte Einblick
     * Mathematische Formeln und Gleichungen werden mit MathJax elegant dargestellt.
 * **Responsive Design:**
     * Gestaltet mit Tailwind CSS für eine gute Darstellung auf verschiedenen Bildschirmgrößen.
+    * Umschaltbarer Dark-Mode für angenehmes Lesen bei Nacht.
 
 ## 🛠️ Verwendete Technologien
 

@@ -1,5 +1,18 @@
 // js/main.js
 let currentLanguage = 'de'; // Default language
+let isDarkMode = false;
+
+function applyDarkMode(state) {
+    document.body.classList.toggle('dark-mode', state);
+    const btn = document.getElementById('dark-mode-toggle');
+    if (btn) btn.textContent = state ? '☀️' : '🌙';
+}
+
+function toggleDarkMode() {
+    isDarkMode = !isDarkMode;
+    localStorage.setItem('darkMode', isDarkMode ? 'true' : 'false');
+    applyDarkMode(isDarkMode);
+}
 
 async function setLanguage(lang) {
     const previousLang = currentLanguage;
@@ -69,6 +82,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('lang-de-btn').addEventListener('click', () => setLanguage('de'));
     document.getElementById('lang-en-btn').addEventListener('click', () => setLanguage('en'));
+
+    const storedDark = localStorage.getItem('darkMode');
+    isDarkMode = storedDark === 'true';
+    applyDarkMode(isDarkMode);
+    document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
 
     initializeChart(); 
 
