@@ -308,11 +308,13 @@ function submitAnswer() {
         }
         feedbackAreaEl.className = 'quiz-feedback feedback-incorrect';
         selectedOptionElement.classList.add('incorrect');
-        incorrectlyAnswered.push({
+        const incorrectEntry = {
             questionData: currentQuestionData,
             userAnswerIndex: selectedOriginalIndex,
-            correctAnswerIndex: correctAnswerOriginalIndex
-        });
+            correctAnswerIndex: correctAnswerOriginalIndex,
+            explanation: currentQuestionData.explanation || null
+        };
+        incorrectlyAnswered.push(incorrectEntry);
 
         if (explainAnswerBtn) explainAnswerBtn.style.display = 'none';
         if (explanationOutputEl) {
@@ -323,6 +325,7 @@ function submitAnswer() {
             fetchLLMExplanation(question, correctAnswerText, currentLanguage)
                 .then(expl => {
                     explanationOutputEl.textContent = expl;
+                    incorrectEntry.explanation = expl;
                     if (window.MathJax && window.MathJax.typesetPromise) {
                         window.MathJax.typesetPromise([explanationOutputEl]).catch(err => console.error('MathJax explanation error:', err));
                     }
@@ -378,10 +381,11 @@ function displayIncorrectReview() {
             correctAnswerEl.innerHTML = `<span class="label">${langTranslations.quiz_reviewCorrectAnswer}</span> "${correctAnswerText}"`;
             reviewItemEl.appendChild(correctAnswerEl);
 
-            if (item.questionData.explanation) {
+            const explText = item.explanation || item.questionData.explanation;
+            if (explText) {
                 const explanationEl = document.createElement('div');
                 explanationEl.classList.add('review-item-explanation');
-                explanationEl.innerHTML = `<span class="label">${langTranslations.quiz_reviewExplanation}</span> ${item.questionData.explanation}`;
+                explanationEl.innerHTML = `<span class="label">${langTranslations.quiz_reviewExplanation}</span> ${explText}`;
                 reviewItemEl.appendChild(explanationEl);
             }
             quizReviewAreaEl.appendChild(reviewItemEl);
