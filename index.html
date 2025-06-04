@@ -323,6 +323,12 @@
                         <option value="all" data-i18n="quiz_numQuestionsAll">Alle</option>
                     </select>
                 </div>
+                <div class="mb-4">
+                    <label for="github-pat-input" class="mr-2 font-semibold text-blue-700" data-i18n="githubPatLabel">GitHub Token (optional):</label>
+                    <input type="password" id="github-pat-input" class="p-2 border border-blue-300 rounded-md bg-white shadow-sm" placeholder="ghp_...">
+                    <button id="github-pat-save-btn" class="ml-2 bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded-md" data-i18n="githubPatSaveButton">Speichern</button>
+                    <span id="github-pat-saved" class="ml-2 text-green-600" style="display:none;" data-i18n="githubPatSaved">Token gespeichert!</span>
+                </div>
                 <button id="start-quiz-btn" class="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-md font-semibold" data-i18n="quiz_startButton">Quiz starten</button>
             </div>
 
