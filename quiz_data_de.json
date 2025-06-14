@@ -591,6 +591,25 @@
       "TD-Methoden benötigen keine Exploration.",
       "MC-Methoden können für kontinuierliche Aufgaben ohne Modifikation verwendet werden."
     ],
+  "answer": 1
+  },
+  {
+    "id": "ch9_q2_dqn_replay",
+    "type": "multiple-choice",
+    "question": "Wozu dient Experience Replay bei Deep Q-Networks (DQNs)?",
+    "options": [
+      "Es beschleunigt die Aktionsauswahl.",
+      "Es verringert die Korrelation aufeinanderfolgender Samples.",
+      "Es optimiert direkt die Policy.",
+      "Es macht ein Target Network überflüssig."
+    ],
     "answer": 1
+  },
+  {
+    "id": "ch9_q3_dqn_target_network",
+    "type": "yes-no",
+    "question": "Hilft ein Target Network bei DQNs, das Training zu stabilisieren, indem es feste Q-Zielwerte liefert?",
+    "options": ["Ja", "Nein"],
+    "answer": 0
   }
 ]
