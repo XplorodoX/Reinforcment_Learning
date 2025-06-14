@@ -617,6 +617,25 @@
       "When an exact model of the environment is available.",
       "Only for off-policy learning methods."
     ],
+  "answer": 1
+  },
+  {
+    "id": "ch9_q2_dqn_replay",
+    "type": "multiple-choice",
+    "question": "What is the purpose of experience replay in Deep Q-Networks (DQNs)?",
+    "options": [
+      "It speeds up action selection.",
+      "It reduces correlation between consecutive samples.",
+      "It directly optimizes the policy.",
+      "It eliminates the need for a target network."
+    ],
     "answer": 1
+  },
+  {
+    "id": "ch9_q3_dqn_target_network",
+    "type": "yes-no",
+    "question": "Does a target network in DQNs help stabilize training by providing fixed Q-value targets?",
+    "options": ["Yes", "No"],
+    "answer": 0
   }
 ]
